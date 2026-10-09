@@ -1,5 +1,5 @@
 /**
- * cart.js — Shopping cart logic using localStorage
+ * cart.js - Shopping cart logic using localStorage
  * Provides: add, remove, update qty, get items, get total, get count
  * Also renders the full cart page and updates the navbar badge.
  */
@@ -173,7 +173,7 @@ function renderCartPage() {
       </td>
       <td class="fw-bold text-primary">${formatPrice(item.price * item.qty)}</td>
       <td>
-        <button class="btn btn-danger btn-sm remove-item" data-id="${item._id}" title="Remove">✕</button>
+        <button class="btn btn-danger btn-sm remove-item" data-id="${item._id}" title="Remove">Remove</button>
       </td>
     </tr>
   `).join('');

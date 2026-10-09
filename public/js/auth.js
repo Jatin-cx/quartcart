@@ -1,5 +1,5 @@
 /**
- * auth.js — Login, Register, Logout, Navbar state management
+ * auth.js - Login, Register, Logout, Navbar state management
  */
 
 /**
@@ -141,7 +141,7 @@ if (registerForm) {
     try {
       const data = await api.post('/auth/register', { name, email, password });
       storeAuth(data.token, data.user);
-      showToast('Account created! Welcome to Quartcart 🎉', 'success');
+      showToast('Account created successfully.', 'success');
       setTimeout(() => { window.location.href = '/account.html'; }, 800);
     } catch (err) {
       showToast(err.message, 'error');
@@ -192,7 +192,7 @@ if (loginForm) {
     try {
       const data = await api.post('/auth/login', { email, password });
       storeAuth(data.token, data.user);
-      showToast('Welcome back! 👋', 'success');
+      showToast('Welcome back.', 'success');
       // Redirect to previous page or account
       const redirect = params.get('redirect') || '/account.html';
       setTimeout(() => { window.location.href = redirect; }, 600);

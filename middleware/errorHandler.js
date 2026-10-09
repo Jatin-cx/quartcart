@@ -5,7 +5,7 @@
  * Must be registered AFTER all routes.
  */
 function errorHandler(err, req, res, next) { // eslint-disable-line no-unused-vars
-  console.error(`[Error] ${req.method} ${req.originalUrl} —`, err.message || err);
+  console.error(`[Error] ${req.method} ${req.originalUrl} -`, err.message || err);
 
   // Mongoose validation error
   if (err.name === 'ValidationError') {

@@ -3,24 +3,26 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Client Portal — Quartcart</title>
-  <meta name="description" content="Manage your client profile, addresses, and track order allocations on Quartcart.">
+  <title>Account - Quartcart</title>
+  <meta name="description" content="Manage your profile, shipping addresses, and view order history on Quartcart.">
   <link rel="canonical" href="/account.html">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="alternate icon" href="/favicon.ico">
   <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
 
-  <!-- ─── Navbar ─────────────────────────────────────────── -->
+  <!-- Navbar -->
   <nav class="navbar" role="navigation" aria-label="Main navigation">
     <div class="container flex-between">
       <a href="/index.html" class="navbar-brand">
         <span class="brand-dot"></span>
-        Quart<span class="gradient-text">cart</span>
+        Quartcart
       </a>
 
       <ul class="nav-links" id="nav-links">
         <li><a href="/index.html">Home</a></li>
-        <li><a href="/products.html">All Drops</a></li>
+        <li><a href="/products.html">All Products</a></li>
         <li>
           <a href="/cart.html" class="cart-link">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -41,9 +43,9 @@
   <main>
     <div class="container section" style="padding-top:3.5rem;">
       <div class="mb-4">
-        <div class="badge-tag">CLIENT DIRECTORY</div>
-        <h1 style="font-size:clamp(2rem, 4vw, 2.8rem);margin-top:0.5rem;">Client Portal</h1>
-        <p class="text-muted" style="margin-top:0.25rem;">Manage personal dossier, shipping destinations, and allocation receipts on Quartcart.</p>
+        <span class="badge-tag">ACCOUNT DASHBOARD</span>
+        <h1 style="font-size:clamp(1.8rem, 3.5vw, 2.5rem);margin-top:0.4rem;">Customer Account</h1>
+        <p class="text-muted" style="margin-top:0.25rem;">View profile details, shipping addresses, and past order records.</p>
       </div>
 
       <div class="cart-layout">
@@ -51,24 +53,24 @@
         <div>
           <div style="background:var(--bg-surface);border:1px solid var(--glass-border);border-radius:var(--radius-md);padding:2rem;margin-bottom:2rem;">
             <div class="flex" style="gap:1.5rem;align-items:center;margin-bottom:1.5rem;">
-              <div id="profile-avatar" style="width:64px;height:64px;border-radius:50%;background:var(--accent-gradient);display:flex;align-items:center;justify-content:center;font-size:1.5rem;font-weight:800;color:#ffffff;">
-                ?
+              <div id="profile-avatar" style="width:54px;height:54px;border-radius:var(--radius-sm);background:var(--bg-surface-elevated);border:1px solid var(--border-subtle);display:flex;align-items:center;justify-content:center;font-size:1.3rem;font-weight:700;color:#ffffff;">
+                -
               </div>
               <div>
-                <h3 id="profile-name" style="font-size:1.3rem;color:#ffffff;">—</h3>
-                <p id="profile-email" class="text-muted" style="font-size:0.9rem;">—</p>
+                <h3 id="profile-name" style="font-size:1.2rem;color:#ffffff;">-</h3>
+                <p id="profile-email" class="text-muted" style="font-size:0.88rem;">-</p>
               </div>
             </div>
 
-            <div style="padding-top:1rem;border-top:1px solid var(--border-subtle);font-size:0.9rem;">
-              <div style="color:var(--text-dim);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:0.2rem;">Saved Shipping Destination</div>
+            <div style="padding-top:1rem;border-top:1px solid var(--border-subtle);font-size:0.88rem;">
+              <div style="color:var(--text-dim);font-size:0.75rem;text-transform:uppercase;letter-spacing:0.05em;margin-bottom:0.2rem;">Saved Shipping Address</div>
               <div id="profile-address" style="color:var(--text-main);">No address on file</div>
             </div>
           </div>
 
           <!-- Edit Profile Form -->
           <div style="background:var(--bg-surface);border:1px solid var(--glass-border);border-radius:var(--radius-md);padding:2rem;">
-            <h3 style="font-size:1.15rem;margin-bottom:1.5rem;">Update Destination Details</h3>
+            <h3 style="font-size:1.15rem;margin-bottom:1.5rem;">Update Shipping Address</h3>
             <form id="profile-edit-form" novalidate>
               <div class="form-group">
                 <label for="edit-name" class="form-label">Full Name</label>
@@ -103,7 +105,7 @@
               </div>
 
               <button type="submit" class="btn btn-primary mt-2">
-                Save Destination
+                Save Address
               </button>
             </form>
           </div>
@@ -111,17 +113,24 @@
 
         <!-- Right: Order History -->
         <aside style="background:var(--bg-surface);border:1px solid var(--glass-border);border-radius:var(--radius-md);padding:2rem;">
-          <h3 style="font-size:1.15rem;margin-bottom:1.5rem;">Quartcart Allocations</h3>
+          <h3 style="font-size:1.15rem;margin-bottom:1.5rem;">Order History</h3>
 
           <div id="orders-loading" class="text-center" style="padding:2rem 0;">
             <div class="spinner"></div>
-            <p class="text-muted mt-2" style="font-size:0.85rem;">Retrieving records…</p>
+            <p class="text-muted mt-2" style="font-size:0.85rem;">Retrieving records...</p>
           </div>
 
           <div id="orders-empty" style="display:none;text-align:center;padding:3rem 1rem;">
-            <div style="font-size:2rem;margin-bottom:0.75rem;">📦</div>
-            <h4 style="font-size:1rem;color:#ffffff;">No Past Allocations</h4>
-            <p class="text-muted" style="font-size:0.85rem;margin-top:0.25rem;">Your acquisition history will appear here once confirmed.</p>
+            <div style="margin-bottom:0.75rem;color:var(--text-dim);">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="16.5" y1="9.4" x2="7.5" y2="4.21"></line>
+                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                <line x1="12" y1="22.08" x2="12" y2="12"></line>
+              </svg>
+            </div>
+            <h4 style="font-size:1rem;color:#ffffff;">No Past Orders</h4>
+            <p class="text-muted" style="font-size:0.85rem;margin-top:0.25rem;">Your order history will appear here once placed.</p>
           </div>
 
           <div id="orders-list" style="display:none;">
@@ -132,10 +141,50 @@
     </div>
   </main>
 
-  <!-- ─── Footer ─────────────────────────────────────────── -->
+  <!-- Footer -->
   <footer>
-    <div class="container text-center" style="font-size:0.85rem;color:var(--text-dim);">
-      <p>© 2026 Quartcart. Powered by Node.js, Mongoose &amp; Stripe.</p>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <div class="footer-brand">
+            <span class="brand-dot"></span>
+            Quartcart
+          </div>
+          <p style="font-size:0.88rem;color:var(--text-muted);line-height:1.6;">
+            Functional goods, precision manufacturing, and durable essentials built for longevity.
+          </p>
+        </div>
+        <div class="footer-col">
+          <h4>Catalog</h4>
+          <ul>
+            <li><a href="/products.html">All Products</a></li>
+            <li><a href="/products.html?category=Audio">Audio</a></li>
+            <li><a href="/products.html?category=Timepieces">Timepieces</a></li>
+            <li><a href="/products.html?category=Apparel">Apparel</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Account</h4>
+          <ul>
+            <li><a href="/login.html">Sign In</a></li>
+            <li><a href="/register.html">Create Account</a></li>
+            <li><a href="/account.html">Orders</a></li>
+            <li><a href="/cart.html">Shopping Bag</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Legal</h4>
+          <ul>
+            <li><a href="/privacy.html">Privacy Policy</a></li>
+            <li><a href="/terms.html">Terms and Conditions</a></li>
+            <li><a href="/policies.html">Shipping &amp; Returns</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 Quartcart. All rights reserved.</p>
+        <p style="color:var(--text-dim);">Payments securely processed by Stripe.</p>
+      </div>
     </div>
   </footer>
 

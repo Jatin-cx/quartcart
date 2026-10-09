@@ -48,7 +48,7 @@ app.use(
 );
 
 // ─── Body Parsing ─────────────────────────────────────────────────────────
-// Stripe webhook needs raw body — mount that route BEFORE json parser
+// Stripe webhook needs raw body - mount that route BEFORE json parser
 app.use('/api/payment/webhook', express.raw({ type: 'application/json' }));
 
 // All other routes use JSON
@@ -80,7 +80,7 @@ app.use(errorHandler);
 
 // ─── Start Server ─────────────────────────────────────────────────────────
 app.listen(PORT, () => {
-  console.log(`🚀 Quartcart server running at http://localhost:${PORT}`);
+  console.log(`Quartcart server running at http://localhost:${PORT}`);
   console.log(`   Environment: ${process.env.NODE_ENV || 'development'}`);
 });
 

@@ -1,5 +1,5 @@
 /**
- * account.js — User profile display, order history, logout
+ * account.js - User profile display, order history, logout
  */
 
 const profileName    = document.getElementById('profile-name');
@@ -21,8 +21,8 @@ async function loadProfile() {
     if (profileAvatar) {
       profileAvatar.textContent = user.name ? user.name.charAt(0).toUpperCase() : '?';
     }
-    if (profileName) profileName.textContent = user.name || '—';
-    if (profileEmail) profileEmail.textContent = user.email || '—';
+    if (profileName) profileName.textContent = user.name || '-';
+    if (profileEmail) profileEmail.textContent = user.email || '-';
 
     if (profileAddress) {
       const addr = user.address;

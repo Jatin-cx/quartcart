@@ -1,5 +1,5 @@
 /**
- * product-detail.js — Fetch and render single product, handle add to cart
+ * product-detail.js - Fetch and render single product, handle add to cart
  */
 
 const detailContainer = document.getElementById('product-detail');
@@ -38,7 +38,7 @@ function renderProductDetail(product) {
   if (detailLoading) detailLoading.style.display = 'none';
   if (detailContainer) detailContainer.style.display = 'block';
 
-  document.title = `${product.name} — Quartcart`;
+  document.title = `${product.name} - Quartcart`;
 
   const images = (product.images && product.images.length) ? product.images : ['https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800'];
   const inStock = product.stock > 0;
@@ -64,12 +64,7 @@ function renderProductDetail(product) {
       <!-- Specs Column -->
       <div>
         <div class="badge-tag">${product.category}</div>
-        <h1 style="font-size:clamp(2rem, 3.5vw, 2.8rem);margin-top:0.75rem;">${product.name}</h1>
-
-        <div class="flex" style="gap:1rem;margin:1rem 0;align-items:center;">
-          <div style="color:#fbbf24;font-size:0.95rem;">★ ${product.avgRating ? product.avgRating.toFixed(1) : '5.0'}</div>
-          <span style="color:var(--text-dim);font-size:0.85rem;">• Verified Archive Piece</span>
-        </div>
+        <h1 style="font-size:clamp(1.8rem, 3.2vw, 2.4rem);margin-top:0.75rem;">${product.name}</h1>
 
         <div class="detail-price">${formatPrice(product.price)}</div>
 
@@ -77,16 +72,16 @@ function renderProductDetail(product) {
           ${product.description}
         </div>
 
-        <!-- Allocation / Stock -->
+        <!-- Stock -->
         <div style="margin-bottom:2rem;padding:1rem 1.25rem;background:var(--bg-surface);border:1px solid var(--glass-border);border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:space-between;">
           <div>
-            <div style="font-size:0.82rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.05em;">Status</div>
+            <div style="font-size:0.75rem;color:var(--text-dim);text-transform:uppercase;letter-spacing:0.05em;">Availability</div>
             <div style="font-weight:700;color:${inStock ? 'var(--success)' : 'var(--danger)'};">
-              ${inStock ? `Available (${product.stock} units left)` : 'Allocation Exhausted'}
+              ${inStock ? `In Stock (${product.stock} units)` : 'Out of Stock'}
             </div>
           </div>
           <div style="font-size:0.82rem;color:var(--text-dim);">
-            Ships in 24 hours
+            Standard Carrier Shipping
           </div>
         </div>
 
@@ -111,12 +106,12 @@ function renderProductDetail(product) {
         <!-- Value Badges -->
         <div style="margin-top:2.5rem;padding-top:2rem;border-top:1px solid var(--border-subtle);display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;">
           <div>
-            <h5 style="font-size:0.9rem;margin-bottom:0.2rem;">⚡ Express Dispatch</h5>
-            <p style="font-size:0.8rem;color:var(--text-dim);">Direct courier with live tracking</p>
+            <h5 style="font-size:0.88rem;margin-bottom:0.2rem;">Express Dispatch</h5>
+            <p style="font-size:0.8rem;color:var(--text-dim);">Courier dispatch with live tracking</p>
           </div>
           <div>
-            <h5 style="font-size:0.9rem;margin-bottom:0.2rem;">🔄 Concierge Returns</h5>
-            <p style="font-size:0.8rem;color:var(--text-dim);">30-day zero-friction policy</p>
+            <h5 style="font-size:0.88rem;margin-bottom:0.2rem;">30-Day Returns</h5>
+            <p style="font-size:0.8rem;color:var(--text-dim);">Standard return and refund policy</p>
           </div>
         </div>
       </div>

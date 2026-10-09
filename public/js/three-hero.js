@@ -1,5 +1,5 @@
 /**
- * three-hero.js — Interactive 3D WebGL Canvas for Quartcart Hero
+ * three-hero.js - Interactive 3D WebGL Canvas for Quartcart Hero
  * Renders a futuristic metallic 3D artifact with orbiting rings & floating particles.
  * Interactive: Responds to mouse position, drag rotation, and hover light flare.
  */

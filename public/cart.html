@@ -3,24 +3,26 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Shopping Bag — Quartcart</title>
-  <meta name="description" content="Review your selected drops, quantities, and proceed to checkout at Quartcart.">
+  <title>Shopping Bag - Quartcart</title>
+  <meta name="description" content="Review your selected items and proceed to checkout at Quartcart.">
   <link rel="canonical" href="/cart.html">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="alternate icon" href="/favicon.ico">
   <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
 
-  <!-- ─── Navbar ─────────────────────────────────────────── -->
+  <!-- Navbar -->
   <nav class="navbar" role="navigation" aria-label="Main navigation">
     <div class="container flex-between">
       <a href="/index.html" class="navbar-brand">
         <span class="brand-dot"></span>
-        Quart<span class="gradient-text">cart</span>
+        Quartcart
       </a>
 
       <ul class="nav-links" id="nav-links">
         <li><a href="/index.html">Home</a></li>
-        <li><a href="/products.html">All Drops</a></li>
+        <li><a href="/products.html">All Products</a></li>
         <li>
           <a href="/cart.html" class="cart-link active">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -41,16 +43,22 @@
   <main>
     <div class="container section" style="padding-top:3.5rem;">
       <div class="mb-4">
-        <div class="badge-tag">RESERVED ALLOCATION</div>
-        <h1 style="font-size:clamp(2rem, 4vw, 2.8rem);margin-top:0.5rem;">Shopping Bag</h1>
+        <span class="badge-tag">RESERVED ITEMS</span>
+        <h1 style="font-size:clamp(1.8rem, 3.5vw, 2.5rem);margin-top:0.4rem;">Shopping Bag</h1>
         <p class="text-muted" style="margin-top:0.25rem;">Items in your bag are held during checkout.</p>
       </div>
 
       <!-- Empty Cart State -->
       <div id="cart-empty" style="display:none;text-align:center;padding:6rem 1rem;">
-        <div style="font-size:3rem;margin-bottom:1rem;">🛍️</div>
-        <h3 style="font-size:1.5rem;color:#ffffff;">Your Bag Is Empty</h3>
-        <p class="text-muted mt-1" style="max-width:380px;margin:0.5rem auto 1.5rem;">Explore our current allocations to discover limited-run drops.</p>
+        <div style="margin-bottom:1rem;color:var(--text-dim);">
+          <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-2z"></path>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <path d="M16 10a4 4 0 0 1-8 0"></path>
+          </svg>
+        </div>
+        <h3 style="font-size:1.4rem;color:#ffffff;">Your Bag is Empty</h3>
+        <p class="text-muted mt-1" style="max-width:380px;margin:0.5rem auto 1.5rem;">Explore our current collection to find precision essentials.</p>
         <a href="/products.html" class="btn btn-primary btn-lg">Explore Catalog</a>
       </div>
 
@@ -74,8 +82,8 @@
           </div>
 
           <div class="flex-between mt-3" style="gap:1rem;flex-wrap:wrap;">
-            <a href="/products.html" class="btn btn-outline">← Continue Browsing</a>
-            <button class="btn btn-danger btn-sm" onclick="if(confirm('Clear entire bag?')){clearCart();renderCartPage();showToast('Bag cleared','warning');}">
+            <a href="/products.html" class="btn btn-outline">&larr; Continue Shopping</a>
+            <button class="btn btn-danger btn-sm" onclick="if(confirm('Clear entire shopping bag?')){clearCart();renderCartPage();showToast('Bag cleared','warning');}">
               Clear Bag
             </button>
           </div>
@@ -88,7 +96,7 @@
             <span id="cart-subtotal" style="color:#ffffff;font-weight:600;">$0.00</span>
           </div>
           <div class="summary-row">
-            <span>Global Express Shipping</span>
+            <span>Standard Shipping</span>
             <span id="cart-shipping" style="color:var(--success);font-weight:600;">FREE</span>
           </div>
           <div class="summary-row" style="font-size:0.82rem;color:var(--text-dim);">
@@ -97,17 +105,21 @@
           </div>
           <div class="summary-total">
             <span>Total</span>
-            <span id="cart-total" style="color:#a5b4fc;">$0.00</span>
+            <span id="cart-total" style="color:#ffffff;">$0.00</span>
           </div>
 
           <div class="mt-4">
             <a href="/checkout.html" class="btn btn-primary btn-block btn-lg">
-              Proceed To Checkout →
+              Proceed to Checkout &rarr;
             </a>
           </div>
 
           <div style="margin-top:1.5rem;padding-top:1rem;border-top:1px solid var(--border-subtle);font-size:0.8rem;color:var(--text-dim);display:flex;align-items:center;gap:0.5rem;justify-content:center;">
-            <span>🔒 Encrypted 256-Bit SSL Checkout</span>
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+            </svg>
+            <span>Encrypted PCI-Compliant Stripe Checkout</span>
           </div>
         </aside>
       </div>
@@ -115,10 +127,50 @@
     </div>
   </main>
 
-  <!-- ─── Footer ─────────────────────────────────────────── -->
+  <!-- Footer -->
   <footer>
-    <div class="container text-center" style="font-size:0.85rem;color:var(--text-dim);">
-      <p>© 2026 Quartcart. Powered by Node.js, Mongoose &amp; Stripe.</p>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <div class="footer-brand">
+            <span class="brand-dot"></span>
+            Quartcart
+          </div>
+          <p style="font-size:0.88rem;color:var(--text-muted);line-height:1.6;">
+            Functional goods, precision manufacturing, and durable essentials built for longevity.
+          </p>
+        </div>
+        <div class="footer-col">
+          <h4>Catalog</h4>
+          <ul>
+            <li><a href="/products.html">All Products</a></li>
+            <li><a href="/products.html?category=Audio">Audio</a></li>
+            <li><a href="/products.html?category=Timepieces">Timepieces</a></li>
+            <li><a href="/products.html?category=Apparel">Apparel</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Account</h4>
+          <ul>
+            <li><a href="/login.html">Sign In</a></li>
+            <li><a href="/register.html">Create Account</a></li>
+            <li><a href="/account.html">Orders</a></li>
+            <li><a href="/cart.html">Shopping Bag</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Legal</h4>
+          <ul>
+            <li><a href="/privacy.html">Privacy Policy</a></li>
+            <li><a href="/terms.html">Terms and Conditions</a></li>
+            <li><a href="/policies.html">Shipping &amp; Returns</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>&copy; 2026 Quartcart. All rights reserved.</p>
+        <p style="color:var(--text-dim);">Payments securely processed by Stripe.</p>
+      </div>
     </div>
   </footer>
 

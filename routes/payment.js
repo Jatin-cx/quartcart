@@ -31,7 +31,7 @@ router.post('/create-intent', async (req, res, next) => {
 });
 
 // ─── POST /api/payment/webhook ────────────────────────────────────────────
-// IMPORTANT: raw body required — must be mounted with express.raw in server.js
+// IMPORTANT: raw body required - must be mounted with express.raw in server.js
 router.post('/webhook', express.raw({ type: 'application/json' }), async (req, res) => {
   const sig = req.headers['stripe-signature'];
   const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET;
@@ -53,7 +53,7 @@ router.post('/webhook', express.raw({ type: 'application/json' }), async (req, r
           { paymentIntentId: paymentIntent.id },
           { paymentStatus: 'paid', status: 'processing' }
         );
-        console.log(`✅ PaymentIntent ${paymentIntent.id} succeeded.`);
+        console.log(`PaymentIntent ${paymentIntent.id} succeeded.`);
         break;
       }
 
@@ -63,12 +63,12 @@ router.post('/webhook', express.raw({ type: 'application/json' }), async (req, r
           { paymentIntentId: paymentIntent.id },
           { paymentStatus: 'failed' }
         );
-        console.warn(`⚠️  PaymentIntent ${paymentIntent.id} failed.`);
+        console.warn(`PaymentIntent ${paymentIntent.id} failed.`);
         break;
       }
 
       default:
-        // Unhandled event type — ignore
+        // Unhandled event type - ignore
         break;
     }
   } catch (dbErr) {

@@ -182,7 +182,7 @@ router.post(
       try {
         await sendEmail({
           to: user.email,
-          subject: 'Quartcart — Passcode Reset Request',
+          subject: 'Quartcart - Password Reset Request',
           text: `You requested a passcode reset. Visit: ${resetUrl}`,
           html: emailHtml,
         });

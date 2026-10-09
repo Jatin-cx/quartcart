@@ -1,9 +1,9 @@
 /**
- * checkout.js — Stripe checkout flow
+ * checkout.js - Stripe checkout flow
  * 1. Load cart summary
  * 2. Create PaymentIntent via /api/payment/create-intent
  * 3. Mount Stripe card element
- * 4. On submit: confirm payment → create order → redirect to success
+ * 4. On submit: confirm payment -> create order -> redirect to success
  */
 
 const STRIPE_PK = 'pk_test_your_stripe_publishable_key'; // Replace with your actual publishable key
@@ -210,7 +210,7 @@ async function createOrder() {
     if (formSection) formSection.classList.add('hidden');
     if (successSection) successSection.classList.remove('hidden');
 
-    showToast('Order placed successfully! 🎉', 'success');
+    showToast('Order placed successfully.', 'success');
   } catch (err) {
     // Payment went through but order creation failed
     showToast('Payment received, but order creation failed. Contact support.', 'warning');
@@ -220,7 +220,7 @@ async function createOrder() {
 
 // ─── Init ──────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', async () => {
-  // Protect checkout page — must be logged in
+  // Protect checkout page: must be logged in
   if (!getToken || !getToken()) {
     window.location.href = '/login.html?redirect=/checkout.html';
     return;
@@ -247,6 +247,6 @@ document.addEventListener('DOMContentLoaded', async () => {
       });
     }
   } catch {
-    // Not logged in or no address — fine
+    // Not logged in or no address
   }
 });

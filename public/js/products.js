@@ -1,5 +1,5 @@
 /**
- * products.js — Product listing page: fetch, render, live-search, filter, sort
+ * products.js - Product listing page: fetch, render, live-search, filter, sort
  */
 
 const productsGrid   = document.getElementById('products-grid');
@@ -108,7 +108,6 @@ function renderProductCard(product) {
       <div class="product-card-body">
         <span class="product-card-category">${product.category}</span>
         <h3 class="product-card-name product-card-link" data-id="${product._id}" style="cursor:pointer;">${product.name}</h3>
-        <div class="product-card-rating">★ ${product.avgRating ? product.avgRating.toFixed(1) : '5.0'}</div>
         <div class="product-card-price-row">
           <div class="product-card-price">${formatPrice(product.price)}</div>
           <div class="product-card-stock ${inStock ? '' : 'out'}">${inStock ? 'Available' : 'Allocated'}</div>

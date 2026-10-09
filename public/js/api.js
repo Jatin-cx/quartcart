@@ -1,5 +1,5 @@
 /**
- * api.js — Centralized fetch wrapper
+ * api.js - Centralized fetch wrapper
  * Auto-attaches JWT from localStorage, handles 401 redirects, parses JSON.
  */
 
@@ -40,7 +40,7 @@ async function apiFetch(endpoint, options = {}) {
     throw new Error('Network error. Please check your connection and try again.');
   }
 
-  // Handle 401 — token expired or invalid
+  // Handle 401: token expired or invalid
   if (response.status === 401) {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
@@ -107,12 +107,10 @@ const toastContainer = (() => {
  * @param {number} duration - ms before auto-dismiss
  */
 function showToast(message, type = 'info', duration = 3500) {
-  const icons = { success: '✅', error: '❌', warning: '⚠️', info: 'ℹ️' };
-
   const toast = document.createElement('div');
   toast.className = `toast ${type}`;
   toast.innerHTML = `
-    <span class="toast-icon">${icons[type] || icons.info}</span>
+    <span class="toast-dot" style="width:6px;height:6px;border-radius:50%;background:${type === 'error' ? 'var(--danger)' : type === 'warning' ? 'var(--warning)' : '#ffffff'};display:inline-block;flex-shrink:0;"></span>
     <span>${message}</span>
   `;
 
@@ -183,12 +181,10 @@ function formatDate(dateStr) {
   });
 }
 
-// ─── Render Star Rating ────────────────────────────────────
+// Rating Helper
 function renderStars(rating) {
-  const full = Math.floor(rating);
-  const half = rating % 1 >= 0.5 ? 1 : 0;
-  const empty = 5 - full - half;
-  return '★'.repeat(full) + (half ? '½' : '') + '☆'.repeat(empty);
+  if (!rating) return '';
+  return `${rating.toFixed(1)} / 5.0`;
 }
 
 // ─── Truncate Text ─────────────────────────────────────────

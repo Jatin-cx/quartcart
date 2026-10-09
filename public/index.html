@@ -3,40 +3,32 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Quartcart — Interactive 3D Luxury &amp; Precision Goods</title>
-  <meta name="description" content="Immersive 3D interactive shopping experience. Discover precision-engineered audio, titanium timepieces, and luxury performance apparel at Quartcart.">
-  <meta property="og:title" content="Quartcart — Interactive 3D Luxury &amp; Precision Goods">
-  <meta property="og:description" content="Explore Quartcart in interactive 3D WebGL. High-concept essentials and drops.">
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="/">
+  <title>Quartcart - Precision Goods &amp; Everyday Essentials</title>
+  <meta name="description" content="Discover precision-engineered audio, durable timepieces, and technical essentials built for longevity at Quartcart.">
   <link rel="canonical" href="/">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="alternate icon" href="/favicon.ico">
   <link rel="stylesheet" href="/css/style.css">
 </head>
 <body>
 
-  <!-- ─── Live Marquee Ticker ───────────────────────────── -->
-  <aside class="marquee-bar" aria-label="Announcement ticker">
-    <div class="marquee-content">
-      <span>⚡ <strong>GLOBAL EXPRESS DELIVERY</strong> ON ORDERS OVER $150</span>
-      <span>•</span>
-      <span>INTERACTIVE 3D WEBGL EXPERIENCE <strong>// NOW ACTIVE</strong></span>
-      <span>•</span>
-      <span>100% VERIFIED AUTHENTICITY &amp; CRAFTSMANSHIP</span>
-      <span>•</span>
-      <span>30-DAY CONCIERGE ZERO-FRICTION RETURNS</span>
-      <span>•</span>
-      <span>⚡ <strong>WELCOME TO QUARTCART</strong> — ELEVATE YOUR STANDARD</span>
-      <span>•</span>
-      <span>QUARTCART DROP 04 // <strong>LIMITED QUANTITIES</strong></span>
+  <!-- Announcement Bar -->
+  <aside class="announcement-bar" aria-label="Announcement">
+    <div class="container">
+      <span>Free standard shipping on orders over $150</span>
+      <span>/</span>
+      <span>30-day return policy</span>
+      <span>/</span>
+      <span>Secure checkout powered by Stripe</span>
     </div>
   </aside>
 
-  <!-- ─── Navbar ─────────────────────────────────────────── -->
+  <!-- Navbar -->
   <nav class="navbar" role="navigation" aria-label="Main navigation">
     <div class="container flex-between">
       <a href="/index.html" class="navbar-brand" aria-label="Quartcart Home">
         <span class="brand-dot"></span>
-        Quart<span class="gradient-text">cart</span>
+        Quartcart
       </a>
 
       <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu" aria-expanded="false">
@@ -45,12 +37,12 @@
 
       <ul class="nav-links" id="nav-links" role="list">
         <li><a href="/index.html" class="active">Home</a></li>
-        <li><a href="/products.html">All Drops</a></li>
+        <li><a href="/products.html">All Products</a></li>
         <li><a href="/products.html?category=Audio">Audio</a></li>
         <li><a href="/products.html?category=Timepieces">Timepieces</a></li>
         <li><a href="/products.html?category=Apparel">Apparel</a></li>
         <li>
-          <a href="/cart.html" class="cart-link" aria-label="Bag">
+          <a href="/cart.html" class="cart-link" aria-label="Shopping Bag">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-2z"></path>
               <line x1="3" y1="6" x2="21" y2="6"></line>
@@ -67,7 +59,7 @@
   </nav>
 
   <main>
-    <!-- ─── Hero Section with Interactive 3D WebGL ───────── -->
+    <!-- Hero Section -->
     <section class="hero" aria-label="Hero showcase">
       <div class="container">
         <div class="hero-grid">
@@ -75,239 +67,232 @@
           <div class="hero-content">
             <div class="badge-tag">
               <span class="dot"></span>
-              QUARTCART 3D // 2026 EDITION
+              Spring 2026 Release
             </div>
 
             <h1>
-              Engineered For The <br>
-              <span class="gradient-text">Exceptional.</span>
+              Precision Goods.<br>
+              Built to Endure.
             </h1>
 
             <p>
-              Experience next-generation e-commerce in tactile 3D space. Curated drops of spatial audio, titanium EDC timepieces, and architectural apparel built for modern visionaries.
+              Functional objects, studio audio equipment, timepieces, and everyday carry manufactured with durable materials and honest craftsmanship.
             </p>
 
             <div class="hero-actions">
               <a href="/products.html" class="btn btn-primary btn-lg">
-                Explore The Drop
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                Shop Collection
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <line x1="5" y1="12" x2="19" y2="12"></line>
                   <polyline points="12 5 19 12 12 19"></polyline>
                 </svg>
               </a>
               <a href="/products.html?category=Audio" class="btn btn-secondary btn-lg">
-                Spatial Audio Series
+                View Audio
               </a>
-            </div>
-
-            <div class="hero-stats">
-              <div class="stat-item">
-                <h4>60 FPS</h4>
-                <p>3D WebGL Engine</p>
-              </div>
-              <div class="stat-item">
-                <h4>Grade 5</h4>
-                <p>Aerospace Titanium</p>
-              </div>
-              <div class="stat-item">
-                <h4>24h</h4>
-                <p>Global Dispatch</p>
-              </div>
             </div>
           </div>
 
-          <!-- Hero Interactive 3D Canvas Showcase -->
-          <div class="hero-3d-wrapper">
-            <div class="holo-tag tag-top-right">
-              <span class="holo-dot"></span>
-              REAL-TIME 3D ARTIFACT
-            </div>
-            
-            <div id="hero-3d-container">
-              <!-- Three.js renders WebGL here -->
-            </div>
-
-            <div class="holo-tag tag-bottom-left">
-              <span class="holo-dot"></span>
-              RAY-TRACED SHADERS
-            </div>
-
-            <div class="orbit-hint">
-              🖱️ Drag / Swipe to Rotate 3D
-            </div>
+          <!-- Hero Image Showcase -->
+          <div class="hero-preview-box">
+            <img
+              src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=1000&auto=format&fit=crop&q=85"
+              alt="Quartcart Studio Audio"
+              loading="eager"
+            >
           </div>
 
         </div>
       </div>
     </section>
 
-    <!-- ─── Trust Badges ─────────────────────────────────── -->
-    <section class="trust-bar" aria-label="Guarantees">
+    <!-- Value Propositions -->
+    <section class="trust-bar" aria-label="Customer guarantees">
       <div class="container">
         <div class="grid-4">
           <div class="trust-item">
-            <div class="trust-icon-box">⚡</div>
+            <div class="trust-icon-box">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="1" y="3" width="15" height="13"></rect>
+                <polygon points="16 8 20 8 23 11 23 16 16 16 16 8"></polygon>
+                <circle cx="5.5" cy="18.5" r="2.5"></circle>
+                <circle cx="18.5" cy="18.5" r="2.5"></circle>
+              </svg>
+            </div>
             <div>
-              <h4>Express Logistics</h4>
-              <p>Next-day courier dispatch worldwide</p>
+              <h4>Direct Dispatch</h4>
+              <p>Reliable tracked courier delivery worldwide</p>
             </div>
           </div>
 
           <div class="trust-item">
-            <div class="trust-icon-box">🔒</div>
+            <div class="trust-icon-box">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+              </svg>
+            </div>
             <div>
-              <h4>Stripe Protected</h4>
-              <p>256-bit AES end-to-end encryption</p>
+              <h4>Stripe Checkout</h4>
+              <p>Encrypted PCI-compliant card processing</p>
             </div>
           </div>
 
           <div class="trust-item">
-            <div class="trust-icon-box">💎</div>
+            <div class="trust-icon-box">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+              </svg>
+            </div>
             <div>
-              <h4>Verified Materials</h4>
-              <p>Titanium, Italian leather &amp; GORE-TEX</p>
+              <h4>Authentic Materials</h4>
+              <p>Titanium, full-grain leather, and durable alloys</p>
             </div>
           </div>
 
           <div class="trust-item">
-            <div class="trust-icon-box">🔄</div>
+            <div class="trust-icon-box">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="23 4 23 10 17 10"></polyline>
+                <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"></path>
+              </svg>
+            </div>
             <div>
-              <h4>Concierge Returns</h4>
-              <p>30 days no-questions refund policy</p>
+              <h4>30-Day Returns</h4>
+              <p>Simple return and full refund policy</p>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ─── Featured Products ────────────────────────────── -->
+    <!-- Featured Products -->
     <section class="section" aria-labelledby="featured-heading">
       <div class="container">
         <div class="flex-between section-header">
           <div>
-            <div class="badge-tag">HAND-PICKED HIGHLIGHTS</div>
-            <h2 id="featured-heading">Curated Quartcart Drops</h2>
-            <p>Hover over any piece to experience 3D gyroscope depth &amp; specular reflection.</p>
+            <span class="badge-tag">SELECTION</span>
+            <h2 id="featured-heading">Featured Products</h2>
+            <p>Selected essentials from our current inventory.</p>
           </div>
           <a href="/products.html" class="btn btn-outline">
-            Full Collection (8) →
+            All Products &rarr;
           </a>
         </div>
 
         <div class="grid-4" id="featured-products-grid">
-          <!-- Loaded by JS -->
           <div class="loading-grid" style="grid-column: 1/-1; padding: 4rem 0;">
             <div class="spinner"></div>
-            <p class="text-center mt-2 text-muted">Accessing Quartcart catalog…</p>
+            <p class="text-center mt-2 text-muted">Loading products…</p>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ─── Category Tiles ───────────────────────────────── -->
-    <section class="section" style="background: rgba(17, 20, 30, 0.3);" aria-labelledby="categories-heading">
+    <!-- Categories -->
+    <section class="section" style="background: var(--bg-surface);" aria-labelledby="categories-heading">
       <div class="container">
         <div class="section-header text-center">
-          <div class="badge-tag">TAXONOMY</div>
-          <h2 id="categories-heading">Shop By Discipline</h2>
-          <p>Every piece purposeful. Every silhouette refined.</p>
+          <span class="badge-tag">CATEGORIES</span>
+          <h2 id="categories-heading">Shop by Category</h2>
+          <p>Explore our catalog by category.</p>
         </div>
 
         <div class="grid-4">
           <a href="/products.html?category=Audio" class="hero-card" style="padding:1rem;">
-            <div style="border-radius:var(--radius-sm);overflow:hidden;aspect-ratio:1/1;margin-bottom:1rem;">
+            <div style="border-radius:var(--radius-sm);overflow:hidden;aspect-ratio:1/1;margin-bottom:1rem;background:#0f1015;">
               <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600&auto=format&fit=crop&q=80" alt="Audio" style="width:100%;height:100%;object-fit:cover;">
             </div>
-            <h3 style="font-size:1.1rem;margin-bottom:0.2rem;">Spatial Audio</h3>
-            <p style="font-size:0.82rem;color:var(--text-muted);">Acoustic Mastery &amp; ANC</p>
+            <h3 style="font-size:1.05rem;margin-bottom:0.2rem;">Audio</h3>
+            <p style="font-size:0.82rem;color:var(--text-muted);">Headphones and acoustic monitors</p>
           </a>
 
           <a href="/products.html?category=Timepieces" class="hero-card" style="padding:1rem;">
-            <div style="border-radius:var(--radius-sm);overflow:hidden;aspect-ratio:1/1;margin-bottom:1rem;">
+            <div style="border-radius:var(--radius-sm);overflow:hidden;aspect-ratio:1/1;margin-bottom:1rem;background:#0f1015;">
               <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600&auto=format&fit=crop&q=80" alt="Timepieces" style="width:100%;height:100%;object-fit:cover;">
             </div>
-            <h3 style="font-size:1.1rem;margin-bottom:0.2rem;">Timepieces</h3>
-            <p style="font-size:0.82rem;color:var(--text-muted);">Aerospace Grade 5 Titanium</p>
+            <h3 style="font-size:1.05rem;margin-bottom:0.2rem;">Timepieces</h3>
+            <p style="font-size:0.82rem;color:var(--text-muted);">Field and automatic watches</p>
           </a>
 
           <a href="/products.html?category=Apparel" class="hero-card" style="padding:1rem;">
-            <div style="border-radius:var(--radius-sm);overflow:hidden;aspect-ratio:1/1;margin-bottom:1rem;">
+            <div style="border-radius:var(--radius-sm);overflow:hidden;aspect-ratio:1/1;margin-bottom:1rem;background:#0f1015;">
               <img src="https://images.unsplash.com/photo-1544441893-675973e31985?w=600&auto=format&fit=crop&q=80" alt="Apparel" style="width:100%;height:100%;object-fit:cover;">
             </div>
-            <h3 style="font-size:1.1rem;margin-bottom:0.2rem;">Apparel</h3>
-            <p style="font-size:0.82rem;color:var(--text-muted);">Technical GORE-TEX Shells</p>
+            <h3 style="font-size:1.05rem;margin-bottom:0.2rem;">Apparel</h3>
+            <p style="font-size:0.82rem;color:var(--text-muted);">Weatherproof jackets and layers</p>
           </a>
 
           <a href="/products.html?category=Leather%20Goods" class="hero-card" style="padding:1rem;">
-            <div style="border-radius:var(--radius-sm);overflow:hidden;aspect-ratio:1/1;margin-bottom:1rem;">
+            <div style="border-radius:var(--radius-sm);overflow:hidden;aspect-ratio:1/1;margin-bottom:1rem;background:#0f1015;">
               <img src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=600&auto=format&fit=crop&q=80" alt="Leather" style="width:100%;height:100%;object-fit:cover;">
             </div>
-            <h3 style="font-size:1.1rem;margin-bottom:0.2rem;">Leather Goods</h3>
-            <p style="font-size:0.82rem;color:var(--text-muted);">Vegetable-Tanned Italian Wax</p>
+            <h3 style="font-size:1.05rem;margin-bottom:0.2rem;">Leather Goods</h3>
+            <p style="font-size:0.82rem;color:var(--text-muted);">Full-grain bags and wallets</p>
           </a>
         </div>
       </div>
     </section>
 
-    <!-- ─── Newsletter ───────────────────────────────────── -->
+    <!-- Newsletter -->
     <section class="newsletter-section" aria-labelledby="newsletter-heading">
       <div class="container">
-        <div class="badge-tag">PRIVATE ACCESS</div>
-        <h2 id="newsletter-heading" style="margin-top:0.75rem;">Join the Quartcart Circle</h2>
+        <span class="badge-tag">UPDATES</span>
+        <h2 id="newsletter-heading" style="margin-top:0.5rem;">Join the Newsletter</h2>
         <p style="color:var(--text-muted);max-width:480px;margin:0.5rem auto 0;">
-          Members receive 24-hour advance notice prior to public catalog drops.
+          Receive notifications on restocks, new products, and seasonal releases.
         </p>
         <form class="newsletter-form" onsubmit="handleNewsletter(event)" aria-label="Newsletter signup">
           <input type="email" placeholder="Enter your email address" required aria-label="Email address">
-          <button type="submit">Join Register</button>
+          <button type="submit">Subscribe</button>
         </form>
       </div>
     </section>
   </main>
 
-  <!-- ─── Footer ─────────────────────────────────────────── -->
+  <!-- Footer -->
   <footer>
     <div class="container">
       <div class="footer-grid">
         <div class="footer-col">
           <div class="footer-brand">
-            <span class="brand-dot" style="margin-right:6px;"></span>
-            Quart<span class="gradient-text">cart</span>
+            <span class="brand-dot"></span>
+            Quartcart
           </div>
-          <p style="font-size:0.9rem;max-width:280px;color:var(--text-dim);line-height:1.6;">
-            A sanctuary for discerning individuals who appreciate material perfection and obsessive detail.
+          <p style="font-size:0.88rem;color:var(--text-muted);line-height:1.6;">
+            Functional goods, precision manufacturing, and durable essentials built for longevity.
           </p>
         </div>
         <div class="footer-col">
-          <h4>Disciplines</h4>
+          <h4>Catalog</h4>
           <ul>
-            <li><a href="/products.html">All Drops</a></li>
-            <li><a href="/products.html?category=Audio">Spatial Audio</a></li>
-            <li><a href="/products.html?category=Timepieces">Titanium Watches</a></li>
-            <li><a href="/products.html?category=Apparel">Technical Apparel</a></li>
+            <li><a href="/products.html">All Products</a></li>
+            <li><a href="/products.html?category=Audio">Audio</a></li>
+            <li><a href="/products.html?category=Timepieces">Timepieces</a></li>
+            <li><a href="/products.html?category=Apparel">Apparel</a></li>
           </ul>
         </div>
         <div class="footer-col">
-          <h4>Concierge</h4>
+          <h4>Account</h4>
           <ul>
-            <li><a href="/login.html">Client Sign In</a></li>
-            <li><a href="/register.html">Create Membership</a></li>
-            <li><a href="/account.html">Order Tracking</a></li>
-            <li><a href="/cart.html">View Bag</a></li>
+            <li><a href="/login.html">Sign In</a></li>
+            <li><a href="/register.html">Create Account</a></li>
+            <li><a href="/account.html">Orders</a></li>
+            <li><a href="/cart.html">Shopping Bag</a></li>
           </ul>
         </div>
         <div class="footer-col">
-          <h4>Legal &amp; Policy</h4>
+          <h4>Legal</h4>
           <ul>
-            <li><a href="/policies.html#returns">Concierge Returns</a></li>
-            <li><a href="/policies.html#privacy">Privacy Protocol</a></li>
-            <li><a href="/policies.html#terms">Terms of Acquisition</a></li>
+            <li><a href="/privacy.html">Privacy Policy</a></li>
+            <li><a href="/terms.html">Terms and Conditions</a></li>
+            <li><a href="/policies.html">Shipping &amp; Returns</a></li>
           </ul>
         </div>
       </div>
       <div class="footer-bottom">
-        <p>© 2026 Quartcart. Powered by Node.js, Mongoose &amp; Stripe.</p>
-        <p style="color:var(--text-dim);">SSL 256-Bit Encrypted Environment</p>
+        <p>&copy; 2026 Quartcart. All rights reserved.</p>
+        <p style="color:var(--text-dim);">Payments securely processed by Stripe.</p>
       </div>
     </div>
   </footer>
@@ -318,8 +303,6 @@
   <script src="/js/api.js"></script>
   <script src="/js/auth.js"></script>
   <script src="/js/cart.js"></script>
-  <script src="/js/three.min.js"></script>
-  <script src="/js/three-hero.js"></script>
   <script src="/js/tilt3d.js"></script>
   <script>
     async function loadFeaturedProducts() {
@@ -331,56 +314,61 @@
         if (!products || products.length === 0) {
           grid.innerHTML = `
             <div class="empty-state" style="grid-column:1/-1;text-align:center;padding:4rem 0;">
-              <h3>Quartcart Drops Pending</h3>
-              <p class="text-muted">New releases dropping shortly.</p>
+              <h3>Products Pending</h3>
+              <p class="text-muted">New releases coming soon.</p>
             </div>
           `;
           return;
         }
 
-        grid.innerHTML = products.map((p) => {
-          const img = (p.images && p.images.length) ? p.images[0] : 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600';
-          const inStock = p.stock > 0;
+        grid.innerHTML = products.slice(0, 4).map((p) => {
+          const img = (p.images && p.images[0]) || 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600';
           return `
             <article class="product-card">
-              <span class="featured-badge">DROP SPOTLIGHT</span>
-              <div class="product-card-img-wrapper" style="cursor:pointer;" onclick="window.location.href='/product-detail.html?id=${p._id}'">
+              ${p.isFeatured ? '<span class="featured-badge">Featured</span>' : ''}
+              <div class="product-card-img-wrapper" onclick="window.location.href='/product-detail.html?id=${p._id}'" style="cursor:pointer;">
                 <img src="${img}" alt="${p.name}" class="product-card-img" loading="lazy">
               </div>
               <div class="product-card-body">
                 <span class="product-card-category">${p.category}</span>
-                <h3 class="product-card-name" style="cursor:pointer;" onclick="window.location.href='/product-detail.html?id=${p._id}'">${p.name}</h3>
-                <div class="product-card-rating">★ ${p.avgRating ? p.avgRating.toFixed(1) : '5.0'}</div>
+                <h3 class="product-card-name" onclick="window.location.href='/product-detail.html?id=${p._id}'" style="cursor:pointer;">${p.name}</h3>
                 <div class="product-card-price-row">
                   <div class="product-card-price">${formatPrice(p.price)}</div>
-                  <div class="product-card-stock ${inStock ? '' : 'out'}">${inStock ? 'Available' : 'Allocated'}</div>
+                  <div class="product-card-stock ${p.stock > 0 ? '' : 'out'}">${p.stock > 0 ? 'In Stock' : 'Out of Stock'}</div>
                 </div>
               </div>
               <div class="product-card-footer">
-                <button 
-                  class="btn btn-primary btn-block btn-sm add-to-cart-btn" 
-                  ${!inStock ? 'disabled' : ''} 
-                  onclick='addToCart(${JSON.stringify({ _id: p._id, name: p.name, price: p.price, images: p.images, stock: p.stock })}, 1)'
+                <button
+                  class="btn btn-primary btn-block btn-sm"
+                  onclick="addToCart(${JSON.stringify({ _id: p._id, name: p.name, price: p.price, images: p.images, stock: p.stock }).replace(/"/g, '&quot;')}, 1)"
+                  ${p.stock <= 0 ? 'disabled' : ''}
                 >
-                  ${inStock ? 'Add To Bag' : 'Sold Out'}
+                  ${p.stock > 0 ? 'Add To Bag' : 'Sold Out'}
                 </button>
               </div>
             </article>
           `;
         }).join('');
+
       } catch (err) {
-        grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;color:var(--text-muted);padding:3rem 0;">Unable to connect to server: ${err.message}</div>`;
+        grid.innerHTML = `
+          <div style="grid-column:1/-1;text-align:center;padding:3rem 0;color:var(--text-muted);">
+            Unable to load featured products.
+          </div>
+        `;
       }
     }
 
     function handleNewsletter(e) {
       e.preventDefault();
-      const input = e.target.querySelector('input[type=email]');
-      showToast(`Welcome to Quartcart. Confirmation sent! ✨`, 'success');
+      const input = e.target.querySelector('input');
+      showToast('Thank you for subscribing.', 'success');
       input.value = '';
     }
 
-    document.addEventListener('DOMContentLoaded', loadFeaturedProducts);
+    document.addEventListener('DOMContentLoaded', () => {
+      loadFeaturedProducts();
+    });
   </script>
 </body>
 </html>
