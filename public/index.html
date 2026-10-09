@@ -67,38 +67,98 @@
           <div class="hero-content">
             <div class="badge-tag">
               <span class="dot"></span>
-              Spring 2026 Release
+              FLAGSHIP RELEASE 2026
             </div>
 
-            <h1>
-              Precision Goods.<br>
-              Built to Endure.
+            <h1 style="font-size:clamp(2.1rem, 4vw, 3.2rem);line-height:1.15;margin:1rem 0;">
+              Precision Sound.<br>
+              <span class="hero-gradient-text">Engineered to Endure.</span>
             </h1>
 
-            <p>
-              Functional objects, studio audio equipment, timepieces, and everyday carry manufactured with durable materials and honest craftsmanship.
+            <p style="font-size:1.05rem;line-height:1.65;max-width:520px;color:var(--text-muted);margin-bottom:2rem;">
+              Machined aerospace-grade aluminum, 45mm neodymium acoustic drivers, and low-latency studio fidelity. Built for audio engineers, creators, and focused listening.
             </p>
 
             <div class="hero-actions">
               <a href="/products.html" class="btn btn-primary btn-lg">
-                Shop Collection
+                Explore Catalog
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <line x1="5" y1="12" x2="19" y2="12"></line>
                   <polyline points="12 5 19 12 12 19"></polyline>
                 </svg>
               </a>
               <a href="/products.html?category=Audio" class="btn btn-secondary btn-lg">
-                View Audio
+                Audio Systems
               </a>
+            </div>
+
+            <!-- Authentic Specification Highlights -->
+            <div class="hero-spec-row">
+              <div class="hero-spec-item">
+                <strong>40h</strong>
+                <span>Continuous Play</span>
+              </div>
+              <div class="hero-spec-item">
+                <strong>24-bit</strong>
+                <span>Lossless DAC</span>
+              </div>
+              <div class="hero-spec-item">
+                <strong>CNC</strong>
+                <span>Grade 5 Alloy</span>
+              </div>
             </div>
           </div>
 
-          <!-- Interactive 3D Hardware Canvas -->
-          <div id="hero-3d-container">
-            <span class="hero-3d-hint">Drag to Rotate 3D</span>
-            <div class="hero-3d-overlay-badge">
-              <span class="brand-dot"></span>
-              Interactive 3D Hardware Core
+          <!-- Flagship Interactive 3D Studio Stage -->
+          <div class="hero-studio-card">
+            <div class="hero-studio-header">
+              <div class="hero-studio-title">
+                <span class="badge-tag" style="margin:0;padding:0.25rem 0.6rem;font-size:0.68rem;">
+                  <span class="dot"></span>
+                  3D STUDIO
+                </span>
+                <span class="hero-studio-model">Studio Monitor Pro</span>
+              </div>
+              <div class="hero-studio-controls">
+                <span class="colorway-label">Finish:</span>
+                <button type="button" class="colorway-btn active" title="Obsidian Black" onclick="setHeadphoneColorway('obsidian', this)">
+                  <span class="color-swatch swatch-obsidian"></span>
+                </button>
+                <button type="button" class="colorway-btn" title="Titanium Silver" onclick="setHeadphoneColorway('titanium', this)">
+                  <span class="color-swatch swatch-titanium"></span>
+                </button>
+                <button type="button" class="colorway-btn" title="Cyber Cyan" onclick="setHeadphoneColorway('cyan', this)">
+                  <span class="color-swatch swatch-cyan"></span>
+                </button>
+              </div>
+            </div>
+
+            <!-- Interactive 3D Turntable -->
+            <div id="hero-3d-container">
+              <span class="hero-3d-hint">360 Drag to Inspect</span>
+              <div class="hero-spec-pill" style="top:1.2rem;left:1.2rem;">
+                <span class="spec-label">Acoustics</span>
+                <span class="spec-val">45mm Neodymium</span>
+              </div>
+              <div class="hero-spec-pill" style="bottom:1.2rem;right:1.2rem;">
+                <span class="spec-label">Chassis</span>
+                <span class="spec-val">Anodized Alloy</span>
+              </div>
+            </div>
+
+            <!-- Direct Quick Action Footer -->
+            <div class="hero-studio-footer">
+              <div class="hero-price-stack">
+                <span class="hero-price-label">Studio Edition</span>
+                <span class="hero-price-val">$349.00</span>
+              </div>
+              <button
+                type="button"
+                class="btn btn-primary btn-sm"
+                onclick="addToCart({ _id: 'studio-headphones-pro', name: 'Studio Monitor Headphones', price: 349.00, images: ['https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800'], stock: 28 }, 1)"
+              >
+                Add Studio Monitor to Bag
+              </button>
             </div>
           </div>
 

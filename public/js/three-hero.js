@@ -1,216 +1,276 @@
 /**
- * three-hero.js - Interactive 3D WebGL Canvas for Quartcart Hero
- * Renders a futuristic metallic 3D artifact with orbiting rings & floating particles.
- * Interactive: Responds to mouse position, drag rotation, and hover light flare.
+ * three-hero.js - Interactive 3D Luxury Studio Headphone Showcase
+ * Renders an ultra-realistic 3D Studio Monitor Headphone with machined aluminum yokes,
+ * acoustic ear cushions, and dynamic multi-point studio lighting.
+ * Features 360-degree drag rotation, cursor physics, and live colorway switching.
  */
 
-(function initHero3D() {
+'use strict';
+
+let currentHeadphoneTheme = 'obsidian';
+let updateHeadphoneColorFn = null;
+
+function initHero3D() {
   const container = document.getElementById('hero-3d-container');
   if (!container || typeof THREE === 'undefined') return;
 
-  // Scene, Camera, Renderer
+  // Clear previous canvas if any
+  container.querySelectorAll('canvas').forEach((c) => c.remove());
+
+  const width = container.clientWidth || 540;
+  const height = container.clientHeight || 460;
+
+  // 1. Scene & Camera
   const scene = new THREE.Scene();
-  const width = container.clientWidth || 450;
-  const height = container.clientHeight || 380;
+  const camera = new THREE.PerspectiveCamera(40, width / height, 0.1, 100);
+  camera.position.set(0, 0, 7.5);
 
-  const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
-  camera.position.z = 7;
-
+  // 2. Renderer with High-End Color Tone Mapping
   const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
   renderer.setSize(width, height);
   renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
   renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 1.2;
+  renderer.toneMappingExposure = 1.3;
   container.appendChild(renderer.domElement);
 
-  // Lighting
-  const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+  // 3. Studio Lighting Rig
+  const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
   scene.add(ambientLight);
 
-  const cyanLight = new THREE.PointLight(0x00f2fe, 3.5, 50);
-  cyanLight.position.set(5, 5, 5);
-  scene.add(cyanLight);
+  // Top Key Light
+  const keyLight = new THREE.DirectionalLight(0xffffff, 2.2);
+  keyLight.position.set(5, 8, 5);
+  scene.add(keyLight);
 
-  const blueLight = new THREE.PointLight(0x0072ff, 3.5, 50);
-  blueLight.position.set(-5, -3, 3);
-  scene.add(blueLight);
+  // Cool Cyan Fill Light
+  const fillLight = new THREE.PointLight(0x00f2fe, 3.2, 40);
+  fillLight.position.set(-5, -2, 4);
+  scene.add(fillLight);
 
-  const topRim = new THREE.DirectionalLight(0xffffff, 1.2);
-  topRim.position.set(0, 10, 0);
-  scene.add(topRim);
+  // Rim / Backlight for Metallic Edges
+  const rimLight = new THREE.DirectionalLight(0x38bdf8, 2.0);
+  rimLight.position.set(0, 4, -6);
+  scene.add(rimLight);
 
-  // 3D Object Group
-  const group = new THREE.Group();
-  scene.add(group);
+  // 4. Build 3D Realistic Headphone Model
+  const headphoneGroup = new THREE.Group();
+  scene.add(headphoneGroup);
 
-  // 1. Central Futuristic Core (Icosahedron / Faceted Crystal)
-  const coreGeo = new THREE.IcosahedronGeometry(1.8, 1);
-  const coreMat = new THREE.MeshPhysicalMaterial({
-    color: 0x050c18,
-    emissive: 0x003366,
-    emissiveIntensity: 0.4,
-    roughness: 0.15,
-    metalness: 0.9,
-    clearcoat: 1.0,
-    clearcoatRoughness: 0.1,
-    wireframe: false,
-    flatShading: true,
+  // Base Materials
+  const metalMat = new THREE.MeshPhysicalMaterial({
+    color: 0x14161d,
+    metalness: 0.88,
+    roughness: 0.18,
+    clearcoat: 0.8,
+    clearcoatRoughness: 0.12,
   });
-  const coreMesh = new THREE.Mesh(coreGeo, coreMat);
-  group.add(coreMesh);
 
-  // 2. Wireframe Overlay for Cyber Holographic Depth
-  const wireGeo = new THREE.IcosahedronGeometry(1.83, 1);
-  const wireMat = new THREE.MeshBasicMaterial({
+  const cushionMat = new THREE.MeshStandardMaterial({
+    color: 0x0c0d12,
+    roughness: 0.8,
+    metalness: 0.1,
+  });
+
+  const accentRingMat = new THREE.MeshBasicMaterial({
     color: 0x00f2fe,
-    wireframe: true,
     transparent: true,
-    opacity: 0.35,
+    opacity: 0.85,
   });
-  const wireMesh = new THREE.Mesh(wireGeo, wireMat);
-  group.add(wireMesh);
 
-  // 3. Orbiting Gyroscope Rings
-  const ringGeo1 = new THREE.TorusGeometry(2.5, 0.035, 16, 100);
-  const ringMat1 = new THREE.MeshStandardMaterial({
-    color: 0x00f2fe,
-    roughness: 0.2,
-    metalness: 0.9,
-    emissive: 0x00f2fe,
-    emissiveIntensity: 0.4,
-  });
-  const ring1 = new THREE.Mesh(ringGeo1, ringMat1);
-  ring1.rotation.x = Math.PI / 3;
-  group.add(ring1);
+  // A. Headband Arch (Curved Torus Arc)
+  const archGeo = new THREE.TorusGeometry(1.9, 0.1, 16, 64, Math.PI);
+  const archMesh = new THREE.Mesh(archGeo, metalMat);
+  archMesh.rotation.z = Math.PI; // Arch up
+  archMesh.position.y = 0.5;
+  headphoneGroup.add(archMesh);
 
-  const ringGeo2 = new THREE.TorusGeometry(2.9, 0.025, 16, 100);
-  const ringMat2 = new THREE.MeshStandardMaterial({
-    color: 0x38bdf8,
-    roughness: 0.2,
-    metalness: 0.9,
-    emissive: 0x0284c7,
-    emissiveIntensity: 0.4,
-  });
-  const ring2 = new THREE.Mesh(ringGeo2, ringMat2);
-  ring2.rotation.y = Math.PI / 4;
-  group.add(ring2);
+  // B. Soft Leather Cushion Under Headband
+  const padGeo = new THREE.TorusGeometry(1.82, 0.09, 16, 48, Math.PI * 0.75);
+  const padMesh = new THREE.Mesh(padGeo, cushionMat);
+  padMesh.rotation.z = Math.PI * 1.125;
+  padMesh.position.y = 0.5;
+  headphoneGroup.add(padMesh);
 
-  // 4. Floating 3D Particle Constellation
-  const particleCount = 180;
-  const particleGeo = new THREE.BufferGeometry();
-  const particlePos = new Float32Array(particleCount * 3);
+  // Helper function to build an earcup assembly
+  function createEarcupAssembly(isLeft = true) {
+    const sideGroup = new THREE.Group();
+    const xOffset = isLeft ? -1.9 : 1.9;
+    sideGroup.position.set(xOffset, 0.4, 0);
 
-  for (let i = 0; i < particleCount * 3; i += 3) {
-    particlePos[i]     = (Math.random() - 0.5) * 12;
-    particlePos[i + 1] = (Math.random() - 0.5) * 10;
-    particlePos[i + 2] = (Math.random() - 0.5) * 8;
+    // 1. Vertical Slider Arm
+    const sliderGeo = new THREE.BoxGeometry(0.14, 0.9, 0.22);
+    const sliderMesh = new THREE.Mesh(sliderGeo, metalMat);
+    sliderMesh.position.y = -0.4;
+    sideGroup.add(sliderMesh);
+
+    // 2. Yoke Pivot Fork
+    const yokeGeo = new THREE.TorusGeometry(0.75, 0.065, 16, 32, Math.PI);
+    const yokeMesh = new THREE.Mesh(yokeGeo, metalMat);
+    yokeMesh.rotation.z = 0; // Curve down
+    yokeMesh.position.y = -0.85;
+    sideGroup.add(yokeMesh);
+
+    // 3. Earcup Group
+    const cupGroup = new THREE.Group();
+    cupGroup.position.y = -0.85;
+
+    // Main Outer Shell
+    const shellGeo = new THREE.CylinderGeometry(0.85, 0.78, 0.42, 36);
+    const shellMesh = new THREE.Mesh(shellGeo, metalMat);
+    shellMesh.rotation.z = Math.PI / 2;
+    cupGroup.add(shellMesh);
+
+    // Outer Center Brushed Cap
+    const capGeo = new THREE.CylinderGeometry(0.68, 0.68, 0.08, 36);
+    const capMesh = new THREE.Mesh(capGeo, metalMat);
+    capMesh.rotation.z = Math.PI / 2;
+    capMesh.position.x = isLeft ? -0.22 : 0.22;
+    cupGroup.add(capMesh);
+
+    // Glowing Laser Accent Ring
+    const ringGeo = new THREE.TorusGeometry(0.64, 0.02, 16, 40);
+    const ringMesh = new THREE.Mesh(ringGeo, accentRingMat);
+    ringMesh.rotation.y = Math.PI / 2;
+    ringMesh.position.x = isLeft ? -0.25 : 0.25;
+    cupGroup.add(ringMesh);
+
+    // Soft Memory Foam Ear Pad (Inward Facing)
+    const earPadGeo = new THREE.TorusGeometry(0.68, 0.24, 16, 32);
+    const earPadMesh = new THREE.Mesh(earPadGeo, cushionMat);
+    earPadMesh.rotation.y = Math.PI / 2;
+    earPadMesh.position.x = isLeft ? 0.22 : -0.22;
+    cupGroup.add(earPadMesh);
+
+    // Subtle Angle for Ergonomic Fit
+    cupGroup.rotation.y = isLeft ? 0.08 : -0.08;
+    sideGroup.add(cupGroup);
+
+    return sideGroup;
   }
-  particleGeo.setAttribute('position', new THREE.BufferAttribute(particlePos, 3));
 
-  const particleMat = new THREE.PointsMaterial({
-    size: 0.06,
-    color: 0xc7d2fe,
-    transparent: true,
-    opacity: 0.75,
-  });
-  const particles = new THREE.Points(particleGeo, particleMat);
-  scene.add(particles);
+  const leftEarcup = createEarcupAssembly(true);
+  const rightEarcup = createEarcupAssembly(false);
+  headphoneGroup.add(leftEarcup);
+  headphoneGroup.add(rightEarcup);
 
-  // Mouse Interaction Variables
-  let targetRotationX = 0;
-  let targetRotationY = 0;
-  let mouseX = 0;
-  let mouseY = 0;
+  // Subtle initial showcase tilt
+  headphoneGroup.rotation.y = -0.35;
+  headphoneGroup.rotation.x = 0.15;
+  headphoneGroup.position.y = 0.1;
+
+  // 5. Theme / Colorway Switcher
+  updateHeadphoneColorFn = function (theme) {
+    currentHeadphoneTheme = theme;
+    if (theme === 'obsidian') {
+      metalMat.color.setHex(0x14161d);
+      metalMat.roughness = 0.18;
+      accentRingMat.color.setHex(0x00f2fe);
+      fillLight.color.setHex(0x00f2fe);
+    } else if (theme === 'titanium') {
+      metalMat.color.setHex(0x94a3b8);
+      metalMat.roughness = 0.25;
+      accentRingMat.color.setHex(0xffffff);
+      fillLight.color.setHex(0x38bdf8);
+    } else if (theme === 'cyan') {
+      metalMat.color.setHex(0x0891b2);
+      metalMat.roughness = 0.15;
+      accentRingMat.color.setHex(0x00f2fe);
+      fillLight.color.setHex(0x00f2fe);
+    }
+  };
+
+  // 6. User Interaction (Mouse & Drag)
+  let targetRotationY = -0.35;
+  let targetRotationX = 0.15;
   let isDragging = false;
-  let previousMousePosition = { x: 0, y: 0 };
+  let prevMousePos = { x: 0, y: 0 };
 
-  const rect = container.getBoundingClientRect();
+  container.addEventListener('mousemove', (e) => {
+    if (isDragging) return;
+    const rect = container.getBoundingClientRect();
+    const x = e.clientX - rect.left - rect.width / 2;
+    const y = e.clientY - rect.top - rect.height / 2;
 
-  function onMouseMove(e) {
-    const x = e.clientX - rect.left - width / 2;
-    const y = e.clientY - rect.top - height / 2;
-    mouseX = (x / width) * 2;
-    mouseY = -(y / height) * 2;
+    targetRotationY = -0.35 + (x / rect.width) * 0.9;
+    targetRotationX = 0.15 - (y / rect.height) * 0.5;
 
-    targetRotationY = mouseX * 0.8;
-    targetRotationX = mouseY * 0.6;
+    // Shift key light slightly for reactive sheen
+    keyLight.position.x = 5 + (x / rect.width) * 3;
+    keyLight.position.y = 8 - (y / rect.height) * 2;
+  });
 
-    // Shift point lights based on cursor for dynamic lighting reflection
-    cyanLight.position.x = 4 + mouseX * 2;
-    cyanLight.position.y = 4 + mouseY * 2;
-  }
-
-  container.addEventListener('mousemove', onMouseMove);
-
-  // Interactive Drag-to-Rotate
   container.addEventListener('mousedown', (e) => {
     isDragging = true;
-    previousMousePosition = { x: e.clientX, y: e.clientY };
+    prevMousePos = { x: e.clientX, y: e.clientY };
   });
 
-  window.addEventListener('mouseup', () => { isDragging = false; });
+  window.addEventListener('mouseup', () => {
+    isDragging = false;
+  });
 
   container.addEventListener('mousemove', (e) => {
     if (!isDragging) return;
-    const deltaX = e.clientX - previousMousePosition.x;
-    const deltaY = e.clientY - previousMousePosition.y;
+    const deltaX = e.clientX - prevMousePos.x;
+    const deltaY = e.clientY - prevMousePos.y;
 
-    group.rotation.y += deltaX * 0.01;
-    group.rotation.x += deltaY * 0.01;
+    headphoneGroup.rotation.y += deltaX * 0.012;
+    headphoneGroup.rotation.x += deltaY * 0.012;
 
-    previousMousePosition = { x: e.clientX, y: e.clientY };
+    prevMousePos = { x: e.clientX, y: e.clientY };
   });
 
-  // Touch Support for Mobile
+  // Touch Support
   container.addEventListener('touchmove', (e) => {
     if (e.touches.length > 0) {
       const touch = e.touches[0];
-      const x = touch.clientX - rect.left - width / 2;
-      const y = touch.clientY - rect.top - height / 2;
-      targetRotationY = (x / width) * 1.5;
-      targetRotationX = -(y / height) * 1.2;
+      const rect = container.getBoundingClientRect();
+      const x = touch.clientX - rect.left - rect.width / 2;
+      const y = touch.clientY - rect.top - rect.height / 2;
+      targetRotationY = -0.35 + (x / rect.width) * 1.2;
+      targetRotationX = 0.15 - (y / rect.height) * 0.8;
     }
   }, { passive: true });
 
-  // Animation Loop
+  // 7. Animation Loop
   let clock = new THREE.Clock();
 
   function animate() {
     requestAnimationFrame(animate);
     const delta = clock.getDelta();
-    const time  = clock.getElapsedTime();
+    const time = clock.getElapsedTime();
 
-    // Idle rotation + smooth interpolation towards mouse
     if (!isDragging) {
-      group.rotation.y += (targetRotationY - group.rotation.y) * 0.05 + 0.008;
-      group.rotation.x += (targetRotationX - group.rotation.x) * 0.05;
+      // Smooth lerp towards target rotation + subtle breathing float
+      headphoneGroup.rotation.y += (targetRotationY - headphoneGroup.rotation.y) * 0.06;
+      headphoneGroup.rotation.x += (targetRotationX - headphoneGroup.rotation.x) * 0.06;
+      headphoneGroup.position.y = 0.1 + Math.sin(time * 1.8) * 0.06;
     }
-
-    // Orbiting rings counter-rotation
-    ring1.rotation.z += 0.012;
-    ring2.rotation.x += 0.015;
-
-    // Subtle levitation bobbing
-    coreMesh.position.y = Math.sin(time * 1.5) * 0.12;
-    wireMesh.position.y = coreMesh.position.y;
-
-    // Gently drift particles
-    particles.rotation.y = time * 0.02;
 
     renderer.render(scene, camera);
   }
 
   animate();
 
-  // Responsive Resize
+  // Resize Handler
   window.addEventListener('resize', () => {
     const newW = container.clientWidth;
-    const newH = container.clientHeight || 380;
+    const newH = container.clientHeight || 460;
     if (newW > 0 && newH > 0) {
       camera.aspect = newW / newH;
       camera.updateProjectionMatrix();
       renderer.setSize(newW, newH);
     }
   });
+}
 
-})();
+// Global hook to switch colorway from HTML buttons
+function setHeadphoneColorway(theme, btnEl) {
+  if (typeof updateHeadphoneColorFn === 'function') {
+    updateHeadphoneColorFn(theme);
+  }
+  document.querySelectorAll('.colorway-btn').forEach((b) => b.classList.remove('active'));
+  if (btnEl) btnEl.classList.add('active');
+}
+
+// Initialize on DOM load
+document.addEventListener('DOMContentLoaded', initHero3D);

@@ -1512,17 +1512,101 @@ footer {
 }
 
 /* =========================================================
-   3D HERO & 3D LOGIN STYLES
+   FLAGSHIP 3D STUDIO SHOWCASE
    ========================================================= */
+.hero-studio-card {
+  background: radial-gradient(circle at 50% 35%, rgba(0, 242, 254, 0.08) 0%, #0c0e15 75%);
+  border: 1px solid rgba(0, 242, 254, 0.25);
+  border-radius: var(--radius-md);
+  box-shadow: 0 20px 55px rgba(0, 0, 0, 0.75), 0 0 30px rgba(0, 242, 254, 0.08);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.hero-studio-header {
+  padding: 1.1rem 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border-subtle);
+  background: rgba(14, 16, 23, 0.75);
+  backdrop-filter: blur(8px);
+}
+
+.hero-studio-title {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.hero-studio-model {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.hero-studio-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.colorway-label {
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  margin-right: 0.2rem;
+}
+
+.colorway-btn {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  background: transparent;
+  cursor: pointer;
+  padding: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+}
+
+.colorway-btn.active {
+  border-color: var(--accent-primary);
+  box-shadow: 0 0 10px rgba(0, 242, 254, 0.5);
+}
+
+.color-swatch {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  display: block;
+}
+
+.swatch-obsidian {
+  background: #14161d;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.swatch-titanium {
+  background: #94a3b8;
+}
+
+.swatch-cyan {
+  background: #00f2fe;
+}
+
 #hero-3d-container {
   width: 100%;
-  height: 440px;
+  height: 380px;
   position: relative;
-  border-radius: var(--radius-md);
   overflow: hidden;
-  background: radial-gradient(circle at center, rgba(0, 242, 254, 0.08) 0%, rgba(9, 10, 15, 0.95) 75%);
-  border: 1px solid rgba(0, 242, 254, 0.2);
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6), inset 0 0 25px rgba(0, 242, 254, 0.05);
+  cursor: grab;
+}
+
+#hero-3d-container:active {
+  cursor: grabbing;
 }
 
 #hero-3d-container canvas {
@@ -1531,34 +1615,93 @@ footer {
   display: block;
 }
 
-.hero-3d-overlay-badge {
+.hero-spec-pill {
   position: absolute;
-  bottom: 1.2rem;
-  left: 1.2rem;
   background: rgba(12, 14, 20, 0.85);
   backdrop-filter: blur(8px);
   border: 1px solid rgba(0, 242, 254, 0.25);
-  padding: 0.4rem 0.85rem;
+  padding: 0.45rem 0.85rem;
   border-radius: var(--radius-sm);
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: var(--accent-primary);
   display: flex;
-  align-items: center;
-  gap: 0.5rem;
+  flex-direction: column;
   pointer-events: none;
+}
+
+.hero-spec-pill .spec-label {
+  font-size: 0.68rem;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.hero-spec-pill .spec-val {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #ffffff;
 }
 
 .hero-3d-hint {
   position: absolute;
-  top: 1.2rem;
-  right: 1.2rem;
+  top: 1rem;
+  right: 1.25rem;
   font-size: 0.72rem;
   color: var(--text-dim);
-  background: rgba(12, 14, 20, 0.6);
+  background: rgba(12, 14, 20, 0.7);
   padding: 0.3rem 0.6rem;
   border-radius: var(--radius-xs);
   pointer-events: none;
+}
+
+.hero-studio-footer {
+  padding: 1rem 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid var(--border-subtle);
+  background: rgba(14, 16, 23, 0.85);
+}
+
+.hero-price-stack {
+  display: flex;
+  flex-direction: column;
+}
+
+.hero-price-label {
+  font-size: 0.72rem;
+  color: var(--text-dim);
+}
+
+.hero-price-val {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #ffffff;
+}
+
+.hero-gradient-text {
+  background: linear-gradient(135deg, #ffffff 40%, var(--accent-primary) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.hero-spec-row {
+  display: flex;
+  gap: 2.5rem;
+  margin-top: 2.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border-subtle);
+}
+
+.hero-spec-item strong {
+  display: block;
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: #ffffff;
+  line-height: 1.2;
+}
+
+.hero-spec-item span {
+  font-size: 0.78rem;
+  color: var(--text-muted);
 }
 
 /* Split Login Container with 3D Canvas */
