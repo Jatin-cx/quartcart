@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Piece Specification — Quartcart</title>
+  <meta name="description" content="Detailed craftsmanship overview, materials specification, and allocation status on Quartcart.">
+  <link rel="canonical" href="/product-detail.html">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+  <!-- ─── Navbar ─────────────────────────────────────────── -->
+  <nav class="navbar" role="navigation" aria-label="Main navigation">
+    <div class="container flex-between">
+      <a href="/index.html" class="navbar-brand">
+        <span class="brand-dot"></span>
+        Quart<span class="gradient-text">cart</span>
+      </a>
+
+      <ul class="nav-links" id="nav-links">
+        <li><a href="/index.html">Home</a></li>
+        <li><a href="/products.html">All Drops</a></li>
+        <li>
+          <a href="/cart.html" class="cart-link">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-2z"></path>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <path d="M16 10a4 4 0 0 1-8 0"></path>
+            </svg>
+            <span>Bag</span>
+            <span class="cart-badge" id="cart-badge">0</span>
+          </a>
+        </li>
+        <li><a href="/login.html" id="nav-account-link">Sign In</a></li>
+        <li style="display:none;"><a href="#" id="nav-logout-btn">Log Out</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main>
+    <div class="container section" style="padding-top:3.5rem;">
+      <!-- Loading state -->
+      <div id="detail-loading" class="text-center" style="padding:6rem 0;">
+        <div class="spinner"></div>
+        <p class="text-muted mt-2">Accessing artifact specifications…</p>
+      </div>
+
+      <!-- Error state -->
+      <div id="detail-error" style="display:none;text-align:center;padding:4rem 0;">
+        <h3>Specification Not Found</h3>
+        <p class="text-muted mt-1" id="detail-error-msg"></p>
+        <a href="/products.html" class="btn btn-secondary mt-3">Return to Catalog</a>
+      </div>
+
+      <!-- Product Detail (injected by JS) -->
+      <div id="product-detail" style="display:none;"></div>
+    </div>
+  </main>
+
+  <!-- ─── Footer ─────────────────────────────────────────── -->
+  <footer>
+    <div class="container text-center" style="font-size:0.85rem;color:var(--text-dim);">
+      <p>© 2026 Quartcart. Powered by Node.js, Mongoose &amp; Stripe.</p>
+    </div>
+  </footer>
+
+  <div id="toast-container" class="toast-container"></div>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/cart.js"></script>
+  <script src="/js/product-detail.js"></script>
+</body>
+</html>

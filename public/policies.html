@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Protocol &amp; Legal — Quartcart</title>
+  <meta name="description" content="Quartcart terms of acquisition, concierge return policy, and privacy protocols.">
+  <link rel="canonical" href="/policies.html">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+  <!-- ─── Navbar ─────────────────────────────────────────── -->
+  <nav class="navbar" role="navigation" aria-label="Main navigation">
+    <div class="container flex-between">
+      <a href="/index.html" class="navbar-brand">
+        <span class="brand-dot"></span>
+        Quart<span class="gradient-text">cart</span>
+      </a>
+
+      <ul class="nav-links" id="nav-links">
+        <li><a href="/index.html">Home</a></li>
+        <li><a href="/products.html">All Drops</a></li>
+        <li>
+          <a href="/cart.html" class="cart-link">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-2z"></path>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <path d="M16 10a4 4 0 0 1-8 0"></path>
+            </svg>
+            <span>Bag</span>
+            <span class="cart-badge" id="cart-badge">0</span>
+          </a>
+        </li>
+        <li><a href="/login.html" id="nav-account-link">Sign In</a></li>
+        <li style="display:none;"><a href="#" id="nav-logout-btn">Log Out</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main>
+    <div class="container section" style="padding-top:3.5rem;max-width:960px;">
+      <div class="mb-4">
+        <div class="badge-tag">GOVERNANCE &amp; PROTOCOL</div>
+        <h1 style="font-size:clamp(2rem, 4vw, 2.8rem);margin-top:0.5rem;">Policies &amp; Disclosures</h1>
+        <p class="text-muted" style="margin-top:0.25rem;">Transparency, client privacy, and frictionless concierge returns at Quartcart.</p>
+      </div>
+
+      <div class="flex" style="gap:0.75rem;margin-bottom:3rem;flex-wrap:wrap;">
+        <a href="#returns" class="filter-chip active">Concierge Returns</a>
+        <a href="#privacy" class="filter-chip">Privacy Protocol</a>
+        <a href="#terms" class="filter-chip">Terms of Acquisition</a>
+      </div>
+
+      <!-- ─── Returns Policy ────────────────────────────── -->
+      <section id="returns" style="background:var(--bg-surface);border:1px solid var(--glass-border);border-radius:var(--radius-md);padding:2.5rem;margin-bottom:2.5rem;">
+        <h2 style="font-size:1.5rem;margin-bottom:1rem;color:#ffffff;">30-Day Concierge Returns</h2>
+        <p class="text-muted" style="margin-bottom:1.5rem;">
+          Every object in Quartcart is guaranteed for material integrity. If an acquired item does not meet your personal standard of excellence, we provide a 30-day return window from the moment of signature delivery.
+        </p>
+
+        <h4 style="font-size:1.1rem;margin:1.5rem 0 0.5rem;color:#ffffff;">Eligibility Criteria</h4>
+        <ul style="color:var(--text-muted);list-style:disc;margin-left:1.5rem;line-height:1.8;">
+          <li>All pieces must remain unworn, unwashed, and in pristine original presentation.</li>
+          <li>Original serialized product packaging, warranty certificates, and protective foils intact.</li>
+          <li>Accompanied by the original digital Quartcart order receipt.</li>
+        </ul>
+
+        <h4 style="font-size:1.1rem;margin:1.5rem 0 0.5rem;color:#ffffff;">Return Logistics</h4>
+        <p class="text-muted">
+          Contact our team at <a href="mailto:concierge@quartcart.com" style="color:var(--accent-primary);">concierge@quartcart.com</a> to receive a prepaid priority courier dispatch label.
+        </p>
+      </section>
+
+      <!-- ─── Privacy Policy ────────────────────────────── -->
+      <section id="privacy" style="background:var(--bg-surface);border:1px solid var(--glass-border);border-radius:var(--radius-md);padding:2.5rem;margin-bottom:2.5rem;">
+        <h2 style="font-size:1.5rem;margin-bottom:1rem;color:#ffffff;">Privacy Protocol</h2>
+        <p class="text-muted" style="margin-bottom:1.5rem;">
+          Your identity and telemetry are held under stringent zero-knowledge principles. We do not sell, rent, or trade client dossiers under any circumstances.
+        </p>
+
+        <h4 style="font-size:1.1rem;margin:1.5rem 0 0.5rem;color:#ffffff;">Data Safeguards</h4>
+        <ul style="color:var(--text-muted);list-style:disc;margin-left:1.5rem;line-height:1.8;">
+          <li>Card data processed strictly via Stripe Level 1 PCI-DSS tokenization.</li>
+          <li>Passcodes salted with bcrypt (cost factor 12).</li>
+          <li>JSON Web Tokens expire automatically after 7 calendar days.</li>
+        </ul>
+      </section>
+
+      <!-- ─── Terms of Service ──────────────────────────── -->
+      <section id="terms" style="background:var(--bg-surface);border:1px solid var(--glass-border);border-radius:var(--radius-md);padding:2.5rem;">
+        <h2 style="font-size:1.5rem;margin-bottom:1rem;color:#ffffff;">Terms of Acquisition</h2>
+        <p class="text-muted" style="margin-bottom:1rem;">
+          Due to limited drop allocations and artisan production pipelines, orders are fulfilled strictly on a first-confirmed basis. All prices are listed in USD and inclusive of standard import duties.
+        </p>
+      </section>
+    </div>
+  </main>
+
+  <!-- ─── Footer ─────────────────────────────────────────── -->
+  <footer>
+    <div class="container text-center" style="font-size:0.85rem;color:var(--text-dim);">
+      <p>© 2026 Quartcart. Powered by Node.js, Mongoose &amp; Stripe.</p>
+    </div>
+  </footer>
+
+  <div id="toast-container" class="toast-container"></div>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/cart.js"></script>
+</body>
+</html>

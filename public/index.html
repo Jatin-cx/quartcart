@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quartcart — Contemporary Goods &amp; Precision Gear</title>
+  <meta name="description" content="Discover precision-engineered audio, titanium timepieces, and luxury performance apparel at Quartcart. Express global delivery on all drops.">
+  <meta property="og:title" content="Quartcart — Contemporary Goods &amp; Precision Gear">
+  <meta property="og:description" content="Explore the Quartcart collection of luxury audio, EDC timepieces, and architectural apparel.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="/">
+  <link rel="canonical" href="/">
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+  <!-- ─── Live Marquee Ticker ───────────────────────────── -->
+  <aside class="marquee-bar" aria-label="Announcement ticker">
+    <div class="marquee-content">
+      <span>⚡ <strong>GLOBAL EXPRESS DELIVERY</strong> ON ORDERS OVER $150</span>
+      <span>•</span>
+      <span>QUARTCART DROP 04 // <strong>LIMITED QUANTITIES</strong></span>
+      <span>•</span>
+      <span>100% VERIFIED AUTHENTICITY &amp; CRAFTSMANSHIP</span>
+      <span>•</span>
+      <span>30-DAY CONCIERGE ZERO-FRICTION RETURNS</span>
+      <span>•</span>
+      <span>⚡ <strong>WELCOME TO QUARTCART</strong> — ELEVATE YOUR STANDARD</span>
+      <span>•</span>
+      <span>QUARTCART DROP 04 // <strong>LIMITED QUANTITIES</strong></span>
+    </div>
+  </aside>
+
+  <!-- ─── Navbar ─────────────────────────────────────────── -->
+  <nav class="navbar" role="navigation" aria-label="Main navigation">
+    <div class="container flex-between">
+      <a href="/index.html" class="navbar-brand" aria-label="Quartcart Home">
+        <span class="brand-dot"></span>
+        Quart<span class="gradient-text">cart</span>
+      </a>
+
+      <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+
+      <ul class="nav-links" id="nav-links" role="list">
+        <li><a href="/index.html" class="active">Home</a></li>
+        <li><a href="/products.html">All Drops</a></li>
+        <li><a href="/products.html?category=Audio">Audio</a></li>
+        <li><a href="/products.html?category=Timepieces">Timepieces</a></li>
+        <li><a href="/products.html?category=Apparel">Apparel</a></li>
+        <li>
+          <a href="/cart.html" class="cart-link" aria-label="Bag">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-2z"></path>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <path d="M16 10a4 4 0 0 1-8 0"></path>
+            </svg>
+            <span>Bag</span>
+            <span class="cart-badge" id="cart-badge" aria-live="polite">0</span>
+          </a>
+        </li>
+        <li><a href="/login.html" id="nav-account-link">Sign In</a></li>
+        <li style="display:none;"><a href="#" id="nav-logout-btn">Log Out</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main>
+    <!-- ─── Hero Section ─────────────────────────────────── -->
+    <section class="hero" aria-label="Hero showcase">
+      <div class="container">
+        <div class="hero-grid">
+          
+          <div class="hero-content">
+            <div class="badge-tag">
+              <span class="dot"></span>
+              QUARTCART OFFICIAL // 2026 RELEASE
+            </div>
+
+            <h1>
+              Engineered For The <br>
+              <span class="gradient-text">Exceptional.</span>
+            </h1>
+
+            <p>
+              Welcome to Quartcart — a curated catalog of uncompromising audio, titanium EDC timepieces, and architectural apparel built for modern visionaries.
+            </p>
+
+            <div class="hero-actions">
+              <a href="/products.html" class="btn btn-primary btn-lg">
+                Explore The Drop
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="5" y1="12" x2="19" y2="12"></line>
+                  <polyline points="12 5 19 12 12 19"></polyline>
+                </svg>
+              </a>
+              <a href="/products.html?category=Audio" class="btn btn-secondary btn-lg">
+                Spatial Audio Series
+              </a>
+            </div>
+
+            <div class="hero-stats">
+              <div class="stat-item">
+                <h4>99.4%</h4>
+                <p>Satisfaction Rating</p>
+              </div>
+              <div class="stat-item">
+                <h4>Grade 5</h4>
+                <p>Aerospace Materials</p>
+              </div>
+              <div class="stat-item">
+                <h4>24h</h4>
+                <p>Global Dispatch</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Hero Showcase Card -->
+          <div class="hero-card">
+            <div class="hero-card-img-wrapper">
+              <span class="hero-card-badge">SPOTLIGHT DROP</span>
+              <img 
+                src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&auto=format&fit=crop&q=85" 
+                alt="AURA Spatial Studio Pro" 
+                class="hero-card-img"
+              >
+            </div>
+            <div class="hero-card-info">
+              <div>
+                <div class="hero-card-title">AURA Spatial Pro</div>
+                <p style="font-size:0.82rem;color:var(--text-dim);margin-top:0.2rem;">45mm Neodymium Driver • 40h Battery</p>
+              </div>
+              <div class="hero-card-price">$349</div>
+            </div>
+            <div class="mt-3">
+              <a href="/products.html" class="btn btn-secondary btn-block">
+                View In Catalog →
+              </a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── Trust Badges ─────────────────────────────────── -->
+    <section class="trust-bar" aria-label="Guarantees">
+      <div class="container">
+        <div class="grid-4">
+          <div class="trust-item">
+            <div class="trust-icon-box">⚡</div>
+            <div>
+              <h4>Express Logistics</h4>
+              <p>Next-day courier dispatch worldwide</p>
+            </div>
+          </div>
+
+          <div class="trust-item">
+            <div class="trust-icon-box">🔒</div>
+            <div>
+              <h4>Stripe Protected</h4>
+              <p>256-bit AES end-to-end encryption</p>
+            </div>
+          </div>
+
+          <div class="trust-item">
+            <div class="trust-icon-box">💎</div>
+            <div>
+              <h4>Verified Materials</h4>
+              <p>Titanium, Italian leather &amp; GORE-TEX</p>
+            </div>
+          </div>
+
+          <div class="trust-item">
+            <div class="trust-icon-box">🔄</div>
+            <div>
+              <h4>Concierge Returns</h4>
+              <p>30 days no-questions refund policy</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── Featured Products ────────────────────────────── -->
+    <section class="section" aria-labelledby="featured-heading">
+      <div class="container">
+        <div class="flex-between section-header">
+          <div>
+            <div class="badge-tag">HAND-PICKED HIGHLIGHTS</div>
+            <h2 id="featured-heading">Curated Quartcart Drops</h2>
+            <p>Craftsmanship without concession. Available while allocations last.</p>
+          </div>
+          <a href="/products.html" class="btn btn-outline">
+            Full Collection (8) →
+          </a>
+        </div>
+
+        <div class="grid-4" id="featured-products-grid">
+          <!-- Loaded by JS -->
+          <div class="loading-grid" style="grid-column: 1/-1; padding: 4rem 0;">
+            <div class="spinner"></div>
+            <p class="text-center mt-2 text-muted">Accessing Quartcart catalog…</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── Category Tiles ───────────────────────────────── -->
+    <section class="section" style="background: rgba(17, 20, 30, 0.3);" aria-labelledby="categories-heading">
+      <div class="container">
+        <div class="section-header text-center">
+          <div class="badge-tag">TAXONOMY</div>
+          <h2 id="categories-heading">Shop By Discipline</h2>
+          <p>Every piece purposeful. Every silhouette refined.</p>
+        </div>
+
+        <div class="grid-4">
+          <a href="/products.html?category=Audio" class="hero-card" style="padding:1rem;">
+            <div style="border-radius:var(--radius-sm);overflow:hidden;aspect-ratio:1/1;margin-bottom:1rem;">
+              <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600&auto=format&fit=crop&q=80" alt="Audio" style="width:100%;height:100%;object-fit:cover;">
+            </div>
+            <h3 style="font-size:1.1rem;margin-bottom:0.2rem;">Spatial Audio</h3>
+            <p style="font-size:0.82rem;color:var(--text-muted);">Acoustic Mastery &amp; ANC</p>
+          </a>
+
+          <a href="/products.html?category=Timepieces" class="hero-card" style="padding:1rem;">
+            <div style="border-radius:var(--radius-sm);overflow:hidden;aspect-ratio:1/1;margin-bottom:1rem;">
+              <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600&auto=format&fit=crop&q=80" alt="Timepieces" style="width:100%;height:100%;object-fit:cover;">
+            </div>
+            <h3 style="font-size:1.1rem;margin-bottom:0.2rem;">Timepieces</h3>
+            <p style="font-size:0.82rem;color:var(--text-muted);">Aerospace Grade 5 Titanium</p>
+          </a>
+
+          <a href="/products.html?category=Apparel" class="hero-card" style="padding:1rem;">
+            <div style="border-radius:var(--radius-sm);overflow:hidden;aspect-ratio:1/1;margin-bottom:1rem;">
+              <img src="https://images.unsplash.com/photo-1544441893-675973e31985?w=600&auto=format&fit=crop&q=80" alt="Apparel" style="width:100%;height:100%;object-fit:cover;">
+            </div>
+            <h3 style="font-size:1.1rem;margin-bottom:0.2rem;">Apparel</h3>
+            <p style="font-size:0.82rem;color:var(--text-muted);">Technical GORE-TEX Shells</p>
+          </a>
+
+          <a href="/products.html?category=Leather%20Goods" class="hero-card" style="padding:1rem;">
+            <div style="border-radius:var(--radius-sm);overflow:hidden;aspect-ratio:1/1;margin-bottom:1rem;">
+              <img src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=600&auto=format&fit=crop&q=80" alt="Leather" style="width:100%;height:100%;object-fit:cover;">
+            </div>
+            <h3 style="font-size:1.1rem;margin-bottom:0.2rem;">Leather Goods</h3>
+            <p style="font-size:0.82rem;color:var(--text-muted);">Vegetable-Tanned Italian Wax</p>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── Newsletter ───────────────────────────────────── -->
+    <section class="newsletter-section" aria-labelledby="newsletter-heading">
+      <div class="container">
+        <div class="badge-tag">PRIVATE ACCESS</div>
+        <h2 id="newsletter-heading" style="margin-top:0.75rem;">Join the Quartcart Circle</h2>
+        <p style="color:var(--text-muted);max-width:480px;margin:0.5rem auto 0;">
+          Members receive 24-hour advance notice prior to public catalog drops.
+        </p>
+        <form class="newsletter-form" onsubmit="handleNewsletter(event)" aria-label="Newsletter signup">
+          <input type="email" placeholder="Enter your email address" required aria-label="Email address">
+          <button type="submit">Join Register</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <!-- ─── Footer ─────────────────────────────────────────── -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-col">
+          <div class="footer-brand">
+            <span class="brand-dot" style="margin-right:6px;"></span>
+            Quart<span class="gradient-text">cart</span>
+          </div>
+          <p style="font-size:0.9rem;max-width:280px;color:var(--text-dim);line-height:1.6;">
+            A sanctuary for discerning individuals who appreciate material perfection and obsessive detail.
+          </p>
+        </div>
+        <div class="footer-col">
+          <h4>Disciplines</h4>
+          <ul>
+            <li><a href="/products.html">All Drops</a></li>
+            <li><a href="/products.html?category=Audio">Spatial Audio</a></li>
+            <li><a href="/products.html?category=Timepieces">Titanium Watches</a></li>
+            <li><a href="/products.html?category=Apparel">Technical Apparel</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Concierge</h4>
+          <ul>
+            <li><a href="/login.html">Client Sign In</a></li>
+            <li><a href="/register.html">Create Membership</a></li>
+            <li><a href="/account.html">Order Tracking</a></li>
+            <li><a href="/cart.html">View Bag</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Legal &amp; Policy</h4>
+          <ul>
+            <li><a href="/policies.html#returns">Concierge Returns</a></li>
+            <li><a href="/policies.html#privacy">Privacy Protocol</a></li>
+            <li><a href="/policies.html#terms">Terms of Acquisition</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2026 Quartcart. Powered by Node.js, Mongoose &amp; Stripe.</p>
+        <p style="color:var(--text-dim);">SSL 256-Bit Encrypted Environment</p>
+      </div>
+    </div>
+  </footer>
+
+  <div id="toast-container" class="toast-container"></div>
+
+  <script src="/js/api.js"></script>
+  <script src="/js/auth.js"></script>
+  <script src="/js/cart.js"></script>
+  <script>
+    async function loadFeaturedProducts() {
+      const grid = document.getElementById('featured-products-grid');
+      try {
+        const data = await api.get('/products/featured');
+        const products = data.products;
+
+        if (!products || products.length === 0) {
+          grid.innerHTML = `
+            <div class="empty-state" style="grid-column:1/-1;text-align:center;padding:4rem 0;">
+              <h3>Quartcart Drops Pending</h3>
+              <p class="text-muted">New releases dropping shortly.</p>
+            </div>
+          `;
+          return;
+        }
+
+        grid.innerHTML = products.map((p) => {
+          const img = (p.images && p.images.length) ? p.images[0] : 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600';
+          const inStock = p.stock > 0;
+          return `
+            <article class="product-card">
+              <span class="featured-badge">DROP SPOTLIGHT</span>
+              <div class="product-card-img-wrapper" style="cursor:pointer;" onclick="window.location.href='/product-detail.html?id=${p._id}'">
+                <img src="${img}" alt="${p.name}" class="product-card-img" loading="lazy">
+              </div>
+              <div class="product-card-body">
+                <span class="product-card-category">${p.category}</span>
+                <h3 class="product-card-name" style="cursor:pointer;" onclick="window.location.href='/product-detail.html?id=${p._id}'">${p.name}</h3>
+                <div class="product-card-rating">★ ${p.avgRating ? p.avgRating.toFixed(1) : '5.0'}</div>
+                <div class="product-card-price-row">
+                  <div class="product-card-price">${formatPrice(p.price)}</div>
+                  <div class="product-card-stock ${inStock ? '' : 'out'}">${inStock ? 'Available' : 'Allocated'}</div>
+                </div>
+              </div>
+              <div class="product-card-footer">
+                <button 
+                  class="btn btn-primary btn-block btn-sm" 
+                  ${!inStock ? 'disabled' : ''} 
+                  onclick='addToCart(${JSON.stringify({ _id: p._id, name: p.name, price: p.price, images: p.images, stock: p.stock })}, 1)'
+                >
+                  ${inStock ? 'Add To Bag' : 'Sold Out'}
+                </button>
+              </div>
+            </article>
+          `;
+        }).join('');
+      } catch (err) {
+        grid.innerHTML = `<div style="grid-column:1/-1;text-align:center;color:var(--text-muted);padding:3rem 0;">Unable to connect to server: ${err.message}</div>`;
+      }
+    }
+
+    function handleNewsletter(e) {
+      e.preventDefault();
+      const input = e.target.querySelector('input[type=email]');
+      showToast(`Welcome to Quartcart. Confirmation sent! ✨`, 'success');
+      input.value = '';
+    }
+
+    document.addEventListener('DOMContentLoaded', loadFeaturedProducts);
+  </script>
+</body>
+</html>
