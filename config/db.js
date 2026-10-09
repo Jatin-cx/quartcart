@@ -2,39 +2,30 @@
 
 const mongoose = require('mongoose');
 
-let retries = 0;
-const MAX_RETRIES = 5;
-const RETRY_DELAY_MS = 5000;
-
 /**
- * Connect to MongoDB with retry logic.
+ * Connect to MongoDB with connection error handling.
  */
 async function connectDB() {
-  const uri = process.env.MONGODB_URI || 'mongodb://localhost:27017/ecommerce-store';
+  const uri = process.env.MONGODB_URI;
+
+  if (!uri) {
+    console.error('❌ MONGODB_URI is not set in environment variables.');
+    return;
+  }
 
   try {
-    await mongoose.connect(uri, {
-      serverSelectionTimeoutMS: 10000,
+    const conn = await mongoose.connect(uri, {
+      serverSelectionTimeoutMS: 15000,
     });
-    retries = 0;
-    console.log(`✅ MongoDB connected: ${mongoose.connection.host}`);
+    console.log(`✅ MongoDB connected successfully to: ${conn.connection.name || 'Atlas'}`);
   } catch (err) {
-    retries += 1;
-    console.error(`❌ MongoDB connection failed (attempt ${retries}/${MAX_RETRIES}): ${err.message}`);
-
-    if (retries < MAX_RETRIES) {
-      console.log(`   Retrying in ${RETRY_DELAY_MS / 1000}s...`);
-      setTimeout(connectDB, RETRY_DELAY_MS);
-    } else {
-      console.error('   Max retries reached. Exiting process.');
-      process.exit(1);
-    }
+    console.error(`❌ MongoDB connection failed: ${err.message}`);
+    console.log('   Ensure IP 0.0.0.0/0 is whitelisted in MongoDB Atlas Network Access.');
   }
 }
 
 mongoose.connection.on('disconnected', () => {
-  console.warn('⚠️  MongoDB disconnected. Attempting to reconnect...');
-  connectDB();
+  console.warn('⚠️  MongoDB connection lost.');
 });
 
 mongoose.connection.on('error', (err) => {
