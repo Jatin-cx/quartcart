@@ -91,19 +91,33 @@ async function loadProducts() {
  * Build HTML for a single product card.
  */
 function renderProductCard(product) {
-  const img = (product.images && product.images.length) ? product.images[0] : 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600';
+  const images = (product.images && product.images.length) ? product.images : ['https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600'];
+  const img1 = images[0];
+  const img2 = images[1] || null;
   const inStock = product.stock > 0;
 
   return `
-    <article class="product-card">
+    <article class="product-card" data-id="${product._id}">
       ${product.isFeatured ? '<span class="featured-badge">SPOTLIGHT</span>' : ''}
       <div class="product-card-img-wrapper product-card-link" data-id="${product._id}" style="cursor:pointer;">
         <img
-          src="${img}"
+          src="${img1}"
           alt="${product.name}"
-          class="product-card-img"
+          class="product-card-img primary-img"
           loading="lazy"
         >
+        ${img2 ? `
+          <img
+            src="${img2}"
+            alt="${product.name} alternate view"
+            class="product-card-img secondary-img"
+            loading="lazy"
+          >
+        ` : ''}
+        <div class="product-card-glare"></div>
+        <div class="product-card-hover-overlay">
+          <span class="product-card-quick-view-btn">Inspect Item &rarr;</span>
+        </div>
       </div>
       <div class="product-card-body">
         <span class="product-card-category">${product.category}</span>

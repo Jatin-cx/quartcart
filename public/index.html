@@ -259,36 +259,48 @@
         </div>
 
         <div class="grid-4">
-          <a href="/products.html?category=Audio" class="hero-card" style="padding:1rem;">
-            <div style="border-radius:var(--radius-sm);overflow:hidden;aspect-ratio:1/1;margin-bottom:1rem;background:#0f1015;">
-              <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600&auto=format&fit=crop&q=80" alt="Audio" style="width:100%;height:100%;object-fit:cover;">
+          <a href="/products.html?category=Audio" class="category-tile-3d">
+            <div class="category-tile-img-box">
+              <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600&auto=format&fit=crop&q=80" alt="Audio" loading="lazy">
             </div>
-            <h3 style="font-size:1.05rem;margin-bottom:0.2rem;">Audio</h3>
-            <p style="font-size:0.82rem;color:var(--text-muted);">Headphones and acoustic monitors</p>
+            <div class="category-tile-title-row">
+              <span class="category-tile-title">Audio Systems</span>
+              <span class="category-tile-arrow">&rarr;</span>
+            </div>
+            <p class="category-tile-desc">Studio monitors and lossless acoustic hardware</p>
           </a>
 
-          <a href="/products.html?category=Timepieces" class="hero-card" style="padding:1rem;">
-            <div style="border-radius:var(--radius-sm);overflow:hidden;aspect-ratio:1/1;margin-bottom:1rem;background:#0f1015;">
-              <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600&auto=format&fit=crop&q=80" alt="Timepieces" style="width:100%;height:100%;object-fit:cover;">
+          <a href="/products.html?category=Timepieces" class="category-tile-3d">
+            <div class="category-tile-img-box">
+              <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600&auto=format&fit=crop&q=80" alt="Timepieces" loading="lazy">
             </div>
-            <h3 style="font-size:1.05rem;margin-bottom:0.2rem;">Timepieces</h3>
-            <p style="font-size:0.82rem;color:var(--text-muted);">Field and automatic watches</p>
+            <div class="category-tile-title-row">
+              <span class="category-tile-title">Timepieces</span>
+              <span class="category-tile-arrow">&rarr;</span>
+            </div>
+            <p class="category-tile-desc">Grade 5 titanium mechanical field watches</p>
           </a>
 
-          <a href="/products.html?category=Apparel" class="hero-card" style="padding:1rem;">
-            <div style="border-radius:var(--radius-sm);overflow:hidden;aspect-ratio:1/1;margin-bottom:1rem;background:#0f1015;">
-              <img src="https://images.unsplash.com/photo-1544441893-675973e31985?w=600&auto=format&fit=crop&q=80" alt="Apparel" style="width:100%;height:100%;object-fit:cover;">
+          <a href="/products.html?category=Apparel" class="category-tile-3d">
+            <div class="category-tile-img-box">
+              <img src="https://images.unsplash.com/photo-1544441893-675973e31985?w=600&auto=format&fit=crop&q=80" alt="Apparel" loading="lazy">
             </div>
-            <h3 style="font-size:1.05rem;margin-bottom:0.2rem;">Apparel</h3>
-            <p style="font-size:0.82rem;color:var(--text-muted);">Weatherproof jackets and layers</p>
+            <div class="category-tile-title-row">
+              <span class="category-tile-title">Technical Apparel</span>
+              <span class="category-tile-arrow">&rarr;</span>
+            </div>
+            <p class="category-tile-desc">All-weather 3-layer waterproof storm parkas</p>
           </a>
 
-          <a href="/products.html?category=Leather%20Goods" class="hero-card" style="padding:1rem;">
-            <div style="border-radius:var(--radius-sm);overflow:hidden;aspect-ratio:1/1;margin-bottom:1rem;background:#0f1015;">
-              <img src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=600&auto=format&fit=crop&q=80" alt="Leather" style="width:100%;height:100%;object-fit:cover;">
+          <a href="/products.html?category=Leather%20Goods" class="category-tile-3d">
+            <div class="category-tile-img-box">
+              <img src="https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=600&auto=format&fit=crop&q=80" alt="Leather" loading="lazy">
             </div>
-            <h3 style="font-size:1.05rem;margin-bottom:0.2rem;">Leather Goods</h3>
-            <p style="font-size:0.82rem;color:var(--text-muted);">Full-grain bags and wallets</p>
+            <div class="category-tile-title-row">
+              <span class="category-tile-title">Leather Goods</span>
+              <span class="category-tile-arrow">&rarr;</span>
+            </div>
+            <p class="category-tile-desc">Vegetable-tanned full-grain leather bags</p>
           </a>
         </div>
       </div>
@@ -384,12 +396,20 @@
         }
 
         grid.innerHTML = products.slice(0, 4).map((p) => {
-          const img = (p.images && p.images[0]) || 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600';
+          const images = (p.images && p.images.length) ? p.images : ['https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600'];
+          const img1 = images[0];
+          const img2 = images[1] || null;
+
           return `
-            <article class="product-card">
-              ${p.isFeatured ? '<span class="featured-badge">Featured</span>' : ''}
+            <article class="product-card" data-id="${p._id}">
+              ${p.isFeatured ? '<span class="featured-badge">SPOTLIGHT</span>' : ''}
               <div class="product-card-img-wrapper" onclick="window.location.href='/product-detail.html?id=${p._id}'" style="cursor:pointer;">
-                <img src="${img}" alt="${p.name}" class="product-card-img" loading="lazy">
+                <img src="${img1}" alt="${p.name}" class="product-card-img primary-img" loading="lazy">
+                ${img2 ? `<img src="${img2}" alt="${p.name} alternate view" class="product-card-img secondary-img" loading="lazy">` : ''}
+                <div class="product-card-glare"></div>
+                <div class="product-card-hover-overlay">
+                  <span class="product-card-quick-view-btn">Inspect Item &rarr;</span>
+                </div>
               </div>
               <div class="product-card-body">
                 <span class="product-card-category">${p.category}</span>
