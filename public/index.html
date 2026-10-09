@@ -93,13 +93,13 @@
             </div>
           </div>
 
-          <!-- Hero Image Showcase -->
-          <div class="hero-preview-box">
-            <img
-              src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=1000&auto=format&fit=crop&q=85"
-              alt="Quartcart Studio Audio"
-              loading="eager"
-            >
+          <!-- Interactive 3D Hardware Canvas -->
+          <div id="hero-3d-container">
+            <span class="hero-3d-hint">Drag to Rotate 3D</span>
+            <div class="hero-3d-overlay-badge">
+              <span class="brand-dot"></span>
+              Interactive 3D Hardware Core
+            </div>
           </div>
 
         </div>
@@ -300,9 +300,11 @@
   <div id="toast-container" class="toast-container"></div>
 
   <!-- Scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="/js/api.js"></script>
   <script src="/js/auth.js"></script>
   <script src="/js/cart.js"></script>
+  <script src="/js/three-hero.js"></script>
   <script src="/js/tilt3d.js"></script>
   <script>
     async function loadFeaturedProducts() {

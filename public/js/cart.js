@@ -1,39 +1,35 @@
 /**
- * cart.js - Shopping cart logic using localStorage
- * Provides: add, remove, update qty, get items, get total, get count
- * Also renders the full cart page and updates the navbar badge.
+ * cart.js - Shopping bag logic & interactive slide-out drawer
+ * Provides: getCart, saveCart, addToCart, removeFromCart, updateCartQty,
+ * getCartCount, getCartTotal, clearCart, updateCartBadge, openCartDrawer, closeCartDrawer
  */
+
+'use strict';
 
 const CART_KEY = 'quartcart_bag';
+const SHIPPING_THRESHOLD = 50; // Free shipping above $50
 
-// ─── Core Cart Functions ───────────────────────────────────
+// ─── 1. Core Data Helpers ─────────────────────────────────────
 
-/**
- * Get all cart items.
- * @returns {Array} cart items array
- */
 function getCart() {
   try {
     return JSON.parse(localStorage.getItem(CART_KEY)) || [];
-  } catch {
+  } catch (e) {
     return [];
   }
 }
 
-/**
- * Save cart array to localStorage.
- */
 function saveCart(cart) {
   localStorage.setItem(CART_KEY, JSON.stringify(cart));
   updateCartBadge();
+  renderCartDrawer();
+  if (typeof renderCartPage === 'function') {
+    renderCartPage();
+  }
 }
 
-/**
- * Add a product to the cart or increment qty.
- * @param {object} product - { _id, name, price, images, stock }
- * @param {number} qty
- */
 function addToCart(product, qty = 1) {
+  if (!product || !product._id) return;
   const cart = getCart();
   const idx = cart.findIndex((item) => item._id === product._id);
 
@@ -45,38 +41,30 @@ function addToCart(product, qty = 1) {
       _id: product._id,
       name: product.name,
       price: product.price,
-      image: (product.images && product.images[0]) || '',
+      image: (product.images && product.images[0]) || (product.image || ''),
       stock: product.stock || 999,
-      qty,
+      qty: Math.max(1, qty),
     });
   }
 
   saveCart(cart);
-  const thumb = (product.images && product.images[0]) || (product.image || '');
-  const toastHtml = `
-    <div class="toast-rich-card">
-      ${thumb ? `<img src="${thumb}" alt="${product.name}" class="toast-thumb">` : ''}
-      <div>
-        <div style="font-weight:700;color:#ffffff;font-size:0.86rem;">Added to bag</div>
-        <div style="font-size:0.75rem;color:var(--text-muted);max-width:140px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${product.name}</div>
-      </div>
-      <a href="/cart.html" class="toast-link">View Bag →</a>
-    </div>
-  `;
-  showToast(toastHtml, 'success', 4000);
+
+  // Animate badge
+  document.querySelectorAll('.cart-badge').forEach((b) => {
+    b.classList.remove('badge-pop');
+    void b.offsetWidth; // Trigger reflow
+    b.classList.add('badge-pop');
+  });
+
+  // Open the interactive drawer immediately so user sees their bag
+  openCartDrawer();
 }
 
-/**
- * Remove an item from the cart by product ID.
- */
 function removeFromCart(productId) {
   const cart = getCart().filter((item) => item._id !== productId);
   saveCart(cart);
 }
 
-/**
- * Update quantity for a cart item.
- */
 function updateCartQty(productId, qty) {
   const cart = getCart();
   const idx = cart.findIndex((item) => item._id === productId);
@@ -90,142 +78,303 @@ function updateCartQty(productId, qty) {
   }
 }
 
-/**
- * Get total number of items in cart.
- */
 function getCartCount() {
   return getCart().reduce((sum, item) => sum + item.qty, 0);
 }
 
-/**
- * Get cart subtotal.
- */
 function getCartTotal() {
   return getCart().reduce((sum, item) => sum + item.price * item.qty, 0);
 }
 
-/**
- * Clear the entire cart.
- */
 function clearCart() {
   localStorage.removeItem(CART_KEY);
   updateCartBadge();
+  renderCartDrawer();
+  if (typeof renderCartPage === 'function') {
+    renderCartPage();
+  }
 }
 
-/**
- * Update all cart badge elements in the DOM.
- */
 function updateCartBadge() {
   const count = getCartCount();
   document.querySelectorAll('.cart-badge').forEach((badge) => {
     badge.textContent = count;
-    badge.style.display = count > 0 ? 'flex' : 'none';
+    badge.style.display = count > 0 ? 'inline-flex' : 'none';
   });
 }
 
-// ─── Cart Page Renderer ────────────────────────────────────
+// ─── 2. Universal Interactive Slide-Out Cart Drawer ───────────
 
-const cartTableBody = document.getElementById('cart-items');
-const cartEmpty     = document.getElementById('cart-empty');
-const cartFull      = document.getElementById('cart-full');
-const subtotalEl    = document.getElementById('cart-subtotal');
-const totalEl       = document.getElementById('cart-total');
-const shippingEl    = document.getElementById('cart-shipping');
+function injectCartDrawer() {
+  if (document.getElementById('cart-drawer-root')) return;
 
-const SHIPPING_THRESHOLD = 50; // Free shipping above $50
+  const drawerHtml = `
+    <div id="cart-drawer-root">
+      <div id="cart-drawer-backdrop" class="cart-drawer-backdrop" aria-hidden="true"></div>
+      <aside id="cart-drawer" class="cart-drawer" role="dialog" aria-modal="true" aria-label="Shopping Bag">
+        <header class="cart-drawer-header">
+          <div class="cart-drawer-title-row">
+            <div class="cart-drawer-heading">
+              <span class="cart-drawer-dot"></span>
+              <h3>Shopping Bag</h3>
+              <span class="cart-drawer-count" id="drawer-item-count">0 items</span>
+            </div>
+            <button type="button" class="cart-drawer-close" id="drawer-close-btn" aria-label="Close bag">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+              </svg>
+            </button>
+          </div>
+          <div class="cart-drawer-shipping-bar" id="drawer-shipping-notice">
+            Free shipping on orders over $50
+          </div>
+        </header>
+
+        <div class="cart-drawer-body" id="drawer-items-list">
+          <!-- Rendered dynamically -->
+        </div>
+
+        <footer class="cart-drawer-footer" id="drawer-footer">
+          <div class="cart-drawer-subtotal-row">
+            <span>Subtotal</span>
+            <span class="cart-drawer-total-val" id="drawer-subtotal">$0.00</span>
+          </div>
+          <p class="cart-drawer-tax-note">Taxes and shipping calculated at checkout.</p>
+          <div class="cart-drawer-actions">
+            <a href="/checkout.html" class="btn btn-primary btn-block btn-lg" id="drawer-checkout-btn">
+              Proceed to Checkout
+            </a>
+            <a href="/cart.html" class="btn btn-outline btn-block btn-sm">
+              View Full Bag
+            </a>
+          </div>
+        </footer>
+      </aside>
+    </div>
+  `;
+
+  document.body.insertAdjacentHTML('beforeend', drawerHtml);
+
+  // Event bindings
+  const backdrop = document.getElementById('cart-drawer-backdrop');
+  const closeBtn = document.getElementById('drawer-close-btn');
+
+  if (backdrop) backdrop.addEventListener('click', closeCartDrawer);
+  if (closeBtn) closeBtn.addEventListener('click', closeCartDrawer);
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeCartDrawer();
+  });
+}
+
+function renderCartDrawer() {
+  const list = document.getElementById('drawer-items-list');
+  const countEl = document.getElementById('drawer-item-count');
+  const subtotalEl = document.getElementById('drawer-subtotal');
+  const shippingNotice = document.getElementById('drawer-shipping-notice');
+  const footer = document.getElementById('drawer-footer');
+
+  if (!list) return;
+
+  const cart = getCart();
+  const count = getCartCount();
+  const subtotal = getCartTotal();
+
+  if (countEl) countEl.textContent = `${count} ${count === 1 ? 'item' : 'items'}`;
+  if (subtotalEl) subtotalEl.textContent = typeof formatPrice === 'function' ? formatPrice(subtotal) : `$${subtotal.toFixed(2)}`;
+
+  if (shippingNotice) {
+    if (subtotal >= SHIPPING_THRESHOLD) {
+      shippingNotice.innerHTML = '<span style="color:#10b981;font-weight:600;">Complimentary Standard Shipping unlocked</span>';
+    } else {
+      const remaining = SHIPPING_THRESHOLD - subtotal;
+      shippingNotice.innerHTML = `Add <strong>$${remaining.toFixed(2)}</strong> more for free shipping`;
+    }
+  }
+
+  if (cart.length === 0) {
+    list.innerHTML = `
+      <div class="cart-drawer-empty">
+        <div class="cart-drawer-empty-icon">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-2z"></path>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <path d="M16 10a4 4 0 0 1-8 0"></path>
+          </svg>
+        </div>
+        <h4>Your bag is empty</h4>
+        <p>Explore our current catalog to discover precision essentials.</p>
+        <a href="/products.html" class="btn btn-primary btn-sm" onclick="closeCartDrawer()">
+          Explore Products
+        </a>
+      </div>
+    `;
+    if (footer) footer.style.display = 'none';
+    return;
+  }
+
+  if (footer) footer.style.display = 'block';
+
+  list.innerHTML = cart.map((item) => {
+    const formattedPrice = typeof formatPrice === 'function' ? formatPrice(item.price) : `$${item.price.toFixed(2)}`;
+    const lineTotal = typeof formatPrice === 'function' ? formatPrice(item.price * item.qty) : `$${(item.price * item.qty).toFixed(2)}`;
+    const imgUrl = item.image || 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=120';
+
+    return `
+      <div class="cart-drawer-item" data-id="${item._id}">
+        <img src="${imgUrl}" alt="${item.name}" class="cart-drawer-thumb">
+        <div class="cart-drawer-item-info">
+          <div class="cart-drawer-item-title">${item.name}</div>
+          <div class="cart-drawer-item-unit">${formattedPrice}</div>
+          <div class="cart-drawer-qty-row">
+            <div class="cart-drawer-stepper">
+              <button type="button" class="drawer-qty-btn" onclick="updateCartQty('${item._id}', ${item.qty - 1})">-</button>
+              <span class="drawer-qty-val">${item.qty}</span>
+              <button type="button" class="drawer-qty-btn" onclick="updateCartQty('${item._id}', ${item.qty + 1})">+</button>
+            </div>
+            <button type="button" class="drawer-remove-link" onclick="removeFromCart('${item._id}')">Remove</button>
+          </div>
+        </div>
+        <div class="cart-drawer-line-total">${lineTotal}</div>
+      </div>
+    `;
+  }).join('');
+}
+
+function openCartDrawer() {
+  injectCartDrawer();
+  renderCartDrawer();
+  const drawer = document.getElementById('cart-drawer');
+  const backdrop = document.getElementById('cart-drawer-backdrop');
+  if (drawer) drawer.classList.add('is-open');
+  if (backdrop) backdrop.classList.add('is-open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeCartDrawer() {
+  const drawer = document.getElementById('cart-drawer');
+  const backdrop = document.getElementById('cart-drawer-backdrop');
+  if (drawer) drawer.classList.remove('is-open');
+  if (backdrop) backdrop.classList.remove('is-open');
+  document.body.style.overflow = '';
+}
+
+// ─── 3. Full Cart Page (cart.html) Renderer ──────────────────
 
 function renderCartPage() {
-  if (!cartTableBody) return; // Not on cart page
+  const cartTableBody = document.getElementById('cart-items');
+  const cartEmpty     = document.getElementById('cart-empty');
+  const cartFull      = document.getElementById('cart-full');
+  const subtotalEl    = document.getElementById('cart-subtotal');
+  const totalEl       = document.getElementById('cart-total');
+  const shippingEl    = document.getElementById('cart-shipping');
+
+  if (!cartTableBody) return; // Not on cart.html page
 
   const cart = getCart();
 
   if (cart.length === 0) {
-    if (cartEmpty)  cartEmpty.classList.remove('hidden');
-    if (cartFull)   cartFull.classList.add('hidden');
+    if (cartEmpty) {
+      cartEmpty.style.display = 'block';
+      cartEmpty.classList.remove('hidden');
+    }
+    if (cartFull) {
+      cartFull.style.display = 'none';
+      cartFull.classList.add('hidden');
+    }
     return;
   }
 
-  if (cartEmpty)  cartEmpty.classList.add('hidden');
-  if (cartFull)   cartFull.classList.remove('hidden');
+  if (cartEmpty) {
+    cartEmpty.style.display = 'none';
+    cartEmpty.classList.add('hidden');
+  }
+  if (cartFull) {
+    cartFull.style.display = 'grid';
+    cartFull.classList.remove('hidden');
+  }
 
-  cartTableBody.innerHTML = cart.map((item) => `
-    <tr data-id="${item._id}">
-      <td>
-        <div class="flex" style="gap:0.75rem; align-items:center;">
-          <img
-            src="${item.image || `https://via.placeholder.com/60x60/ece9ff/6C63FF?text=${encodeURIComponent(item.name.slice(0,4))}`}"
-            alt="${item.name}"
-            class="cart-item-img"
-            onerror="this.src='https://via.placeholder.com/60x60/ece9ff/6C63FF?text=IMG'"
-          >
-          <div>
-            <div class="cart-item-name">${item.name}</div>
-            <div class="text-muted fs-sm">${formatPrice(item.price)} each</div>
+  cartTableBody.innerHTML = cart.map((item) => {
+    const imgUrl = item.image || 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=120';
+    const unitPrice = typeof formatPrice === 'function' ? formatPrice(item.price) : `$${item.price.toFixed(2)}`;
+    const linePrice = typeof formatPrice === 'function' ? formatPrice(item.price * item.qty) : `$${(item.price * item.qty).toFixed(2)}`;
+
+    return `
+      <tr data-id="${item._id}">
+        <td>
+          <div class="flex" style="gap:1rem; align-items:center;">
+            <img src="${imgUrl}" alt="${item.name}" class="cart-item-img" onerror="this.src='https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=120'">
+            <div>
+              <div class="cart-item-name" style="font-weight:700;color:#ffffff;font-size:0.95rem;">${item.name}</div>
+              <div class="text-muted fs-sm">${unitPrice} each</div>
+            </div>
           </div>
-        </div>
-      </td>
-      <td>
-        <div class="qty-control">
-          <button type="button" class="qty-dec" data-id="${item._id}">−</button>
-          <input type="number" value="${item.qty}" min="1" max="${item.stock}" class="qty-input" data-id="${item._id}" readonly>
-          <button type="button" class="qty-inc" data-id="${item._id}">+</button>
-        </div>
-      </td>
-      <td class="fw-bold text-primary">${formatPrice(item.price * item.qty)}</td>
-      <td>
-        <button class="btn btn-danger btn-sm remove-item" data-id="${item._id}" title="Remove">Remove</button>
-      </td>
-    </tr>
-  `).join('');
+        </td>
+        <td>
+          <div class="qty-control">
+            <button type="button" class="qty-dec" data-id="${item._id}">-</button>
+            <input type="number" value="${item.qty}" min="1" max="${item.stock}" class="qty-input" data-id="${item._id}" readonly>
+            <button type="button" class="qty-inc" data-id="${item._id}">+</button>
+          </div>
+        </td>
+        <td class="fw-bold" style="color:#00f2fe;font-size:1.05rem;">${linePrice}</td>
+        <td>
+          <button class="btn btn-danger btn-sm remove-item" data-id="${item._id}" title="Remove">Remove</button>
+        </td>
+      </tr>
+    `;
+  }).join('');
 
-  updateCartSummary();
-  attachCartEvents();
-}
-
-function updateCartSummary() {
   const subtotal = getCartTotal();
   const shipping = subtotal >= SHIPPING_THRESHOLD || subtotal === 0 ? 0 : 5.99;
-  const total    = subtotal + shipping;
+  const total = subtotal + shipping;
 
-  if (subtotalEl) subtotalEl.textContent = formatPrice(subtotal);
-  if (shippingEl) shippingEl.textContent = shipping === 0 ? 'FREE' : formatPrice(shipping);
-  if (totalEl)    totalEl.textContent    = formatPrice(total);
-}
+  if (subtotalEl) subtotalEl.textContent = typeof formatPrice === 'function' ? formatPrice(subtotal) : `$${subtotal.toFixed(2)}`;
+  if (shippingEl) shippingEl.textContent = shipping === 0 ? 'FREE' : (typeof formatPrice === 'function' ? formatPrice(shipping) : `$${shipping.toFixed(2)}`);
+  if (totalEl) totalEl.textContent = typeof formatPrice === 'function' ? formatPrice(total) : `$${total.toFixed(2)}`;
 
-function attachCartEvents() {
-  // Quantity decrease
-  document.querySelectorAll('.qty-dec').forEach((btn) => {
-    btn.addEventListener('click', () => {
+  // Attach button events
+  cartTableBody.querySelectorAll('.qty-dec').forEach((btn) => {
+    btn.onclick = () => {
       const id = btn.dataset.id;
       const item = getCart().find((i) => i._id === id);
       if (item) updateCartQty(id, item.qty - 1);
-      renderCartPage();
-    });
+    };
   });
 
-  // Quantity increase
-  document.querySelectorAll('.qty-inc').forEach((btn) => {
-    btn.addEventListener('click', () => {
+  cartTableBody.querySelectorAll('.qty-inc').forEach((btn) => {
+    btn.onclick = () => {
       const id = btn.dataset.id;
       const item = getCart().find((i) => i._id === id);
       if (item) updateCartQty(id, item.qty + 1);
-      renderCartPage();
-    });
+    };
   });
 
-  // Remove item
-  document.querySelectorAll('.remove-item').forEach((btn) => {
-    btn.addEventListener('click', () => {
-      const id = btn.dataset.id;
-      removeFromCart(id);
-      showToast('Item removed from cart', 'warning');
-      renderCartPage();
+  cartTableBody.querySelectorAll('.remove-item').forEach((btn) => {
+    btn.onclick = () => {
+      removeFromCart(btn.dataset.id);
+    };
+  });
+}
+
+// ─── 4. Global Navigation & Setup ─────────────────────────────
+
+function bindCartNavLinks() {
+  document.querySelectorAll('.cart-link, [data-open-cart]').forEach((link) => {
+    link.addEventListener('click', (e) => {
+      // If user isn't already on cart.html, open drawer smoothly
+      if (!window.location.pathname.endsWith('cart.html') && !window.location.pathname.endsWith('checkout.html')) {
+        e.preventDefault();
+        openCartDrawer();
+      }
     });
   });
 }
 
-// ─── Init ──────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
+  injectCartDrawer();
   updateCartBadge();
+  bindCartNavLinks();
   renderCartPage();
 });

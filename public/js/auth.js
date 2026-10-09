@@ -61,19 +61,20 @@ function updateNavbar() {
   if (accountLink) {
     if (user) {
       accountLink.href = '/account.html';
-      accountLink.textContent = user.name ? user.name.split(' ')[0] : 'Account';
+      const firstName = user.name ? user.name.split(' ')[0] : 'Account';
+      accountLink.innerHTML = `<span class="brand-dot" style="width:6px;height:6px;margin-right:4px;"></span> ${firstName}`;
     } else {
       accountLink.href = '/login.html';
-      accountLink.textContent = 'Login';
+      accountLink.textContent = 'Sign In';
     }
   }
 
   if (logoutBtn) {
     logoutBtn.style.display = user ? 'inline-block' : 'none';
-    logoutBtn.addEventListener('click', (e) => {
+    logoutBtn.onclick = (e) => {
       e.preventDefault();
       logout();
-    });
+    };
   }
 }
 
@@ -112,7 +113,8 @@ if (registerForm) {
     const name     = registerForm.querySelector('#name').value.trim();
     const email    = registerForm.querySelector('#email').value.trim();
     const password = registerForm.querySelector('#password').value;
-    const confirm  = registerForm.querySelector('#confirm-password').value;
+    const confirmInput = registerForm.querySelector('#confirm-password') || registerForm.querySelector('#confirmPassword');
+    const confirm      = confirmInput ? confirmInput.value : '';
 
     let valid = true;
 
@@ -129,7 +131,7 @@ if (registerForm) {
       valid = false;
     }
     if (password !== confirm) {
-      showFieldError(registerForm.querySelector('#confirm-password'), 'Passwords do not match');
+      if (confirmInput) showFieldError(confirmInput, 'Passwords do not match');
       valid = false;
     }
     if (!valid) return;

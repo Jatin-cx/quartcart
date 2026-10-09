@@ -27,13 +27,13 @@
   const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
   scene.add(ambientLight);
 
-  const cyanLight = new THREE.PointLight(0x6366f1, 3.5, 50);
+  const cyanLight = new THREE.PointLight(0x00f2fe, 3.5, 50);
   cyanLight.position.set(5, 5, 5);
   scene.add(cyanLight);
 
-  const magentaLight = new THREE.PointLight(0xec4899, 3.5, 50);
-  magentaLight.position.set(-5, -3, 3);
-  scene.add(magentaLight);
+  const blueLight = new THREE.PointLight(0x0072ff, 3.5, 50);
+  blueLight.position.set(-5, -3, 3);
+  scene.add(blueLight);
 
   const topRim = new THREE.DirectionalLight(0xffffff, 1.2);
   topRim.position.set(0, 10, 0);
@@ -46,8 +46,8 @@
   // 1. Central Futuristic Core (Icosahedron / Faceted Crystal)
   const coreGeo = new THREE.IcosahedronGeometry(1.8, 1);
   const coreMat = new THREE.MeshPhysicalMaterial({
-    color: 0x1e1b4b,
-    emissive: 0x312e81,
+    color: 0x050c18,
+    emissive: 0x003366,
     emissiveIntensity: 0.4,
     roughness: 0.15,
     metalness: 0.9,
@@ -59,10 +59,10 @@
   const coreMesh = new THREE.Mesh(coreGeo, coreMat);
   group.add(coreMesh);
 
-  // 2. Wireframe Overlay for Cyberpunk Holographic Depth
+  // 2. Wireframe Overlay for Cyber Holographic Depth
   const wireGeo = new THREE.IcosahedronGeometry(1.83, 1);
   const wireMat = new THREE.MeshBasicMaterial({
-    color: 0x818cf8,
+    color: 0x00f2fe,
     wireframe: true,
     transparent: true,
     opacity: 0.35,
@@ -73,11 +73,11 @@
   // 3. Orbiting Gyroscope Rings
   const ringGeo1 = new THREE.TorusGeometry(2.5, 0.035, 16, 100);
   const ringMat1 = new THREE.MeshStandardMaterial({
-    color: 0xa855f7,
+    color: 0x00f2fe,
     roughness: 0.2,
     metalness: 0.9,
-    emissive: 0x6366f1,
-    emissiveIntensity: 0.5,
+    emissive: 0x00f2fe,
+    emissiveIntensity: 0.4,
   });
   const ring1 = new THREE.Mesh(ringGeo1, ringMat1);
   ring1.rotation.x = Math.PI / 3;

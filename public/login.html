@@ -41,56 +41,94 @@
   </nav>
 
   <main>
-    <div class="container section" style="padding-top:4rem;">
-      <div class="auth-wrapper">
-        <span class="badge-tag" style="margin-bottom:1rem;">ACCOUNT</span>
-        <h1 style="font-size:1.6rem;margin-bottom:0.35rem;">Sign In</h1>
-        <p class="text-muted" style="font-size:0.88rem;margin-bottom:2rem;">Enter your email and password to access your account.</p>
+    <div class="container section" style="padding-top:3.5rem;">
+      <div class="login-split-grid">
 
-        <form id="login-form" novalidate aria-label="Login form">
-          <div class="form-group">
-            <label for="email" class="form-label">Email Address</label>
-            <input
-              type="email"
-              id="email"
-              class="form-input"
-              placeholder="name@example.com"
-              autocomplete="email"
-              required
-            >
-          </div>
-
-          <div class="form-group">
-            <div class="flex-between">
-              <label for="password" class="form-label">Password</label>
-              <a href="/forgot-password.html" style="font-size:0.78rem;color:var(--text-main);margin-bottom:0.45rem;text-decoration:underline;">Forgot Password?</a>
+        <!-- 3D Security Interactive Card -->
+        <div class="login-3d-card">
+          <div id="login-3d-canvas-container" style="width:100%;height:100%;"></div>
+          <div class="login-3d-content">
+            <span class="badge-tag" style="margin-bottom:0.75rem;">
+              <span class="dot"></span>
+              SECURITY VAULT
+            </span>
+            <h3>End-to-End Protection</h3>
+            <p>Sessions authenticated via cryptographically signed JWT tokens with Stripe PCI-DSS Level 1 compliance.</p>
+            <div class="login-feature-pills">
+              <span class="login-pill">Stripe PCI-DSS</span>
+              <span class="login-pill">JWT Signed</span>
+              <span class="login-pill">Instant Cloud Sync</span>
             </div>
-            <div class="password-input-wrapper">
+          </div>
+        </div>
+
+        <!-- Auth Form Card -->
+        <div class="auth-wrapper" style="margin:0 auto;width:100%;max-width:460px;">
+          <span class="badge-tag" style="margin-bottom:1rem;">ACCOUNT ACCESS</span>
+          <h1 style="font-size:1.75rem;margin-bottom:0.35rem;color:#ffffff;">Sign In</h1>
+          <p class="text-muted" style="font-size:0.88rem;margin-bottom:1.5rem;">Enter your email and password to access your orders.</p>
+
+          <form id="login-form" novalidate aria-label="Login form">
+            <div class="form-group">
+              <label for="email" class="form-label">Email Address</label>
               <input
-                type="password"
-                id="password"
+                type="email"
+                id="email"
                 class="form-input"
-                placeholder="Password"
-                autocomplete="current-password"
+                placeholder="name@example.com"
+                autocomplete="email"
                 required
               >
-              <button type="button" class="password-toggle-btn" aria-label="Toggle password visibility" onclick="togglePasswordVisibility('password', this)">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                  <circle cx="12" cy="12" r="3"></circle>
-                </svg>
-              </button>
             </div>
+
+            <div class="form-group">
+              <div class="flex-between">
+                <label for="password" class="form-label">Password</label>
+                <a href="/forgot-password.html" style="font-size:0.78rem;color:var(--accent-primary);margin-bottom:0.45rem;text-decoration:underline;">Forgot Password?</a>
+              </div>
+              <div class="password-input-wrapper">
+                <input
+                  type="password"
+                  id="password"
+                  class="form-input"
+                  placeholder="Password"
+                  autocomplete="current-password"
+                  required
+                >
+                <button type="button" class="password-toggle-btn" aria-label="Toggle password visibility" onclick="togglePasswordVisibility('password', this)">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                    <circle cx="12" cy="12" r="3"></circle>
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block btn-lg mt-3">
+              Sign In
+            </button>
+          </form>
+
+          <!-- Quick Test Demo Account For Client Presentations -->
+          <div class="demo-account-box">
+            <div class="demo-account-header">
+              <span>Client Demo Account</span>
+              <span style="color:var(--accent-primary);font-weight:700;">Ready to Test</span>
+            </div>
+            <button type="button" class="demo-account-btn" onclick="fillDemoAccount('ankursinghguleria99@gmail.com', 'Password123!')">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                <circle cx="12" cy="7" r="4"></circle>
+              </svg>
+              Auto-Fill Demo (ankursinghguleria99@gmail.com)
+            </button>
           </div>
 
-          <button type="submit" class="btn btn-primary btn-block btn-lg mt-3">
-            Sign In
-          </button>
-        </form>
-
-        <div style="margin-top:2rem;text-align:center;font-size:0.85rem;color:var(--text-dim);">
-          Need an account? <a href="/register.html" style="color:#ffffff;font-weight:600;text-decoration:underline;">Register here &rarr;</a>
+          <div style="margin-top:1.5rem;text-align:center;font-size:0.85rem;color:var(--text-dim);">
+            Need an account? <a href="/register.html" style="color:var(--accent-primary);font-weight:600;text-decoration:underline;">Register here &rarr;</a>
+          </div>
         </div>
+
       </div>
     </div>
   </main>
@@ -144,9 +182,12 @@
 
   <div id="toast-container" class="toast-container"></div>
 
+  <!-- Scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="/js/api.js"></script>
   <script src="/js/auth.js"></script>
   <script src="/js/cart.js"></script>
+  <script src="/js/three-auth.js"></script>
   <script src="/js/tilt3d.js"></script>
 </body>
 </html>

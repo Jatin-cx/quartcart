@@ -27,10 +27,11 @@ app.use(
     contentSecurityPolicy: {
       directives: {
         defaultSrc: ["'self'"],
-        scriptSrc: ["'self'", "'unsafe-inline'", 'https://js.stripe.com'],
+        scriptSrc: ["'self'", "'unsafe-inline'", 'https://js.stripe.com', 'https://cdnjs.cloudflare.com'],
         frameSrc: ["'self'", 'https://js.stripe.com'],
-        connectSrc: ["'self'", 'https://api.stripe.com'],
-        styleSrc: ["'self'", "'unsafe-inline'"],
+        connectSrc: ["'self'", 'https://api.stripe.com', 'https://quartcart.onrender.com'],
+        styleSrc: ["'self'", "'unsafe-inline'", 'https://fonts.googleapis.com'],
+        fontSrc: ["'self'", 'https://fonts.gstatic.com', 'data:'],
         imgSrc: ["'self'", 'data:', 'https:', 'http:'],
       },
     },
