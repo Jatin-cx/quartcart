@@ -141,7 +141,7 @@ if (registerForm) {
     try {
       const data = await api.post('/auth/register', { name, email, password });
       storeAuth(data.token, data.user);
-      showToast('Account created! Welcome to ShopEase 🎉', 'success');
+      showToast('Account created! Welcome to Quartcart 🎉', 'success');
       setTimeout(() => { window.location.href = '/account.html'; }, 800);
     } catch (err) {
       showToast(err.message, 'error');

@@ -52,7 +52,18 @@ function addToCart(product, qty = 1) {
   }
 
   saveCart(cart);
-  showToast(`Added to your bag ✨`, 'success');
+  const thumb = (product.images && product.images[0]) || (product.image || '');
+  const toastHtml = `
+    <div class="toast-rich-card">
+      ${thumb ? `<img src="${thumb}" alt="${product.name}" class="toast-thumb">` : ''}
+      <div>
+        <div style="font-weight:700;color:#ffffff;font-size:0.86rem;">Added to bag</div>
+        <div style="font-size:0.75rem;color:var(--text-muted);max-width:140px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${product.name}</div>
+      </div>
+      <a href="/cart.html" class="toast-link">View Bag →</a>
+    </div>
+  `;
+  showToast(toastHtml, 'success', 4000);
 }
 
 /**

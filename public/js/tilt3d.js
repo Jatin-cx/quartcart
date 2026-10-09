@@ -1,17 +1,54 @@
 /**
- * tilt3d.js — Real 3D Perspective Tilt, Specular Glare & Cybernetic Audio FX
- * Transforms flat 2D cards into interactive 3D objects with depth and lighting reflections.
+ * tilt3d.js — Real 3D Perspective Tilt, Specular Glare, Cursor Spotlight & Cybernetic Audio FX
+ * Elevates the Quartcart storefront into an interactive, spatial 3D experience.
  */
 
 // ─── Web Audio API Cybernetic Sound Synth ────────────────────
 const SoundFX = {
   ctx: null,
-  enabled: true,
+  enabled: localStorage.getItem('quartcart_sound_fx') !== 'false',
 
   init() {
     if (!this.ctx && typeof window.AudioContext !== 'undefined') {
       const AudioCtx = window.AudioContext || window.webkitAudioContext;
       this.ctx = new AudioCtx();
+    }
+  },
+
+  toggle() {
+    this.enabled = !this.enabled;
+    localStorage.setItem('quartcart_sound_fx', this.enabled ? 'true' : 'false');
+    this.updatePillUI();
+    if (this.enabled) {
+      this.playSuccess();
+    }
+    return this.enabled;
+  },
+
+  updatePillUI() {
+    const pill = document.getElementById('sound-toggle-pill');
+    if (!pill) return;
+    if (this.enabled) {
+      pill.classList.add('active');
+      pill.innerHTML = `
+        <span class="sound-indicator"></span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+          <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+        </svg>
+        <span>Sound FX</span>
+      `;
+    } else {
+      pill.classList.remove('active');
+      pill.innerHTML = `
+        <span class="sound-indicator"></span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+          <line x1="23" y1="9" x2="17" y2="15"></line>
+          <line x1="17" y1="9" x2="23" y2="15"></line>
+        </svg>
+        <span>Muted</span>
+      `;
     }
   },
 
@@ -49,9 +86,9 @@ const SoundFX = {
   }
 };
 
-// ─── 3D Card Gyroscope & Specular Glare Engine ──────────────
+// ─── 3D Card & Object Gyroscope + Specular Glare Engine ───────
 function apply3DTilt(card) {
-  if (card.dataset.tiltInitialized) return;
+  if (!card || card.dataset.tiltInitialized) return;
   card.dataset.tiltInitialized = 'true';
 
   card.style.transformStyle = 'preserve-3d';
@@ -65,7 +102,7 @@ function apply3DTilt(card) {
     card.appendChild(glare);
   }
 
-  const maxTilt = 14; // Degrees
+  const maxTilt = card.classList.contains('gallery-main') ? 8 : 14;
   let rect = card.getBoundingClientRect();
 
   function updateRect() {
@@ -109,39 +146,93 @@ function apply3DTilt(card) {
   });
 }
 
-/**
- * Initialize 3D tilt on all existing cards and observe new dynamic cards
- */
+// ─── Ambient Cursor Spotlight Glow ───────────────────────────
+function initCursorGlow() {
+  if (window.matchMedia('(hover: none)').matches) return; // Skip on touch-only devices
+  if (document.querySelector('.ambient-cursor-glow')) return;
+
+  const glow = document.createElement('div');
+  glow.className = 'ambient-cursor-glow';
+  document.body.appendChild(glow);
+
+  let mouseX = -500;
+  let mouseY = -500;
+  let currentX = -500;
+  let currentY = -500;
+
+  window.addEventListener('mousemove', (e) => {
+    mouseX = e.clientX;
+    mouseY = e.clientY;
+  }, { passive: true });
+
+  function renderGlow() {
+    // Smooth lerp interpolation for silky motion
+    currentX += (mouseX - currentX) * 0.15;
+    currentY += (mouseY - currentY) * 0.15;
+
+    glow.style.transform = `translate3d(${currentX.toFixed(1)}px, ${currentY.toFixed(1)}px, 0)`;
+    requestAnimationFrame(renderGlow);
+  }
+
+  requestAnimationFrame(renderGlow);
+}
+
+// ─── Floating Sound FX Controller Pill ───────────────────────
+function initAudioPill() {
+  if (document.getElementById('sound-toggle-pill')) return;
+
+  const pill = document.createElement('button');
+  pill.id = 'sound-toggle-pill';
+  pill.className = 'sound-toggle-pill';
+  pill.setAttribute('aria-label', 'Toggle Sound Effects');
+  document.body.appendChild(pill);
+
+  pill.addEventListener('click', (e) => {
+    e.stopPropagation();
+    SoundFX.toggle();
+  });
+
+  SoundFX.updatePillUI();
+}
+
+// ─── Main Tilt & FX Initializer ─────────────────────────────
 function initTiltSystem() {
-  document.querySelectorAll('.product-card, .hero-card').forEach(apply3DTilt);
+  document.querySelectorAll('.product-card, .hero-card, .gallery-main').forEach(apply3DTilt);
 
   // MutationObserver for products loaded dynamically via AJAX
   const observer = new MutationObserver((mutations) => {
     mutations.forEach((m) => {
       m.addedNodes.forEach((node) => {
         if (node.nodeType === 1) {
-          if (node.classList && (node.classList.contains('product-card') || node.classList.contains('hero-card'))) {
+          if (node.classList && (node.classList.contains('product-card') || node.classList.contains('hero-card') || node.classList.contains('gallery-main'))) {
             apply3DTilt(node);
           }
-          node.querySelectorAll && node.querySelectorAll('.product-card, .hero-card').forEach(apply3DTilt);
+          if (node.querySelectorAll) {
+            node.querySelectorAll('.product-card, .hero-card, .gallery-main').forEach(apply3DTilt);
+          }
         }
       });
     });
   });
 
-  const grid = document.getElementById('products-grid') || document.getElementById('featured-products-grid');
-  if (grid) {
-    observer.observe(grid, { childList: true, subtree: true });
-  }
+  const observeTarget = document.querySelector('main') || document.body;
+  observer.observe(observeTarget, { childList: true, subtree: true });
 
-  // Hook tactile sound to Add To Bag buttons
+  // Hook tactile audio feedback to user actions
   document.addEventListener('click', (e) => {
     if (e.target.closest('.add-to-cart-btn') || e.target.closest('#detail-add-cart-btn')) {
       SoundFX.playSuccess();
-    } else if (e.target.closest('.btn') || e.target.closest('.filter-chip')) {
-      SoundFX.playChirp(700, 'sine', 0.05);
+    } else if (e.target.closest('.btn') || e.target.closest('.filter-chip') || e.target.closest('.password-toggle-btn')) {
+      SoundFX.playChirp(720, 'sine', 0.05);
     }
   });
+
+  initCursorGlow();
+  initAudioPill();
 }
 
-document.addEventListener('DOMContentLoaded', initTiltSystem);
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initTiltSystem);
+} else {
+  initTiltSystem();
+}

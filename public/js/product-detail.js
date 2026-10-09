@@ -38,7 +38,7 @@ function renderProductDetail(product) {
   if (detailLoading) detailLoading.style.display = 'none';
   if (detailContainer) detailContainer.style.display = 'block';
 
-  document.title = `${product.name} — AURA / ARCHIVE`;
+  document.title = `${product.name} — Quartcart`;
 
   const images = (product.images && product.images.length) ? product.images : ['https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800'];
   const inStock = product.stock > 0;
