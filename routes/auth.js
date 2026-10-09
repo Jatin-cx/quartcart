@@ -85,12 +85,12 @@ router.post(
       // Specifically include password for verification
       const user = await User.findOne({ email }).select('+password');
       if (!user) {
-        return res.status(401).json({ message: 'Invalid email or password.' });
+        return res.status(404).json({ message: 'No account found with this email. Please create an account on the Register page first!' });
       }
 
       const isMatch = await user.comparePassword(password);
       if (!isMatch) {
-        return res.status(401).json({ message: 'Invalid email or password.' });
+        return res.status(401).json({ message: 'Incorrect passcode. Try again or click "Forgot Passcode".' });
       }
 
       const token = generateToken(user._id);
