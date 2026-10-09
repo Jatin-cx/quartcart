@@ -1175,3 +1175,147 @@ footer {
   .nav-links { display: none; }
   .menu-toggle { display: block; }
 }
+
+/* ─── 3D Engine & Cybernetic Visual Additions ──────────────── */
+
+/* Specular Glare Sheen Layer */
+.glare-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  border-radius: inherit;
+  opacity: 0;
+  transition: opacity 0.35s ease;
+  z-index: 5;
+  mix-blend-mode: overlay;
+}
+
+/* 3D Depth Layers for Card Elements */
+.product-card {
+  transform-style: preserve-3d !important;
+  perspective: 1000px !important;
+  will-change: transform, box-shadow;
+}
+
+.product-card-img-wrapper {
+  transform: translateZ(20px);
+  transform-style: preserve-3d;
+  transition: transform 0.4s ease;
+}
+
+.product-card:hover .product-card-img-wrapper {
+  transform: translateZ(32px);
+}
+
+.featured-badge {
+  transform: translateZ(40px);
+  box-shadow: 0 8px 20px rgba(99, 102, 241, 0.4);
+}
+
+.product-card-name {
+  transform: translateZ(15px);
+}
+
+.product-card-price-row {
+  transform: translateZ(22px);
+}
+
+.product-card-footer {
+  transform: translateZ(28px);
+}
+
+/* 3D WebGL Hero Canvas Showcase */
+.hero-3d-wrapper {
+  position: relative;
+  width: 100%;
+  height: 440px;
+  border-radius: var(--radius-lg);
+  background: radial-gradient(circle at 50% 50%, rgba(30, 27, 75, 0.45) 0%, rgba(13, 15, 23, 0.95) 85%);
+  border: 1px solid var(--glass-border);
+  box-shadow: 0 30px 80px -20px rgba(0, 0, 0, 0.8), 0 0 60px rgba(99, 102, 241, 0.25);
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: grab;
+}
+
+.hero-3d-wrapper:active {
+  cursor: grabbing;
+}
+
+#hero-3d-container {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/* Floating 3D Hologram Tags */
+.holo-tag {
+  position: absolute;
+  z-index: 10;
+  background: rgba(8, 9, 13, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(99, 102, 241, 0.4);
+  padding: 0.45rem 0.9rem;
+  border-radius: var(--radius-full);
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #c7d2fe;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5), 0 0 15px rgba(99, 102, 241, 0.3);
+  animation: floatHolo 4s ease-in-out infinite;
+  pointer-events: none;
+}
+
+.holo-tag.tag-top-right {
+  top: 1.5rem;
+  right: 1.5rem;
+  animation-delay: 0s;
+}
+
+.holo-tag.tag-bottom-left {
+  bottom: 1.5rem;
+  left: 1.5rem;
+  animation-delay: 2s;
+}
+
+@keyframes floatHolo {
+  0%, 100% { transform: translateY(0) scale(1); }
+  50% { transform: translateY(-8px) scale(1.02); }
+}
+
+.holo-dot {
+  width: 7px;
+  height: 7px;
+  background: #6366f1;
+  border-radius: 50%;
+  box-shadow: 0 0 10px #6366f1;
+  animation: pulse 1.8s infinite;
+}
+
+/* Interactive 3D Orbit Hint Pill */
+.orbit-hint {
+  position: absolute;
+  bottom: 1rem;
+  right: 1.25rem;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  background: rgba(8, 9, 13, 0.7);
+  padding: 0.3rem 0.75rem;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border-subtle);
+  pointer-events: none;
+  z-index: 10;
+}

@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Quartcart — Contemporary Goods &amp; Precision Gear</title>
-  <meta name="description" content="Discover precision-engineered audio, titanium timepieces, and luxury performance apparel at Quartcart. Express global delivery on all drops.">
-  <meta property="og:title" content="Quartcart — Contemporary Goods &amp; Precision Gear">
-  <meta property="og:description" content="Explore the Quartcart collection of luxury audio, EDC timepieces, and architectural apparel.">
+  <title>Quartcart — Interactive 3D Luxury &amp; Precision Goods</title>
+  <meta name="description" content="Immersive 3D interactive shopping experience. Discover precision-engineered audio, titanium timepieces, and luxury performance apparel at Quartcart.">
+  <meta property="og:title" content="Quartcart — Interactive 3D Luxury &amp; Precision Goods">
+  <meta property="og:description" content="Explore Quartcart in interactive 3D WebGL. High-concept essentials and drops.">
   <meta property="og:type" content="website">
   <meta property="og:url" content="/">
   <link rel="canonical" href="/">
@@ -19,7 +19,7 @@
     <div class="marquee-content">
       <span>⚡ <strong>GLOBAL EXPRESS DELIVERY</strong> ON ORDERS OVER $150</span>
       <span>•</span>
-      <span>QUARTCART DROP 04 // <strong>LIMITED QUANTITIES</strong></span>
+      <span>INTERACTIVE 3D WEBGL EXPERIENCE <strong>// NOW ACTIVE</strong></span>
       <span>•</span>
       <span>100% VERIFIED AUTHENTICITY &amp; CRAFTSMANSHIP</span>
       <span>•</span>
@@ -67,7 +67,7 @@
   </nav>
 
   <main>
-    <!-- ─── Hero Section ─────────────────────────────────── -->
+    <!-- ─── Hero Section with Interactive 3D WebGL ───────── -->
     <section class="hero" aria-label="Hero showcase">
       <div class="container">
         <div class="hero-grid">
@@ -75,7 +75,7 @@
           <div class="hero-content">
             <div class="badge-tag">
               <span class="dot"></span>
-              QUARTCART OFFICIAL // 2026 RELEASE
+              QUARTCART 3D // 2026 EDITION
             </div>
 
             <h1>
@@ -84,7 +84,7 @@
             </h1>
 
             <p>
-              Welcome to Quartcart — a curated catalog of uncompromising audio, titanium EDC timepieces, and architectural apparel built for modern visionaries.
+              Experience next-generation e-commerce in tactile 3D space. Curated drops of spatial audio, titanium EDC timepieces, and architectural apparel built for modern visionaries.
             </p>
 
             <div class="hero-actions">
@@ -102,12 +102,12 @@
 
             <div class="hero-stats">
               <div class="stat-item">
-                <h4>99.4%</h4>
-                <p>Satisfaction Rating</p>
+                <h4>60 FPS</h4>
+                <p>3D WebGL Engine</p>
               </div>
               <div class="stat-item">
                 <h4>Grade 5</h4>
-                <p>Aerospace Materials</p>
+                <p>Aerospace Titanium</p>
               </div>
               <div class="stat-item">
                 <h4>24h</h4>
@@ -116,27 +116,24 @@
             </div>
           </div>
 
-          <!-- Hero Showcase Card -->
-          <div class="hero-card">
-            <div class="hero-card-img-wrapper">
-              <span class="hero-card-badge">SPOTLIGHT DROP</span>
-              <img 
-                src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800&auto=format&fit=crop&q=85" 
-                alt="AURA Spatial Studio Pro" 
-                class="hero-card-img"
-              >
+          <!-- Hero Interactive 3D Canvas Showcase -->
+          <div class="hero-3d-wrapper">
+            <div class="holo-tag tag-top-right">
+              <span class="holo-dot"></span>
+              REAL-TIME 3D ARTIFACT
             </div>
-            <div class="hero-card-info">
-              <div>
-                <div class="hero-card-title">AURA Spatial Pro</div>
-                <p style="font-size:0.82rem;color:var(--text-dim);margin-top:0.2rem;">45mm Neodymium Driver • 40h Battery</p>
-              </div>
-              <div class="hero-card-price">$349</div>
+            
+            <div id="hero-3d-container">
+              <!-- Three.js renders WebGL here -->
             </div>
-            <div class="mt-3">
-              <a href="/products.html" class="btn btn-secondary btn-block">
-                View In Catalog →
-              </a>
+
+            <div class="holo-tag tag-bottom-left">
+              <span class="holo-dot"></span>
+              RAY-TRACED SHADERS
+            </div>
+
+            <div class="orbit-hint">
+              🖱️ Drag / Swipe to Rotate 3D
             </div>
           </div>
 
@@ -190,7 +187,7 @@
           <div>
             <div class="badge-tag">HAND-PICKED HIGHLIGHTS</div>
             <h2 id="featured-heading">Curated Quartcart Drops</h2>
-            <p>Craftsmanship without concession. Available while allocations last.</p>
+            <p>Hover over any piece to experience 3D gyroscope depth &amp; specular reflection.</p>
           </div>
           <a href="/products.html" class="btn btn-outline">
             Full Collection (8) →
@@ -317,9 +314,13 @@
 
   <div id="toast-container" class="toast-container"></div>
 
+  <!-- Scripts -->
   <script src="/js/api.js"></script>
   <script src="/js/auth.js"></script>
   <script src="/js/cart.js"></script>
+  <script src="/js/three.min.js"></script>
+  <script src="/js/three-hero.js"></script>
+  <script src="/js/tilt3d.js"></script>
   <script>
     async function loadFeaturedProducts() {
       const grid = document.getElementById('featured-products-grid');
@@ -357,7 +358,7 @@
               </div>
               <div class="product-card-footer">
                 <button 
-                  class="btn btn-primary btn-block btn-sm" 
+                  class="btn btn-primary btn-block btn-sm add-to-cart-btn" 
                   ${!inStock ? 'disabled' : ''} 
                   onclick='addToCart(${JSON.stringify({ _id: p._id, name: p.name, price: p.price, images: p.images, stock: p.stock })}, 1)'
                 >
