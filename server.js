@@ -72,10 +72,42 @@ app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
-// ─── SPA / HTML Fallback ─────────────────────────────────────────────────
-// Serve index.html for any unknown route (allows deep-linking to HTML pages)
-app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'public', 'index.html'));
+// ─── Unknown API 404 Handler ──────────────────────────────────────────────
+app.all('/api/*', (req, res) => {
+  res.status(404).json({ message: `API route not found: ${req.originalUrl}` });
+});
+
+// ─── Clean Extensionless Page Routes ──────────────────────────────────────
+const cleanPages = new Set([
+  'index',
+  'products',
+  'product-detail',
+  'cart',
+  'checkout',
+  'login',
+  'register',
+  'account',
+  'admin',
+  'policies',
+  'privacy',
+  'terms',
+  'forgot-password',
+  'reset-password',
+  '404',
+]);
+
+app.get('/:page', (req, res, next) => {
+  const pageName = req.params.page.toLowerCase();
+  if (cleanPages.has(pageName)) {
+    const status = pageName === '404' ? 404 : 200;
+    return res.status(status).sendFile(path.join(__dirname, 'public', `${pageName}.html`));
+  }
+  next();
+});
+
+// ─── 404 Not Found Page Handler ───────────────────────────────────────────
+app.use((req, res) => {
+  res.status(404).sendFile(path.join(__dirname, 'public', '404.html'));
 });
 
 // ─── Global Error Handler ─────────────────────────────────────────────────

@@ -33,6 +33,10 @@ async function loadProductDetail() {
 
     renderProductDetail(product);
   } catch (err) {
+    if (err.message && err.message.toLowerCase().includes('not found')) {
+      window.location.href = '/404.html';
+      return;
+    }
     if (loadingEl) loadingEl.style.display = 'none';
     if (errorEl) {
       errorEl.style.display = 'block';
