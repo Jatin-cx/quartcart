@@ -42,31 +42,91 @@
 
   <main>
     <div class="container section" style="padding-top:3.5rem;">
-      <div class="login-split-grid">
+      <div class="auth-split-grid">
 
-        <!-- 3D Security Interactive Card -->
-        <div class="login-3d-card">
-          <div id="login-3d-canvas-container" style="width:100%;height:100%;"></div>
-          <div class="login-3d-content">
-            <span class="badge-tag" style="margin-bottom:0.75rem;">
+        <!-- Shopping Benefits & Customer Hub Card -->
+        <div class="auth-perks-card">
+          <div class="auth-perks-header">
+            <span class="badge-tag">
               <span class="dot"></span>
-              SECURITY VAULT
+              WELCOME BACK
             </span>
-            <h3>End-to-End Protection</h3>
-            <p>Sessions authenticated via cryptographically signed JWT tokens with Stripe PCI-DSS Level 1 compliance.</p>
-            <div class="login-feature-pills">
-              <span class="login-pill">Stripe PCI-DSS</span>
-              <span class="login-pill">JWT Signed</span>
-              <span class="login-pill">Instant Cloud Sync</span>
+            <h2>Your Shopping Hub</h2>
+            <p>Sign in to access your order history, manage saved delivery addresses, and track real-time package status.</p>
+          </div>
+
+          <div class="auth-perks-list">
+            <div class="auth-perk-item">
+              <div class="auth-perk-icon-box">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                  <polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline>
+                  <line x1="12" y1="22.08" x2="12" y2="12"></line>
+                </svg>
+              </div>
+              <div class="auth-perk-content">
+                <h4>Real-Time Order Tracking</h4>
+                <p>Check transit milestones, carrier dispatch, and estimated delivery dates for all your active packages.</p>
+              </div>
             </div>
+
+            <div class="auth-perk-item">
+              <div class="auth-perk-icon-box">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                  <circle cx="12" cy="10" r="3"></circle>
+                </svg>
+              </div>
+              <div class="auth-perk-content">
+                <h4>Saved Addresses &amp; Preferences</h4>
+                <p>Manage home and office shipping destinations for effortless one-click purchasing.</p>
+              </div>
+            </div>
+
+            <div class="auth-perk-item">
+              <div class="auth-perk-icon-box">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                  <polyline points="14 2 14 8 20 8"></polyline>
+                  <line x1="16" y1="13" x2="8" y2="13"></line>
+                  <line x1="16" y1="17" x2="8" y2="17"></line>
+                  <polyline points="10 9 9 9 8 9"></polyline>
+                </svg>
+              </div>
+              <div class="auth-perk-content">
+                <h4>Order Invoices &amp; Returns</h4>
+                <p>Download full VAT receipts and generate prepaid return shipping labels inside your account.</p>
+              </div>
+            </div>
+
+            <div class="auth-perk-item">
+              <div class="auth-perk-icon-box">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M3 18v-6a9 9 0 0 1 18 0v6"></path>
+                  <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"></path>
+                </svg>
+              </div>
+              <div class="auth-perk-content">
+                <h4>Dedicated Concierge Support</h4>
+                <p>Direct assistance from our customer support team for adjustments, exchanges, and inquiries.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="auth-perks-footer">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+            </svg>
+            <span>256-bit SSL encrypted. Payments securely processed with Stripe.</span>
           </div>
         </div>
 
-        <!-- Auth Form Card -->
-        <div class="auth-wrapper" style="margin:0 auto;width:100%;max-width:460px;">
-          <span class="badge-tag" style="margin-bottom:1rem;">ACCOUNT ACCESS</span>
-          <h1 style="font-size:1.75rem;margin-bottom:0.35rem;color:#ffffff;">Sign In</h1>
-          <p class="text-muted" style="font-size:0.88rem;margin-bottom:1.5rem;">Enter your email and password to access your orders.</p>
+        <!-- Auth Form Card Panel -->
+        <div class="auth-card-panel">
+          <span class="badge-tag" style="margin-bottom:0.75rem;">ACCOUNT ACCESS</span>
+          <h1 style="font-size:1.75rem;margin-bottom:0.35rem;color:#ffffff;">Sign In to Quartcart</h1>
+          <p class="text-muted" style="font-size:0.88rem;margin-bottom:1.5rem;">Enter your email and password to access your account.</p>
 
           <form id="login-form" novalidate aria-label="Login form">
             <div class="form-group">
@@ -91,7 +151,7 @@
                   type="password"
                   id="password"
                   class="form-input"
-                  placeholder="Password"
+                  placeholder="Your password"
                   autocomplete="current-password"
                   required
                 >
@@ -183,11 +243,8 @@
   <div id="toast-container" class="toast-container"></div>
 
   <!-- Scripts -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="/js/api.js"></script>
   <script src="/js/auth.js"></script>
   <script src="/js/cart.js"></script>
-  <script src="/js/three-auth.js"></script>
-  <script src="/js/tilt3d.js"></script>
 </body>
 </html>

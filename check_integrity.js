@@ -1,0 +1,42 @@
+const fs = require('fs');
+const path = require('path');
+
+function walk(dir) {
+  let files = [];
+  for (const item of fs.readdirSync(dir)) {
+    const full = path.join(dir, item);
+    if (fs.statSync(full).isDirectory()) {
+      if (item !== 'node_modules' && item !== '.git') {
+        files = files.concat(walk(full));
+      }
+    } else {
+      files.push(full);
+    }
+  }
+  return files;
+}
+
+const files = walk('public');
+let errorCount = 0;
+
+for (const file of files) {
+  if (file.endsWith('.html') || file.endsWith('.js') || file.endsWith('.css')) {
+    const content = fs.readFileSync(file, 'utf8');
+    if (content.includes('\u2014')) {
+      console.error('Found em-dash in:', file);
+      errorCount++;
+    }
+    const emojiRegex = /[\u{1F300}-\u{1F9FF}\u{2600}-\u{26FF}\u{2700}-\u{27BF}]/u;
+    if (emojiRegex.test(content)) {
+      console.error('Found emoji in:', file);
+      errorCount++;
+    }
+  }
+}
+
+if (errorCount === 0) {
+  console.log('AUDIT PASSED: Zero emojis and zero em-dashes across all public files.');
+} else {
+  console.error('AUDIT FAILED with ' + errorCount + ' issues.');
+  process.exit(1);
+}

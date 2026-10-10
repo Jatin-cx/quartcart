@@ -42,31 +42,87 @@
 
   <main>
     <div class="container section" style="padding-top:3.5rem;">
-      <div class="login-split-grid">
+      <div class="auth-split-grid">
 
-        <!-- 3D Security Interactive Card -->
-        <div class="login-3d-card">
-          <div id="login-3d-canvas-container" style="width:100%;height:100%;"></div>
-          <div class="login-3d-content">
-            <span class="badge-tag" style="margin-bottom:0.75rem;">
+        <!-- Shopping Member Privileges Card -->
+        <div class="auth-perks-card">
+          <div class="auth-perks-header">
+            <span class="badge-tag">
               <span class="dot"></span>
-              SECURE REGISTRATION
+              MEMBER PRIVILEGES
             </span>
-            <h3>Encrypted Customer Vault</h3>
-            <p>Your profile and transaction records are encrypted end-to-end with high-grade security.</p>
-            <div class="login-feature-pills">
-              <span class="login-pill">Stripe PCI-DSS</span>
-              <span class="login-pill">Bcrypt 12 Salt</span>
-              <span class="login-pill">Private Data</span>
+            <h2>Join Quartcart Club</h2>
+            <p>Create a complimentary account to unlock member benefits, faster express checkout, and priority fulfillment on every order.</p>
+          </div>
+
+          <div class="auth-perks-list">
+            <div class="auth-perk-item">
+              <div class="auth-perk-icon-box">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="1" y="3" width="15" height="13"></rect>
+                  <polygon points="16 8 20 8 23 11 23 16 16 16 8"></polygon>
+                  <circle cx="5.5" cy="18.5" r="2.5"></circle>
+                  <circle cx="18.5" cy="18.5" r="2.5"></circle>
+                </svg>
+              </div>
+              <div class="auth-perk-content">
+                <h4>Free Standard Shipping</h4>
+                <p>Complimentary ground delivery on all domestic orders over $50 with real-time transit updates.</p>
+              </div>
             </div>
+
+            <div class="auth-perk-item">
+              <div class="auth-perk-icon-box">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+                </svg>
+              </div>
+              <div class="auth-perk-content">
+                <h4>1-Click Express Checkout</h4>
+                <p>Save multiple shipping addresses and preferred payment profiles for seamless ordering.</p>
+              </div>
+            </div>
+
+            <div class="auth-perk-item">
+              <div class="auth-perk-icon-box">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.67"></path>
+                </svg>
+              </div>
+              <div class="auth-perk-content">
+                <h4>30-Day Hassle-Free Returns</h4>
+                <p>Enjoy a full 30-day trial period with instant prepaid return labels for all items.</p>
+              </div>
+            </div>
+
+            <div class="auth-perk-item">
+              <div class="auth-perk-icon-box">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                  <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                </svg>
+              </div>
+              <div class="auth-perk-content">
+                <h4>Priority Drops &amp; Restocks</h4>
+                <p>Receive exclusive member notifications before new batch releases and limited runs sell out.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="auth-perks-footer">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+            </svg>
+            <span>256-bit SSL encrypted. We respect your privacy and never sell your data.</span>
           </div>
         </div>
 
-        <!-- Auth Form Card -->
-        <div class="auth-wrapper" style="margin:0 auto;width:100%;max-width:460px;">
-          <span class="badge-tag" style="margin-bottom:1rem;">JOIN QUARTCART</span>
-          <h1 style="font-size:1.75rem;margin-bottom:0.35rem;color:#ffffff;">Create Account</h1>
-          <p class="text-muted" style="font-size:0.88rem;margin-bottom:1.5rem;">Sign up to save addresses and track your orders.</p>
+        <!-- Auth Form Card Panel -->
+        <div class="auth-card-panel">
+          <span class="badge-tag" style="margin-bottom:0.75rem;">GET STARTED</span>
+          <h1 style="font-size:1.75rem;margin-bottom:0.35rem;color:#ffffff;">Create Your Account</h1>
+          <p class="text-muted" style="font-size:0.88rem;margin-bottom:1.5rem;">Fill in your details below to activate your Quartcart shopping profile.</p>
 
           <form id="register-form" novalidate aria-label="Registration form">
             <div class="form-group">
@@ -75,7 +131,7 @@
                 type="text"
                 id="name"
                 class="form-input"
-                placeholder="Full Name"
+                placeholder="e.g. Alex Morgan"
                 autocomplete="name"
                 required
               >
@@ -120,26 +176,30 @@
                   type="password"
                   id="confirm-password"
                   class="form-input"
-                  placeholder="Repeat password"
+                  placeholder="Repeat your password"
                   autocomplete="new-password"
                   required
                 >
                 <button type="button" class="password-toggle-btn" aria-label="Toggle password visibility" onclick="togglePasswordVisibility('confirm-password', this)">
                   <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8z"></path>
                     <circle cx="12" cy="12" r="3"></circle>
                   </svg>
                 </button>
               </div>
             </div>
 
-            <button type="submit" class="btn btn-primary btn-block btn-lg mt-3">
+            <div style="font-size:0.78rem;color:var(--text-dim);margin:0.5rem 0 1.25rem;line-height:1.5;">
+              By creating an account, you agree to our <a href="/terms.html" style="color:var(--accent-primary);text-decoration:underline;">Terms</a> and <a href="/privacy.html" style="color:var(--accent-primary);text-decoration:underline;">Privacy Policy</a>.
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-block btn-lg">
               Create Account
             </button>
           </form>
 
           <div style="margin-top:1.5rem;text-align:center;font-size:0.85rem;color:var(--text-dim);">
-            Already registered? <a href="/login.html" style="color:var(--accent-primary);font-weight:600;text-decoration:underline;">Sign in here &rarr;</a>
+            Already have an account? <a href="/login.html" style="color:var(--accent-primary);font-weight:600;text-decoration:underline;">Sign in here &rarr;</a>
           </div>
         </div>
 
@@ -197,11 +257,8 @@
   <div id="toast-container" class="toast-container"></div>
 
   <!-- Scripts -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="/js/api.js"></script>
   <script src="/js/auth.js"></script>
   <script src="/js/cart.js"></script>
-  <script src="/js/three-auth.js"></script>
-  <script src="/js/tilt3d.js"></script>
 </body>
 </html>

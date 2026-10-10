@@ -1832,71 +1832,103 @@ footer {
   color: var(--text-muted);
 }
 
-/* Split Login Container with 3D Canvas */
-.login-split-grid {
+/* =========================================================
+   AUTHENTICATION & SHOPPING PERKS STYLING
+   ========================================================= */
+.auth-split-grid {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 2.5rem;
-  align-items: center;
-  max-width: 1100px;
+  grid-template-columns: 1.05fr 1fr;
+  gap: 3rem;
+  align-items: stretch;
+  max-width: 1080px;
   margin: 0 auto;
 }
 
-.login-3d-card {
-  height: 520px;
-  position: relative;
-  background: radial-gradient(circle at center, rgba(0, 242, 254, 0.08) 0%, #0d0f17 80%);
-  border: 1px solid rgba(0, 242, 254, 0.2);
+.auth-perks-card {
+  background: linear-gradient(145deg, #121522 0%, #0a0c13 100%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: var(--radius-md);
-  overflow: hidden;
-  box-shadow: 0 15px 45px rgba(0,0,0,0.6);
+  padding: 2.75rem 2.5rem;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
+  box-shadow: 0 15px 45px rgba(0, 0, 0, 0.5);
 }
 
-.login-3d-card canvas {
-  width: 100% !important;
-  height: 100% !important;
-  display: block;
-}
-
-.login-3d-content {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 2rem;
-  background: linear-gradient(to top, rgba(10, 12, 18, 0.95) 0%, transparent 100%);
-  pointer-events: none;
-}
-
-.login-3d-content h3 {
-  font-size: 1.4rem;
+.auth-perks-header h2 {
+  font-size: 1.75rem;
   font-weight: 800;
   color: #ffffff;
-  margin-bottom: 0.4rem;
+  margin: 0.85rem 0 0.5rem;
+  letter-spacing: -0.02em;
 }
 
-.login-3d-content p {
-  font-size: 0.85rem;
+.auth-perks-header p {
   color: var(--text-muted);
-  margin-bottom: 1rem;
+  font-size: 0.95rem;
+  line-height: 1.55;
+  margin-bottom: 2rem;
 }
 
-.login-feature-pills {
+.auth-perks-list {
   display: flex;
-  gap: 0.6rem;
-  flex-wrap: wrap;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
 }
 
-.login-pill {
-  font-size: 0.72rem;
-  padding: 0.25rem 0.65rem;
-  background: rgba(0, 242, 254, 0.1);
-  border: 1px solid rgba(0, 242, 254, 0.3);
-  color: var(--accent-primary);
+.auth-perk-item {
+  display: flex;
+  gap: 1.15rem;
+  align-items: flex-start;
+}
+
+.auth-perk-icon-box {
+  width: 44px;
+  height: 44px;
   border-radius: var(--radius-sm);
-  font-weight: 600;
+  background: rgba(0, 242, 254, 0.08);
+  border: 1px solid rgba(0, 242, 254, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent-primary);
+  flex-shrink: 0;
+}
+
+.auth-perk-content h4 {
+  font-size: 0.98rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 0.25rem;
+}
+
+.auth-perk-content p {
+  font-size: 0.84rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.auth-perks-footer {
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border-subtle);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.8rem;
+  color: var(--text-dim);
+}
+
+.auth-card-panel {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 2.75rem 2.5rem;
+  box-shadow: 0 15px 45px rgba(0, 0, 0, 0.5);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 /* Demo account quick login box */
@@ -1939,11 +1971,13 @@ footer {
   color: #060a12;
 }
 
-@media (max-width: 900px) {
-  .login-split-grid {
+@media (max-width: 960px) {
+  .auth-split-grid {
     grid-template-columns: 1fr;
+    gap: 2rem;
   }
-  .login-3d-card {
-    height: 320px;
+  .auth-perks-card,
+  .auth-card-panel {
+    padding: 2rem 1.5rem;
   }
 }

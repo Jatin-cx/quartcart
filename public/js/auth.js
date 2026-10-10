@@ -228,3 +228,17 @@ function togglePasswordVisibility(inputId, btn) {
         <circle cx="12" cy="12" r="3"></circle>
       </svg>`;
 }
+
+/**
+ * Auto-fill demo credentials for quick presentation and testing.
+ */
+function fillDemoAccount(email, password) {
+  const emailInput = document.getElementById('email');
+  const passwordInput = document.getElementById('password');
+  if (emailInput && passwordInput) {
+    emailInput.value = email;
+    passwordInput.value = password;
+    showToast('Demo credentials filled.', 'info');
+  }
+}
+
