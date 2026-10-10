@@ -1,0 +1,727 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Control Center - Quartcart</title>
+  <meta name="description" content="Full administrative dashboard for Quartcart products, orders, users, and live site customization.">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="alternate icon" href="/favicon.ico">
+  <link rel="stylesheet" href="/css/style.css?v=3">
+  <style>
+    .admin-header-bar {
+      background: var(--bg-surface);
+      backdrop-filter: blur(18px);
+      border: 1.5px solid var(--glass-border);
+      border-radius: var(--radius-lg);
+      padding: 1.75rem 2rem;
+      margin-bottom: 2rem;
+      box-shadow: var(--shadow-3d-md);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1.25rem;
+    }
+    .admin-tabs {
+      display: flex;
+      gap: 0.65rem;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
+      background: rgba(255, 252, 247, 0.75);
+      padding: 0.6rem;
+      border-radius: var(--radius-md);
+      border: 1.5px solid var(--glass-border);
+      box-shadow: var(--shadow-3d-sm);
+    }
+    .admin-tab-btn {
+      padding: 0.72rem 1.3rem;
+      border-radius: var(--radius-sm);
+      border: 1px solid transparent;
+      background: transparent;
+      color: var(--text-muted);
+      font-weight: 800;
+      font-size: 0.88rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: var(--transition);
+    }
+    .admin-tab-btn:hover {
+      color: var(--accent-primary);
+      background: rgba(224, 79, 51, 0.08);
+    }
+    .admin-tab-btn.active {
+      background: var(--accent-gradient);
+      color: #ffffff;
+      box-shadow: 0 4px 0 #992711, 0 8px 18px rgba(224, 79, 51, 0.25);
+    }
+    .admin-kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    .admin-kpi-card {
+      background: var(--bg-surface);
+      backdrop-filter: blur(16px);
+      border: 1.5px solid var(--glass-border);
+      border-radius: var(--radius-md);
+      padding: 1.5rem;
+      box-shadow: var(--shadow-3d-md);
+      transform-style: preserve-3d;
+    }
+    .admin-kpi-label {
+      font-size: 0.76rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-dim);
+      margin-bottom: 0.4rem;
+    }
+    .admin-kpi-value {
+      font-size: 2rem;
+      font-weight: 800;
+      font-family: var(--font-display);
+      color: var(--text-main);
+    }
+    .admin-kpi-sub {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--accent-primary);
+      margin-top: 0.3rem;
+    }
+    .admin-panel-card {
+      background: var(--bg-surface);
+      backdrop-filter: blur(18px);
+      border: 1.5px solid var(--glass-border);
+      border-radius: var(--radius-md);
+      padding: 1.85rem;
+      box-shadow: var(--shadow-3d-md);
+      margin-bottom: 2rem;
+    }
+    .admin-table-wrap {
+      width: 100%;
+      overflow-x: auto;
+    }
+    .admin-table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 720px;
+    }
+    .admin-table th {
+      background: var(--bg-surface-elevated);
+      padding: 0.85rem 1rem;
+      text-align: left;
+      font-size: 0.74rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-muted);
+      border-bottom: 1.5px solid var(--border-subtle);
+    }
+    .admin-table td {
+      padding: 0.95rem 1rem;
+      border-bottom: 1px solid var(--border-subtle);
+      vertical-align: middle;
+      font-size: 0.9rem;
+    }
+    .admin-table tr:hover td {
+      background: rgba(243, 233, 220, 0.45);
+    }
+    .preset-img-chips {
+      display: flex;
+      gap: 0.45rem;
+      flex-wrap: wrap;
+      margin-top: 0.45rem;
+    }
+    .preset-chip {
+      font-size: 0.74rem;
+      font-weight: 700;
+      padding: 0.28rem 0.65rem;
+      border-radius: 6px;
+      background: var(--bg-surface-elevated);
+      border: 1px solid var(--glass-border);
+      color: var(--text-main);
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .preset-chip:hover {
+      background: var(--accent-primary);
+      color: #ffffff;
+      border-color: var(--accent-primary);
+    }
+    .theme-swatch-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 0.85rem;
+      margin-top: 0.5rem;
+    }
+    .theme-option-card {
+      border: 2px solid var(--glass-border);
+      background: #fffcf7;
+      border-radius: var(--radius-sm);
+      padding: 0.85rem;
+      text-align: center;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .theme-option-card.active {
+      border-color: var(--accent-primary);
+      box-shadow: 0 6px 18px rgba(224, 79, 51, 0.22);
+      transform: translateY(-3px);
+    }
+    .theme-color-bar {
+      height: 28px;
+      border-radius: 6px;
+      margin-bottom: 0.5rem;
+    }
+    .admin-modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(30, 22, 16, 0.55);
+      backdrop-filter: blur(6px);
+      z-index: 99999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+    }
+    .admin-modal-backdrop.open {
+      display: flex;
+    }
+    .admin-modal {
+      background: #fffcf7;
+      border: 2px solid var(--glass-border);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-3d-lg);
+      width: 100%;
+      max-width: 620px;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 2rem;
+    }
+    @media (max-width: 960px) {
+      .admin-kpi-grid { grid-template-columns: repeat(2, 1fr); }
+      .theme-swatch-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 600px) {
+      .admin-kpi-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar" role="navigation" aria-label="Main navigation">
+    <div class="container flex-between">
+      <a href="/index.html" class="navbar-brand">
+        <span class="brand-dot"></span>
+        Quartcart
+      </a>
+
+      <button class="menu-toggle" id="menu-toggle" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+
+      <ul class="nav-links" id="nav-links">
+        <li><a href="/index.html">View Live Store</a></li>
+        <li><a href="/products.html">Catalog</a></li>
+        <li><a href="/admin.html" class="active">Admin Center</a></li>
+        <li>
+          <a href="/cart.html" class="cart-link">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-2z"></path>
+              <line x1="3" y1="6" x2="21" y2="6"></line>
+              <path d="M16 10a4 4 0 0 1-8 0"></path>
+            </svg>
+            <span>Bag</span>
+            <span class="cart-badge" id="cart-badge">0</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <main>
+    <div class="container section" style="padding-top:2.5rem;">
+
+      <!-- Top Admin Command Header -->
+      <div class="admin-header-bar">
+        <div>
+          <span class="badge-tag">
+            <span class="dot"></span>
+            FULL STOREFRONT ACCESS
+          </span>
+          <h1 style="font-size:2rem;margin-top:0.5rem;">Admin Control Center</h1>
+          <p class="text-muted" style="font-size:0.92rem;">Manage products, inventory, customer orders, user accounts, and customize every section of the live site.</p>
+        </div>
+        <div class="flex" style="gap:0.75rem;flex-wrap:wrap;">
+          <button type="button" class="btn btn-secondary btn-sm" onclick="seedSampleProducts()">
+            + Seed Flagship Products
+          </button>
+          <a href="/index.html" target="_blank" class="btn btn-outline btn-sm">
+            Open Live Storefront &rarr;
+          </a>
+          <button type="button" class="btn btn-primary btn-sm" onclick="switchAdminTab('products'); document.getElementById('new-prod-name').focus();">
+            + Add New Product
+          </button>
+        </div>
+      </div>
+
+      <!-- KPI Metrics Row -->
+      <div class="admin-kpi-grid">
+        <div class="admin-kpi-card">
+          <div class="admin-kpi-label">Total Store Revenue</div>
+          <div class="admin-kpi-value" id="kpi-revenue">$0.00</div>
+          <div class="admin-kpi-sub" id="kpi-revenue-sub">Active orders volume</div>
+        </div>
+        <div class="admin-kpi-card">
+          <div class="admin-kpi-label">Total Products</div>
+          <div class="admin-kpi-value" id="kpi-products">0</div>
+          <div class="admin-kpi-sub" id="kpi-low-stock">0 low stock items</div>
+        </div>
+        <div class="admin-kpi-card">
+          <div class="admin-kpi-label">Customer Orders</div>
+          <div class="admin-kpi-value" id="kpi-orders">0</div>
+          <div class="admin-kpi-sub">Live fulfillment queue</div>
+        </div>
+        <div class="admin-kpi-card">
+          <div class="admin-kpi-label">Registered Accounts</div>
+          <div class="admin-kpi-value" id="kpi-users">0</div>
+          <div class="admin-kpi-sub">Customers &amp; Admins</div>
+        </div>
+      </div>
+
+      <!-- Navigation Tabs -->
+      <div class="admin-tabs" role="tablist">
+        <button type="button" class="admin-tab-btn active" data-tab="products" onclick="switchAdminTab('products')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path></svg>
+          Products &amp; Inventory
+        </button>
+        <button type="button" class="admin-tab-btn" data-tab="site" onclick="switchAdminTab('site')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path></svg>
+          Site &amp; Theme Customizer
+        </button>
+        <button type="button" class="admin-tab-btn" data-tab="orders" onclick="switchAdminTab('orders')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline></svg>
+          Orders &amp; Fulfillment
+        </button>
+        <button type="button" class="admin-tab-btn" data-tab="users" onclick="switchAdminTab('users')">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle></svg>
+          Users &amp; Admins
+        </button>
+      </div>
+
+      <!-- =========================================================
+           TAB 1: PRODUCTS & INVENTORY MANAGER
+           ========================================================= -->
+      <section id="admin-tab-products" class="admin-tab-section">
+        <div class="grid-2" style="grid-template-columns: 1fr 1.6fr; align-items: start;">
+
+          <!-- Add New Product Form Card -->
+          <div class="admin-panel-card">
+            <span class="badge-tag" style="margin-bottom:0.65rem;">NEW CATALOG ENTRY</span>
+            <h2 style="font-size:1.35rem;margin-bottom:1.25rem;">Add New Product</h2>
+
+            <form id="admin-add-product-form">
+              <div class="form-group">
+                <label class="form-label" for="new-prod-name">Product Name</label>
+                <input type="text" id="new-prod-name" class="form-input" placeholder="e.g. Titanium Acoustic Speaker" required>
+              </div>
+
+              <div class="grid-2" style="gap:1rem;">
+                <div class="form-group">
+                  <label class="form-label" for="new-prod-category">Category</label>
+                  <input type="text" id="new-prod-category" class="form-input" list="category-suggestions" placeholder="e.g. Audio" required>
+                  <datalist id="category-suggestions">
+                    <option value="Audio"></option>
+                    <option value="Timepieces"></option>
+                    <option value="Apparel"></option>
+                    <option value="Leather Goods"></option>
+                    <option value="Accessories"></option>
+                  </datalist>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="new-prod-price">Price (USD)</label>
+                  <input type="number" id="new-prod-price" class="form-input" step="0.01" min="0" placeholder="299.00" required>
+                </div>
+              </div>
+
+              <div class="grid-2" style="gap:1rem;">
+                <div class="form-group">
+                  <label class="form-label" for="new-prod-stock">Initial Stock</label>
+                  <input type="number" id="new-prod-stock" class="form-input" min="0" value="25" required>
+                </div>
+                <div class="form-group" style="display:flex;align-items:center;padding-top:1.4rem;">
+                  <label style="display:flex;align-items:center;gap:0.55rem;cursor:pointer;font-weight:700;font-size:0.88rem;">
+                    <input type="checkbox" id="new-prod-featured" checked style="width:18px;height:18px;accent-color:var(--accent-primary);">
+                    Feature on Homepage
+                  </label>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="new-prod-image">Product Image URL (or pick a preset)</label>
+                <input type="url" id="new-prod-image" class="form-input" placeholder="https://images.unsplash.com/..." required>
+                <div class="preset-img-chips">
+                  <button type="button" class="preset-chip" onclick="setPresetImage('https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800')">Headphones</button>
+                  <button type="button" class="preset-chip" onclick="setPresetImage('https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800')">Watch</button>
+                  <button type="button" class="preset-chip" onclick="setPresetImage('https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=800')">Leather Bag</button>
+                  <button type="button" class="preset-chip" onclick="setPresetImage('https://images.unsplash.com/photo-1544441893-675973e31985?w=800')">Jacket</button>
+                  <button type="button" class="preset-chip" onclick="setPresetImage('https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=800')">Sneakers</button>
+                  <button type="button" class="preset-chip" onclick="setPresetImage('https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?w=800')">Camera</button>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="new-prod-desc">Description</label>
+                <textarea id="new-prod-desc" class="form-input" rows="3" placeholder="Crafted with precision materials and built for everyday durability." required></textarea>
+              </div>
+
+              <button type="submit" class="btn btn-primary btn-block btn-lg">
+                Publish Product to Store
+              </button>
+            </form>
+          </div>
+
+          <!-- Existing Products Table Card -->
+          <div class="admin-panel-card">
+            <div class="flex-between" style="margin-bottom:1.25rem;flex-wrap:wrap;gap:1rem;">
+              <div>
+                <span class="badge-tag">LIVE INVENTORY</span>
+                <h2 style="font-size:1.35rem;margin-top:0.35rem;">Catalog Products</h2>
+              </div>
+              <input
+                type="search"
+                id="admin-prod-search"
+                class="form-input"
+                placeholder="Search products..."
+                style="max-width:240px;padding:0.55rem 0.9rem;"
+                oninput="renderAdminProducts()"
+              >
+            </div>
+
+            <div class="admin-table-wrap">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Product</th>
+                    <th>Price</th>
+                    <th>Stock</th>
+                    <th>Homepage</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="admin-products-tbody">
+                  <tr><td colspan="5" class="text-center text-muted">Loading inventory...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- =========================================================
+           TAB 2: SITE & THEME CUSTOMIZER (CHANGE EVERY PART OF SITE)
+           ========================================================= -->
+      <section id="admin-tab-site" class="admin-tab-section hidden">
+        <div class="admin-panel-card">
+          <div class="flex-between" style="margin-bottom:1.5rem;flex-wrap:wrap;gap:1rem;">
+            <div>
+              <span class="badge-tag">GLOBAL STOREFRONT EDITOR</span>
+              <h2 style="font-size:1.5rem;margin-top:0.4rem;">Customize Every Part of the Site</h2>
+              <p class="text-muted" style="font-size:0.9rem;">Changes saved here update the live website theme, 3D background, headlines, announcement bar, and pricing immediately.</p>
+            </div>
+          </div>
+
+          <form id="admin-site-config-form">
+            <!-- 1. Color Theme & 3D Engine -->
+            <div style="margin-bottom:2rem;padding-bottom:1.75rem;border-bottom:1px solid var(--border-subtle);">
+              <h3 style="font-size:1.15rem;margin-bottom:0.85rem;">1. Store Color Theme &amp; 3D Showroom Engine</h3>
+              <input type="hidden" id="cfg-themePalette" value="terracotta">
+
+              <div class="theme-swatch-grid">
+                <div class="theme-option-card active" data-theme="terracotta" onclick="selectAdminTheme('terracotta', this)">
+                  <div class="theme-color-bar" style="background:linear-gradient(135deg,#ea5838,#d97706);"></div>
+                  <div style="font-weight:800;font-size:0.85rem;">Terracotta Coral</div>
+                  <div class="text-dim" style="font-size:0.74rem;">Warm Luxury Retail</div>
+                </div>
+                <div class="theme-option-card" data-theme="emerald" onclick="selectAdminTheme('emerald', this)">
+                  <div class="theme-color-bar" style="background:linear-gradient(135deg,#10b981,#0f766e);"></div>
+                  <div style="font-weight:800;font-size:0.85rem;">Botanical Emerald</div>
+                  <div class="text-dim" style="font-size:0.74rem;">Fresh Atelier</div>
+                </div>
+                <div class="theme-option-card" data-theme="gold" onclick="selectAdminTheme('gold', this)">
+                  <div class="theme-color-bar" style="background:linear-gradient(135deg,#f59e0b,#b45309);"></div>
+                  <div style="font-weight:800;font-size:0.85rem;">Imperial Gold</div>
+                  <div class="text-dim" style="font-size:0.74rem;">Champagne Edition</div>
+                </div>
+                <div class="theme-option-card" data-theme="crimson" onclick="selectAdminTheme('crimson', this)">
+                  <div class="theme-color-bar" style="background:linear-gradient(135deg,#f43f5e,#be123c);"></div>
+                  <div style="font-weight:800;font-size:0.85rem;">Crimson Ruby</div>
+                  <div class="text-dim" style="font-size:0.74rem;">Flagship Editorial</div>
+                </div>
+                <div class="theme-option-card" data-theme="cobalt" onclick="selectAdminTheme('cobalt', this)">
+                  <div class="theme-color-bar" style="background:linear-gradient(135deg,#3b82f6,#1d4ed8);"></div>
+                  <div style="font-weight:800;font-size:0.85rem;">Ocean Cobalt</div>
+                  <div class="text-dim" style="font-size:0.74rem;">Modern Studio</div>
+                </div>
+              </div>
+
+              <div style="margin-top:1.25rem;">
+                <label style="display:inline-flex;align-items:center;gap:0.65rem;cursor:pointer;font-weight:700;font-size:0.92rem;background:#fffcf7;padding:0.75rem 1.15rem;border-radius:var(--radius-sm);border:1px solid var(--glass-border);">
+                  <input type="checkbox" id="cfg-enable3DBackground" checked style="width:18px;height:18px;accent-color:var(--accent-primary);">
+                  Enable Full-Screen 3D Floating Shopping Bags &amp; Gift Boxes Background Across All Pages
+                </label>
+              </div>
+            </div>
+
+            <!-- 2. Brand Identity & Announcement Bar -->
+            <div style="margin-bottom:2rem;padding-bottom:1.75rem;border-bottom:1px solid var(--border-subtle);">
+              <h3 style="font-size:1.15rem;margin-bottom:0.85rem;">2. Brand Name, Announcement Banner &amp; Shipping</h3>
+              <div class="grid-3">
+                <div class="form-group">
+                  <label class="form-label" for="cfg-storeName">Store Brand Name</label>
+                  <input type="text" id="cfg-storeName" class="form-input" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="cfg-freeShippingThreshold">Free Shipping Threshold ($)</label>
+                  <input type="number" id="cfg-freeShippingThreshold" class="form-input" min="0" step="1">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="cfg-supportEmail">Customer Support Email</label>
+                  <input type="email" id="cfg-supportEmail" class="form-input">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="cfg-announcementText">Top Announcement Bar Message</label>
+                <input type="text" id="cfg-announcementText" class="form-input">
+              </div>
+            </div>
+
+            <!-- 3. Homepage Hero & 3D Flagship Stage -->
+            <div style="margin-bottom:2rem;padding-bottom:1.75rem;border-bottom:1px solid var(--border-subtle);">
+              <h3 style="font-size:1.15rem;margin-bottom:0.85rem;">3. Homepage Hero Headlines &amp; 3D Studio Product</h3>
+              <div class="grid-3">
+                <div class="form-group">
+                  <label class="form-label" for="cfg-heroBadge">Hero Top Badge</label>
+                  <input type="text" id="cfg-heroBadge" class="form-input">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="cfg-heroTitleLine1">Hero Main Headline (Line 1)</label>
+                  <input type="text" id="cfg-heroTitleLine1" class="form-input">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="cfg-heroTitleGradient">Hero Gradient Headline (Line 2)</label>
+                  <input type="text" id="cfg-heroTitleGradient" class="form-input">
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label class="form-label" for="cfg-heroSubtitle">Hero Description Paragraph</label>
+                <textarea id="cfg-heroSubtitle" class="form-input" rows="2"></textarea>
+              </div>
+
+              <div class="grid-4">
+                <div class="form-group">
+                  <label class="form-label" for="cfg-heroPrimaryCtaText">Primary Button Text</label>
+                  <input type="text" id="cfg-heroPrimaryCtaText" class="form-input">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="cfg-heroSecondaryCtaText">Secondary Button Text</label>
+                  <input type="text" id="cfg-heroSecondaryCtaText" class="form-input">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="cfg-studioModelName">3D Turntable Product Title</label>
+                  <input type="text" id="cfg-studioModelName" class="form-input">
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="cfg-studioPrice">3D Turntable Price ($)</label>
+                  <input type="number" id="cfg-studioPrice" class="form-input" step="0.01">
+                </div>
+              </div>
+            </div>
+
+            <!-- 4. Footer Copy -->
+            <div style="margin-bottom:1.5rem;">
+              <h3 style="font-size:1.15rem;margin-bottom:0.85rem;">4. Footer Tagline</h3>
+              <div class="form-group">
+                <label class="form-label" for="cfg-footerTagline">Footer Brand Description</label>
+                <input type="text" id="cfg-footerTagline" class="form-input">
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary btn-lg">
+              Save &amp; Publish All Site Changes Live
+            </button>
+          </form>
+        </div>
+      </section>
+
+      <!-- =========================================================
+           TAB 3: ORDERS & FULFILLMENT
+           ========================================================= -->
+      <section id="admin-tab-orders" class="admin-tab-section hidden">
+        <div class="admin-panel-card">
+          <div class="flex-between" style="margin-bottom:1.25rem;">
+            <div>
+              <span class="badge-tag">ORDER FULFILLMENT</span>
+              <h2 style="font-size:1.4rem;margin-top:0.35rem;">All Customer Orders</h2>
+            </div>
+          </div>
+
+          <div class="admin-table-wrap">
+            <table class="admin-table">
+              <thead>
+                <tr>
+                  <th>Order ID &amp; Date</th>
+                  <th>Customer</th>
+                  <th>Items</th>
+                  <th>Total</th>
+                  <th>Payment Status</th>
+                  <th>Fulfillment Status</th>
+                  <th>Action</th>
+                </tr>
+              </thead>
+              <tbody id="admin-orders-tbody">
+                <tr><td colspan="7" class="text-center text-muted">Loading orders...</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      <!-- =========================================================
+           TAB 4: USERS & ADMINS
+           ========================================================= -->
+      <section id="admin-tab-users" class="admin-tab-section hidden">
+        <div class="grid-2" style="grid-template-columns: 1fr 1.6fr; align-items: start;">
+
+          <!-- Create Account Card -->
+          <div class="admin-panel-card">
+            <span class="badge-tag" style="margin-bottom:0.65rem;">CREATE ACCOUNT</span>
+            <h2 style="font-size:1.35rem;margin-bottom:1.25rem;">Add User or Admin</h2>
+            <form id="admin-add-user-form">
+              <div class="form-group">
+                <label class="form-label" for="new-user-name">Full Name</label>
+                <input type="text" id="new-user-name" class="form-input" placeholder="Full Name" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="new-user-email">Email Address</label>
+                <input type="email" id="new-user-email" class="form-input" placeholder="user@example.com" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="new-user-password">Password</label>
+                <input type="text" id="new-user-password" class="form-input" placeholder="Minimum 6 characters" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="new-user-role">Account Role</label>
+                <select id="new-user-role" class="form-input">
+                  <option value="customer">Customer</option>
+                  <option value="admin" selected>Admin (Full Access)</option>
+                </select>
+              </div>
+              <button type="submit" class="btn btn-primary btn-block">Create Account</button>
+            </form>
+          </div>
+
+          <!-- Users List Card -->
+          <div class="admin-panel-card">
+            <span class="badge-tag">REGISTERED ACCOUNTS</span>
+            <h2 style="font-size:1.35rem;margin:0.35rem 0 1.25rem;">Manage Users &amp; Passwords</h2>
+            <div class="admin-table-wrap">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Name &amp; Email</th>
+                    <th>Role</th>
+                    <th>Joined</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="admin-users-tbody">
+                  <tr><td colspan="4" class="text-center text-muted">Loading users...</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- Edit Product Modal -->
+  <div id="edit-product-modal" class="admin-modal-backdrop">
+    <div class="admin-modal">
+      <div class="flex-between" style="margin-bottom:1.25rem;">
+        <h3 style="font-size:1.35rem;">Edit Product</h3>
+        <button type="button" class="btn btn-secondary btn-sm" onclick="closeEditProductModal()">Close</button>
+      </div>
+      <form id="admin-edit-product-form">
+        <input type="hidden" id="edit-prod-id">
+        <div class="form-group">
+          <label class="form-label" for="edit-prod-name">Product Name</label>
+          <input type="text" id="edit-prod-name" class="form-input" required>
+        </div>
+        <div class="grid-2" style="gap:1rem;">
+          <div class="form-group">
+            <label class="form-label" for="edit-prod-category">Category</label>
+            <input type="text" id="edit-prod-category" class="form-input" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="edit-prod-price">Price ($)</label>
+            <input type="number" id="edit-prod-price" class="form-input" step="0.01" required>
+          </div>
+        </div>
+        <div class="grid-2" style="gap:1rem;">
+          <div class="form-group">
+            <label class="form-label" for="edit-prod-stock">Stock Quantity</label>
+            <input type="number" id="edit-prod-stock" class="form-input" required>
+          </div>
+          <div class="form-group" style="display:flex;align-items:center;padding-top:1.4rem;">
+            <label style="display:flex;align-items:center;gap:0.55rem;cursor:pointer;font-weight:700;">
+              <input type="checkbox" id="edit-prod-featured" style="width:18px;height:18px;accent-color:var(--accent-primary);">
+              Featured on Homepage
+            </label>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="edit-prod-image">Image URL</label>
+          <input type="text" id="edit-prod-image" class="form-input" required>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="edit-prod-desc">Description</label>
+          <textarea id="edit-prod-desc" class="form-input" rows="3" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary btn-block btn-lg">Save Product Changes</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-bottom" style="border-top:none;padding-top:0;">
+        <p>&copy; 2026 Quartcart Admin Control Center.</p>
+        <p><a href="/index.html" style="text-decoration:underline;">Return to Storefront &rarr;</a></p>
+      </div>
+    </div>
+  </footer>
+
+  <div id="toast-container" class="toast-container"></div>
+
+  <!-- Scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="/js/api.js?v=3"></script>
+  <script src="/js/auth.js?v=3"></script>
+  <script src="/js/cart.js?v=3"></script>
+  <script src="/js/bg-3d.js?v=3"></script>
+  <script src="/js/tilt3d.js?v=3"></script>
+  <script src="/js/admin.js?v=3"></script>
+</body>
+</html>
