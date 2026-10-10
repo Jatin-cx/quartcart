@@ -256,9 +256,9 @@ function populateSiteConfigForm() {
   const bgCheck = document.getElementById('cfg-enable3DBackground');
   if (bgCheck) bgCheck.checked = c.enable3DBackground !== false;
 
-  setVal('cfg-storeName', c.storeName || 'Quartcart');
+  setVal('cfg-storeName', c.storeName || 'QuickCart');
   setVal('cfg-freeShippingThreshold', c.freeShippingThreshold !== undefined ? c.freeShippingThreshold : 150);
-  setVal('cfg-supportEmail', c.supportEmail || 'support@quartcart.com');
+  setVal('cfg-supportEmail', c.supportEmail || 'support@quickcart.com');
   setVal('cfg-announcementText', c.announcementText || '');
   setVal('cfg-heroBadge', c.heroBadge || '');
   setVal('cfg-heroTitleLine1', c.heroTitleLine1 || '');
@@ -529,7 +529,7 @@ document.addEventListener('DOMContentLoaded', () => {
       try {
         const res = await api.put('/admin/config', payload);
         adminState.config = res.config;
-        sessionStorage.setItem('quartcart_site_config', JSON.stringify(res.config));
+        sessionStorage.setItem('quickcart_site_config', JSON.stringify(res.config));
         if (typeof applyConfigToDOM === 'function') {
           applyConfigToDOM(res.config);
         }

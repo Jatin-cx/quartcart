@@ -1,4 +1,4 @@
-# ShopEase — E-Commerce Store
+# QuickCart — E-Commerce Store
 
 A production-quality e-commerce website built with **Node.js**, **Express**, **MongoDB**, **Stripe**, and vanilla HTML/CSS/JS frontend.
 

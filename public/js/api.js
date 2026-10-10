@@ -275,8 +275,12 @@ function applyConfigToDOM(cfg) {
 
   // 3. Brand Name
   if (cfg.storeName) {
+    const formattedBrand =
+      cfg.storeName.toLowerCase() === 'quickcart'
+        ? 'Quick<span>Cart</span>'
+        : cfg.storeName;
     document.querySelectorAll('.navbar-brand, .footer-brand').forEach((el) => {
-      el.innerHTML = `<span class="brand-dot"></span> ${cfg.storeName}`;
+      el.innerHTML = `<span class="brand-dot"></span> ${formattedBrand}`;
     });
   }
 
@@ -330,13 +334,14 @@ function applyConfigToDOM(cfg) {
 
 async function syncLiveSiteConfig() {
   try {
-    const cached = sessionStorage.getItem('quartcart_site_config');
+    sessionStorage.removeItem('quartcart_site_config');
+    const cached = sessionStorage.getItem('quickcart_site_config');
     if (cached) {
       applyConfigToDOM(JSON.parse(cached));
     }
     const data = await api.get('/admin/config');
     if (data && data.config) {
-      sessionStorage.setItem('quartcart_site_config', JSON.stringify(data.config));
+      sessionStorage.setItem('quickcart_site_config', JSON.stringify(data.config));
       applyConfigToDOM(data.config);
     }
   } catch {

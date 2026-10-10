@@ -11,7 +11,7 @@ const siteConfigSchema = new mongoose.Schema(
     },
     storeName: {
       type: String,
-      default: 'Quartcart',
+      default: 'QuickCart',
     },
     announcementText: {
       type: String,
@@ -64,7 +64,7 @@ const siteConfigSchema = new mongoose.Schema(
     },
     supportEmail: {
       type: String,
-      default: 'support@quartcart.com',
+      default: 'support@quickcart.com',
     },
     freeShippingThreshold: {
       type: Number,

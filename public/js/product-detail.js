@@ -45,7 +45,7 @@ function renderProductDetail(product) {
   const detailContainer = document.getElementById('product-detail');
   if (!detailContainer) return;
 
-  document.title = `${product.name} - Quartcart`;
+  document.title = `${product.name} - QuickCart`;
 
   const images = (product.images && product.images.length) ? product.images : ['https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800'];
   const inStock = product.stock > 0;

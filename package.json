@@ -1,7 +1,7 @@
 {
-  "name": "quartcart",
+  "name": "quickcart",
   "version": "1.0.0",
-  "description": "Quartcart — A modern luxury e-commerce storefront built with Node.js, Express, MongoDB Atlas, and Stripe.",
+  "description": "QuickCart — A modern luxury e-commerce storefront built with Node.js, Express, MongoDB Atlas, and Stripe.",
   "main": "server.js",
   "scripts": {
     "start": "node server.js",

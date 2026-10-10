@@ -160,10 +160,10 @@ router.post(
         </head>
         <body>
           <div class="card">
-            <div class="brand">Quartcart</div>
+            <div class="brand">QuickCart</div>
             <h2 style="margin: 0 0 12px; font-size: 20px; color: #fff;">Passcode Reset Request</h2>
             <p style="color: #94a3b8; font-size: 15px; line-height: 1.6;">
-              Hello ${user.name}, we received a request to reset the passcode for your Quartcart client account. Click the secure link below to choose a new passcode:
+              Hello ${user.name}, we received a request to reset the passcode for your QuickCart client account. Click the secure link below to choose a new passcode:
             </p>
             <p style="text-align: center;">
               <a href="${resetUrl}" class="btn">Reset Passcode →</a>
@@ -172,7 +172,7 @@ router.post(
               This link is single-use and will expire in <strong>15 minutes</strong>. If you did not request this, you can safely ignore this email.
             </p>
             <div class="footer">
-              © 2026 Quartcart. 256-Bit SSL Encrypted Protocol.
+              © 2026 QuickCart. 256-Bit SSL Encrypted Protocol.
             </div>
           </div>
         </body>
@@ -182,7 +182,7 @@ router.post(
       try {
         await sendEmail({
           to: user.email,
-          subject: 'Quartcart - Password Reset Request',
+          subject: 'QuickCart - Password Reset Request',
           text: `You requested a passcode reset. Visit: ${resetUrl}`,
           html: emailHtml,
         });

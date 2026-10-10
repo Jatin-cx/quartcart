@@ -83,7 +83,7 @@ app.use(errorHandler);
 
 // ─── Start Server ─────────────────────────────────────────────────────────
 app.listen(PORT, () => {
-  console.log(`Quartcart server running at http://localhost:${PORT}`);
+  console.log(`QuickCart server running at http://localhost:${PORT}`);
   console.log(`   Environment: ${process.env.NODE_ENV || 'development'}`);
 });
 

@@ -20,7 +20,7 @@ async function sendEmail({ to, subject, html, text }) {
     });
 
     const info = await transporter.sendMail({
-      from: `"Quartcart Security" <${emailUser}>`,
+      from: `"QuickCart Security" <${emailUser}>`,
       to,
       subject,
       text,
