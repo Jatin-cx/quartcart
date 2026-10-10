@@ -1,6 +1,6 @@
 /**
- * tilt3d.js - Physics-based 3D Card Tilt, Specular Glare & Parallax Depth
- * Elevates cards in 3D perspective space and computes dynamic surface lighting reflections.
+ * tilt3d.js - Multi-Layer 3D Perspective Physics, Z-Axis Extrusion & Warm Studio Glare
+ * Transforms cards, product tiles, trust boxes, and panels into tactile 3D objects.
  */
 
 'use strict';
@@ -9,18 +9,29 @@ function applyCardTilt(card) {
   if (!card || card.dataset.tiltInitialized) return;
   card.dataset.tiltInitialized = 'true';
 
-  // Inject specular glare layer if not present
+  card.style.transformStyle = 'preserve-3d';
+
   let glare = card.querySelector('.product-card-glare');
-  if (!glare && card.classList.contains('product-card')) {
+  if (!glare) {
     glare = document.createElement('div');
     glare.className = 'product-card-glare';
     card.appendChild(glare);
   }
 
-  const imgWrapper = card.querySelector('.product-card-img-wrapper') || card.querySelector('.category-tile-img-box');
+  const imgWrapper =
+    card.querySelector('.product-card-img-wrapper') ||
+    card.querySelector('.category-tile-img-box') ||
+    card.querySelector('.trust-icon-box');
+
+  const bodyEl =
+    card.querySelector('.product-card-body') ||
+    card.querySelector('.category-tile-title-row');
+
+  const footerEl = card.querySelector('.product-card-footer');
+  const badgeEl = card.querySelector('.featured-badge');
 
   function onMouseEnter() {
-    card.style.transition = 'transform 0.1s ease-out, box-shadow 0.2s ease, border-color 0.2s ease';
+    card.style.transition = 'transform 0.12s ease-out, box-shadow 0.25s ease, border-color 0.25s ease';
     if (glare) glare.style.opacity = '1';
   }
 
@@ -32,35 +43,47 @@ function applyCardTilt(card) {
     const xPct = mouseX / bounds.width;
     const yPct = mouseY / bounds.height;
 
-    // Smooth tilt angles (-14 to +14 deg)
-    const tiltX = ((yPct - 0.5) * -14).toFixed(2);
-    const tiltY = ((xPct - 0.5) * 14).toFixed(2);
+    const maxTilt = card.classList.contains('auth-card-panel') || card.classList.contains('auth-perks-card') ? 5 : 13;
+    const tiltX = ((yPct - 0.5) * -maxTilt).toFixed(2);
+    const tiltY = ((xPct - 0.5) * maxTilt).toFixed(2);
 
-    card.style.transform = `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) translateY(-8px) scale3d(1.02, 1.02, 1.02)`;
-    card.style.boxShadow = `0 22px 50px rgba(0, 0, 0, 0.7), 0 0 25px rgba(0, 242, 254, 0.2)`;
-    card.style.borderColor = 'rgba(0, 242, 254, 0.45)';
+    card.style.transform = `perspective(1100px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) translateY(-10px) scale3d(1.02, 1.02, 1.02)`;
+    card.style.boxShadow = `0 28px 55px -10px rgba(120, 53, 25, 0.24), 0 12px 24px -6px rgba(224, 79, 51, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.95)`;
+    card.style.borderColor = 'rgba(224, 79, 51, 0.55)';
 
-    // Update dynamic specular reflection position
     if (glare) {
-      glare.style.background = `radial-gradient(circle at ${(xPct * 100).toFixed(1)}% ${(yPct * 100).toFixed(1)}%, rgba(0, 242, 254, 0.28) 0%, transparent 60%)`;
+      glare.style.background = `radial-gradient(circle at ${(xPct * 100).toFixed(1)}% ${(yPct * 100).toFixed(1)}%, rgba(255, 248, 235, 0.65) 0%, rgba(245, 158, 11, 0.15) 35%, transparent 65%)`;
     }
 
-    // 3D Parallax lift on product image
     if (imgWrapper) {
-      imgWrapper.style.transform = `translateZ(24px)`;
+      imgWrapper.style.transform = 'translateZ(36px)';
+      imgWrapper.style.transition = 'transform 0.2s ease-out';
+    }
+    if (bodyEl) {
+      bodyEl.style.transform = 'translateZ(24px)';
+      bodyEl.style.transition = 'transform 0.2s ease-out';
+    }
+    if (footerEl) {
+      footerEl.style.transform = 'translateZ(38px)';
+      footerEl.style.transition = 'transform 0.2s ease-out';
+    }
+    if (badgeEl) {
+      badgeEl.style.transform = 'translateZ(50px)';
+      badgeEl.style.transition = 'transform 0.2s ease-out';
     }
   }
 
   function onMouseLeave() {
-    card.style.transition = 'transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.5s ease, border-color 0.5s ease';
-    card.style.transform = 'perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0) scale3d(1, 1, 1)';
+    card.style.transition = 'transform 0.55s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.55s ease, border-color 0.55s ease';
+    card.style.transform = 'perspective(1100px) rotateX(0deg) rotateY(0deg) translateY(0) scale3d(1, 1, 1)';
     card.style.boxShadow = '';
     card.style.borderColor = '';
     if (glare) glare.style.opacity = '0';
 
-    if (imgWrapper) {
-      imgWrapper.style.transform = 'translateZ(0)';
-    }
+    if (imgWrapper) imgWrapper.style.transform = 'translateZ(0)';
+    if (bodyEl) bodyEl.style.transform = 'translateZ(0)';
+    if (footerEl) footerEl.style.transform = 'translateZ(0)';
+    if (badgeEl) badgeEl.style.transform = 'translateZ(0)';
   }
 
   card.addEventListener('mouseenter', onMouseEnter);
@@ -68,18 +91,29 @@ function applyCardTilt(card) {
   card.addEventListener('mouseleave', onMouseLeave);
 }
 
+const TILT_SELECTORS = [
+  '.product-card',
+  '.category-tile-3d',
+  '.hero-studio-card',
+  '.trust-item',
+  '.auth-perks-card',
+  '.auth-card-panel',
+  '.card',
+  '.cart-summary-card'
+].join(', ');
+
 function initCardInteractions() {
-  document.querySelectorAll('.product-card, .category-tile-3d, .hero-studio-card').forEach(applyCardTilt);
+  document.querySelectorAll(TILT_SELECTORS).forEach(applyCardTilt);
 
   const observer = new MutationObserver((mutations) => {
     mutations.forEach((m) => {
       m.addedNodes.forEach((node) => {
         if (node.nodeType === 1) {
-          if (node.classList && (node.classList.contains('product-card') || node.classList.contains('category-tile-3d'))) {
+          if (node.matches && node.matches(TILT_SELECTORS)) {
             applyCardTilt(node);
           }
           if (node.querySelectorAll) {
-            node.querySelectorAll('.product-card, .category-tile-3d').forEach(applyCardTilt);
+            node.querySelectorAll(TILT_SELECTORS).forEach(applyCardTilt);
           }
         }
       });

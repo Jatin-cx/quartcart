@@ -306,7 +306,7 @@ function renderCartPage() {
           <div class="flex" style="gap:1rem; align-items:center;">
             <img src="${imgUrl}" alt="${item.name}" class="cart-item-img" onerror="this.src='https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=120'">
             <div>
-              <div class="cart-item-name" style="font-weight:700;color:#ffffff;font-size:0.95rem;">${item.name}</div>
+              <div class="cart-item-name" style="font-weight:700;color:var(--text-main);font-size:0.95rem;">${item.name}</div>
               <div class="text-muted fs-sm">${unitPrice} each</div>
             </div>
           </div>
@@ -318,7 +318,7 @@ function renderCartPage() {
             <button type="button" class="qty-inc" data-id="${item._id}">+</button>
           </div>
         </td>
-        <td class="fw-bold" style="color:#00f2fe;font-size:1.05rem;">${linePrice}</td>
+        <td class="fw-bold" style="color:var(--accent-primary);font-size:1.05rem;">${linePrice}</td>
         <td>
           <button class="btn btn-danger btn-sm remove-item" data-id="${item._id}" title="Remove">Remove</button>
         </td>

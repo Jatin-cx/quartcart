@@ -58,7 +58,7 @@ function renderProductDetail(product) {
         ${isAudioProduct ? `
           <div style="display:flex;gap:0.6rem;margin-bottom:1.25rem;">
             <button type="button" class="btn btn-primary btn-sm" id="btn-mode-photo" style="font-size:0.75rem;">Studio Gallery</button>
-            <button type="button" class="btn btn-outline btn-sm" id="btn-mode-3d" style="font-size:0.75rem;color:var(--accent-primary);border-color:rgba(0,242,254,0.4);">
+            <button type="button" class="btn btn-outline btn-sm" id="btn-mode-3d" style="font-size:0.75rem;color:var(--accent-primary);border-color:var(--accent-primary);">
               Interactive 3D Turntable
             </button>
           </div>
@@ -66,7 +66,7 @@ function renderProductDetail(product) {
 
         <!-- 2D Gallery View -->
         <div id="view-photo-container">
-          <div class="gallery-main" style="border-radius:var(--radius-md);overflow:hidden;background:#0d0f17;border:1px solid var(--glass-border);position:relative;">
+          <div class="gallery-main" style="border-radius:var(--radius-md);overflow:hidden;background:var(--bg-surface);border:1px solid var(--glass-border);position:relative;">
             <img id="main-product-img" src="${images[0]}" alt="${product.name}" style="width:100%;aspect-ratio:1/1;object-fit:cover;transition:transform 0.4s ease;">
           </div>
           ${images.length > 1 ? `
@@ -108,7 +108,7 @@ function renderProductDetail(product) {
       <!-- Specs Column -->
       <div>
         <div class="badge-tag">${product.category}</div>
-        <h1 style="font-size:clamp(1.8rem, 3.2vw, 2.4rem);margin-top:0.75rem;color:#ffffff;">${product.name}</h1>
+        <h1 style="font-size:clamp(1.8rem, 3.2vw, 2.4rem);margin-top:0.75rem;color:var(--text-main);">${product.name}</h1>
 
         <div class="detail-price" style="font-size:1.8rem;font-weight:800;color:var(--accent-primary);margin:1rem 0;">${formatPrice(product.price)}</div>
 
@@ -150,11 +150,11 @@ function renderProductDetail(product) {
         <!-- Value Badges -->
         <div style="margin-top:2.5rem;padding-top:2rem;border-top:1px solid var(--border-subtle);display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;">
           <div>
-            <h5 style="font-size:0.88rem;margin-bottom:0.2rem;color:#ffffff;">Express Dispatch</h5>
+            <h5 style="font-size:0.88rem;margin-bottom:0.2rem;color:var(--text-main);">Express Dispatch</h5>
             <p style="font-size:0.8rem;color:var(--text-dim);">Courier dispatch with live tracking</p>
           </div>
           <div>
-            <h5 style="font-size:0.88rem;margin-bottom:0.2rem;color:#ffffff;">30-Day Returns</h5>
+            <h5 style="font-size:0.88rem;margin-bottom:0.2rem;color:var(--text-main);">30-Day Returns</h5>
             <p style="font-size:0.8rem;color:var(--text-dim);">Standard return and refund policy</p>
           </div>
         </div>

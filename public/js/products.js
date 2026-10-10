@@ -43,7 +43,7 @@ async function loadProducts() {
     if (!products || products.length === 0) {
       productsGrid.innerHTML = `
         <div style="grid-column:1/-1;text-align:center;padding:5rem 1rem;">
-          <h3 style="font-size:1.4rem;color:#ffffff;">No Allocations Found</h3>
+          <h3 style="font-size:1.4rem;color:var(--text-main);">No Allocations Found</h3>
           <p class="text-muted mt-1">Try adjusting your search criteria or discipline filter.</p>
         </div>
       `;
@@ -79,7 +79,7 @@ async function loadProducts() {
   } catch (err) {
     productsGrid.innerHTML = `
       <div style="grid-column:1/-1;text-align:center;padding:4rem 0;">
-        <h3 style="color:#ffffff;">Connection Interrupted</h3>
+        <h3 style="color:var(--text-main);">Connection Interrupted</h3>
         <p class="text-muted mt-1">${err.message}</p>
       </div>
     `;

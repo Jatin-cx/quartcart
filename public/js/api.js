@@ -110,7 +110,7 @@ function showToast(message, type = 'info', duration = 3500) {
   const toast = document.createElement('div');
   toast.className = `toast ${type}`;
   toast.innerHTML = `
-    <span class="toast-dot" style="width:6px;height:6px;border-radius:50%;background:${type === 'error' ? 'var(--danger)' : type === 'warning' ? 'var(--warning)' : '#ffffff'};display:inline-block;flex-shrink:0;"></span>
+    <span class="toast-dot" style="width:8px;height:8px;border-radius:50%;background:${type === 'error' ? 'var(--danger)' : type === 'warning' ? 'var(--warning)' : 'var(--accent-primary)'};display:inline-block;flex-shrink:0;"></span>
     <span>${message}</span>
   `;
 
@@ -160,7 +160,6 @@ function initMobileMenu() {
     toggle.addEventListener('click', () => {
       navLinks.classList.toggle('open');
     });
-    // Close on outside click
     document.addEventListener('click', (e) => {
       if (!toggle.contains(e.target) && !navLinks.contains(e.target)) {
         navLinks.classList.remove('open');
@@ -195,11 +194,27 @@ function truncate(str, max = 60) {
 // ─── Image Placeholder ─────────────────────────────────────
 function productImage(images, name = 'Product') {
   if (images && images.length > 0 && images[0]) return images[0];
-  return `https://via.placeholder.com/400x400/ece9ff/6C63FF?text=${encodeURIComponent(name.slice(0, 12))}`;
+  return `https://via.placeholder.com/400x400/f7ede2/e04f33?text=${encodeURIComponent(name.slice(0, 12))}`;
+}
+
+// ─── Auto-Inject 3D Retail Background & 3D Tilt Engine ─────
+function ensure3DEnginesLoaded() {
+  if (!document.querySelector('script[src*="bg-3d.js"]')) {
+    const bgScript = document.createElement('script');
+    bgScript.src = '/js/bg-3d.js';
+    document.body.appendChild(bgScript);
+  }
+  if (!document.querySelector('script[src*="tilt3d.js"]')) {
+    const tiltScript = document.createElement('script');
+    tiltScript.src = '/js/tilt3d.js';
+    document.body.appendChild(tiltScript);
+  }
 }
 
 // Auto-init on DOMContentLoaded
 document.addEventListener('DOMContentLoaded', () => {
   setActiveNavLink();
   initMobileMenu();
+  ensure3DEnginesLoaded();
 });
+
