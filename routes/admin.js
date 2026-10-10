@@ -2,10 +2,44 @@
 
 const express = require('express');
 const router = express.Router();
+const jwt = require('jsonwebtoken');
+const rateLimit = require('express-rate-limit');
 const Product = require('../models/Product');
 const Order = require('../models/Order');
 const User = require('../models/User');
 const SiteConfig = require('../models/SiteConfig');
+const authMiddleware = require('../middleware/auth');
+
+const adminAuthLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000,
+  max: 25,
+  message: { message: 'Too many authentication attempts. Please try again later.' },
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+const OWNER_MASTER_KEY = process.env.ADMIN_MASTER_KEY || 'QUICKCART-OWNER-2026';
+
+/**
+ * Helper: ensure default Owner/Admin account exists so the website owner is never locked out
+ */
+async function ensureOwnerAccount() {
+  const defaultAdminEmail = (process.env.ADMIN_EMAIL || 'admin@quickcart.com').toLowerCase();
+  const defaultAdminPass = process.env.ADMIN_PASSWORD || 'Admin@12345';
+
+  let owner = await User.findOne({ email: defaultAdminEmail });
+  if (!owner) {
+    owner = await User.create({
+      name: 'QuickCart Owner',
+      email: defaultAdminEmail,
+      password: defaultAdminPass,
+      role: 'admin',
+    });
+  } else if (owner.role !== 'admin') {
+    owner.role = 'admin';
+    await owner.save();
+  }
+}
 
 /**
  * Helper: get or initialize singleton SiteConfig document
@@ -27,6 +61,58 @@ router.get('/config', async (req, res, next) => {
     next(err);
   }
 });
+
+// ─── POST /api/admin/login (Dedicated Owner & Admin Authentication) ────────
+router.post('/login', adminAuthLimiter, async (req, res, next) => {
+  try {
+    await ensureOwnerAccount();
+
+    const { email, password, masterKey } = req.body;
+    if (!email || !password) {
+      return res.status(400).json({ message: 'Admin email and password are required.' });
+    }
+
+    const normalizedEmail = String(email).trim().toLowerCase();
+    const user = await User.findOne({ email: normalizedEmail }).select('+password');
+
+    if (!user) {
+      return res.status(401).json({ message: 'Invalid administrator credentials.' });
+    }
+
+    const isMatch = await user.comparePassword(String(password));
+    if (!isMatch) {
+      return res.status(401).json({ message: 'Invalid administrator credentials.' });
+    }
+
+    // If account is not yet admin, check if they provided the Owner Master Key to elevate
+    if (user.role !== 'admin') {
+      if (masterKey && String(masterKey).trim() === OWNER_MASTER_KEY) {
+        user.role = 'admin';
+        await user.save();
+      } else {
+        return res.status(403).json({
+          message:
+            'Access denied. This account does not have Website Owner or Administrator privileges.',
+        });
+      }
+    }
+
+    const token = jwt.sign({ id: user._id, role: user.role }, process.env.JWT_SECRET, {
+      expiresIn: '7d',
+    });
+
+    res.json({
+      message: 'Administrator authenticated.',
+      token,
+      user: user.toJSON(),
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
+// ─── STRICT AUTHENTICATION & ADMIN AUTHORIZATION GATE FOR ALL ROUTES BELOW ─
+router.use(authMiddleware, authMiddleware.requireAdmin);
 
 // ─── PUT /api/admin/config (Update any part of the site live) ──────────────
 router.put('/config', async (req, res, next) => {

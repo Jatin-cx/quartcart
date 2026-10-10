@@ -76,6 +76,10 @@ function updateNavbar() {
       logout();
     };
   }
+
+  if (typeof injectAdminNavLink === 'function') {
+    injectAdminNavLink();
+  }
 }
 
 /**
@@ -195,8 +199,9 @@ if (loginForm) {
       const data = await api.post('/auth/login', { email, password });
       storeAuth(data.token, data.user);
       showToast('Welcome back.', 'success');
-      // Redirect to previous page or account
-      const redirect = params.get('redirect') || '/account.html';
+      // Redirect to previous page, admin control center for admins, or customer account
+      const defaultDest = data.user && data.user.role === 'admin' ? '/admin.html' : '/account.html';
+      const redirect = params.get('redirect') || defaultDest;
       setTimeout(() => { window.location.href = redirect; }, 600);
     } catch (err) {
       showToast(err.message, 'error');

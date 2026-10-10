@@ -37,9 +37,97 @@ window.setPresetImage = function (url) {
 };
 
 /**
- * Load all admin data in a single fast request
+ * Show the security gate and hide the protected admin workspace
+ */
+function showAdminSecurityGate(alertMessage = '') {
+  const gate = document.getElementById('admin-security-gate');
+  const workspace = document.getElementById('admin-protected-workspace');
+  const alertEl = document.getElementById('admin-gate-alert');
+
+  if (workspace) workspace.style.display = 'none';
+  if (gate) gate.style.display = 'block';
+
+  if (alertEl) {
+    if (alertMessage) {
+      alertEl.textContent = alertMessage;
+      alertEl.classList.remove('hidden');
+    } else {
+      alertEl.classList.add('hidden');
+    }
+  }
+}
+
+/**
+ * Unlock the protected admin workspace after server verification
+ */
+function unlockAdminWorkspace(user) {
+  const gate = document.getElementById('admin-security-gate');
+  const workspace = document.getElementById('admin-protected-workspace');
+  const badge = document.getElementById('admin-identity-badge');
+
+  if (gate) gate.style.display = 'none';
+  if (workspace) workspace.style.display = 'block';
+  if (badge && user) {
+    badge.textContent = `${user.name || 'Owner'} (${user.email})`;
+  }
+  if (typeof injectAdminNavLink === 'function') {
+    injectAdminNavLink();
+  }
+}
+
+/**
+ * Quick helper to fill default Owner credentials
+ */
+window.fillDefaultOwnerCredentials = function () {
+  const emailInput = document.getElementById('admin-gate-email');
+  const passInput = document.getElementById('admin-gate-password');
+  if (emailInput) emailInput.value = 'admin@quickcart.com';
+  if (passInput) passInput.value = 'Admin@12345';
+  showToast('Owner credentials filled. Click Verify & Unlock Admin Vault.', 'info');
+};
+
+/**
+ * Lock Admin Vault and sign out
+ */
+window.lockAdminSession = function () {
+  localStorage.removeItem('token');
+  localStorage.removeItem('user');
+  if (typeof injectAdminNavLink === 'function') {
+    injectAdminNavLink();
+  }
+  if (typeof updateAuthNav === 'function') {
+    updateAuthNav();
+  }
+  showAdminSecurityGate('Admin Vault locked. Authenticate as Website Owner or Administrator to re-enter.');
+  showToast('Admin session locked.', 'info');
+};
+
+/**
+ * Load all admin data in a single fast request (Protected by JWT + Admin Role)
  */
 async function loadAdminDashboard() {
+  const token = localStorage.getItem('token');
+  let currentUser = null;
+  try {
+    currentUser = JSON.parse(localStorage.getItem('user') || 'null');
+  } catch {
+    currentUser = null;
+  }
+
+  if (!token || !currentUser) {
+    showAdminSecurityGate();
+    return;
+  }
+
+  if (currentUser.role !== 'admin') {
+    const emailInput = document.getElementById('admin-gate-email');
+    if (emailInput && currentUser.email) emailInput.value = currentUser.email;
+    showAdminSecurityGate(
+      `Access Restricted: Your current account (${currentUser.email}) is a standard Customer profile. Sign in with Website Owner / Admin credentials or enter the Owner Master Key below.`
+    );
+    return;
+  }
+
   try {
     const data = await api.get('/admin/overview');
     adminState.stats = data.stats || {};
@@ -48,13 +136,16 @@ async function loadAdminDashboard() {
     adminState.users = data.users || [];
     adminState.config = data.config || {};
 
+    unlockAdminWorkspace(currentUser);
     renderAdminKPIs();
     renderAdminProducts();
     renderAdminOrders();
     renderAdminUsers();
     populateSiteConfigForm();
   } catch (err) {
-    showToast(err.message || 'Failed to load admin dashboard.', 'error');
+    showAdminSecurityGate(
+      err.message || 'Administrator verification required. Please sign in with your Owner/Admin account.'
+    );
   }
 }
 
@@ -441,6 +532,47 @@ window.deleteAdminUser = async function (userId) {
  * Initialize Form Listeners
  */
 document.addEventListener('DOMContentLoaded', () => {
+  // Owner & Admin Security Gate Form
+  const gateForm = document.getElementById('admin-gate-login-form');
+  if (gateForm) {
+    gateForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const submitBtn = document.getElementById('admin-gate-submit-btn');
+      const email = document.getElementById('admin-gate-email').value.trim();
+      const password = document.getElementById('admin-gate-password').value;
+      const masterKey = document.getElementById('admin-gate-master-key').value.trim();
+
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Verifying Administrator...';
+      }
+
+      try {
+        const res = await api.post('/admin/login', { email, password, masterKey });
+        localStorage.setItem('token', res.token);
+        localStorage.setItem('user', JSON.stringify(res.user));
+
+        if (typeof updateAuthNav === 'function') {
+          updateAuthNav();
+        }
+        if (typeof injectAdminNavLink === 'function') {
+          injectAdminNavLink();
+        }
+
+        showToast(`Welcome back, ${res.user.name}. Admin Vault unlocked.`, 'success');
+        await loadAdminDashboard();
+      } catch (err) {
+        showAdminSecurityGate(err.message || 'Invalid Administrator credentials.');
+        showToast(err.message || 'Authentication failed.', 'error');
+      } finally {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Verify & Unlock Admin Vault';
+        }
+      }
+    });
+  }
+
   loadAdminDashboard();
 
   // Add Product Form

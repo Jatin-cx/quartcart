@@ -17,6 +17,12 @@ async function loadProfile() {
   try {
     const data = await api.get('/auth/profile');
     const user = data.user;
+    if (user) {
+      localStorage.setItem('user', JSON.stringify(user));
+      if (typeof injectAdminNavLink === 'function') {
+        injectAdminNavLink();
+      }
+    }
 
     if (profileAvatar) {
       profileAvatar.textContent = user.name ? user.name.charAt(0).toUpperCase() : '?';

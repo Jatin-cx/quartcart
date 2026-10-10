@@ -4,6 +4,7 @@ const express = require('express');
 const router = express.Router();
 const { body, query, validationResult } = require('express-validator');
 const Product = require('../models/Product');
+const authMiddleware = require('../middleware/auth');
 
 // ─── GET /api/products/featured ───────────────────────────────────────────
 // Must be defined BEFORE /:id to avoid 'featured' being interpreted as an ID
@@ -82,9 +83,11 @@ router.get('/:id', async (req, res, next) => {
   }
 });
 
-// ─── POST /api/products ────────────────────────────────────────────────────
+// ─── POST /api/products (Admin Only) ───────────────────────────────────────
 router.post(
   '/',
+  authMiddleware,
+  authMiddleware.requireAdmin,
   [
     body('name').trim().notEmpty().withMessage('Name is required'),
     body('description').trim().notEmpty().withMessage('Description is required'),
@@ -109,8 +112,8 @@ router.post(
   }
 );
 
-// ─── PUT /api/products/:id ─────────────────────────────────────────────────
-router.put('/:id', async (req, res, next) => {
+// ─── PUT /api/products/:id (Admin Only) ────────────────────────────────────
+router.put('/:id', authMiddleware, authMiddleware.requireAdmin, async (req, res, next) => {
   try {
     const disallowed = ['_id', '__v', 'slug', 'createdAt', 'updatedAt'];
     disallowed.forEach((k) => delete req.body[k]);
@@ -129,8 +132,8 @@ router.put('/:id', async (req, res, next) => {
   }
 });
 
-// ─── DELETE /api/products/:id ──────────────────────────────────────────────
-router.delete('/:id', async (req, res, next) => {
+// ─── DELETE /api/products/:id (Admin Only) ─────────────────────────────────
+router.delete('/:id', authMiddleware, authMiddleware.requireAdmin, async (req, res, next) => {
   try {
     const product = await Product.findByIdAndDelete(req.params.id);
     if (!product) {

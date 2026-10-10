@@ -39,4 +39,18 @@ async function authMiddleware(req, res, next) {
   }
 }
 
+/**
+ * Middleware: require authenticated user to have 'admin' role (Website Owner / Admin).
+ */
+function requireAdmin(req, res, next) {
+  if (!req.user || req.user.role !== 'admin') {
+    return res.status(403).json({
+      message: 'Access denied. Website Owner or Administrator authorization required.',
+    });
+  }
+  next();
+}
+
+authMiddleware.requireAdmin = requireAdmin;
 module.exports = authMiddleware;
+

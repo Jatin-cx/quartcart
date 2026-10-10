@@ -44,9 +44,9 @@ async function apiFetch(endpoint, options = {}) {
   if (response.status === 401) {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
-    // Don't redirect if already on auth pages
+    // Don't redirect if already on auth or admin gate pages
     const path = window.location.pathname;
-    if (!path.includes('login') && !path.includes('register')) {
+    if (!path.includes('login') && !path.includes('register') && !path.includes('admin')) {
       window.location.href = '/login.html?session=expired';
     }
     const errData = await response.json().catch(() => ({}));
@@ -211,16 +211,35 @@ function ensure3DEnginesLoaded() {
   }
 }
 
-// ─── Inject Admin Control Center Link into Navbar ──────────
+// ─── Inject Admin Control Center Link into Navbar (Owner / Admin Only) ─────
 function injectAdminNavLink() {
   const navLinks = document.getElementById('nav-links');
-  if (!navLinks || document.getElementById('nav-admin-link')) return;
+  if (!navLinks) return;
+
+  const existingLink = document.getElementById('nav-admin-link');
+  const token = localStorage.getItem('token');
+  let user = null;
+  try {
+    user = JSON.parse(localStorage.getItem('user') || 'null');
+  } catch {
+    user = null;
+  }
+
+  const isAdmin = Boolean(token && user && user.role === 'admin');
+  if (!isAdmin) {
+    if (existingLink && existingLink.parentElement) {
+      existingLink.parentElement.remove();
+    }
+    return;
+  }
+
+  if (existingLink) return;
 
   const li = document.createElement('li');
   const a = document.createElement('a');
   a.id = 'nav-admin-link';
   a.href = '/admin.html';
-  a.textContent = 'Admin';
+  a.textContent = 'Admin Vault';
   a.style.cssText = 'font-weight:800;color:var(--accent-primary);border:1px dashed var(--accent-primary);padding:0.32rem 0.7rem;border-radius:6px;';
   if (window.location.pathname.includes('admin')) {
     a.classList.add('active');

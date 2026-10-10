@@ -228,7 +228,6 @@
       <ul class="nav-links" id="nav-links">
         <li><a href="/index.html">View Live Store</a></li>
         <li><a href="/products.html">Catalog</a></li>
-        <li><a href="/admin.html" class="active">Admin Center</a></li>
         <li>
           <a href="/cart.html" class="cart-link">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -247,15 +246,63 @@
   <main>
     <div class="container section" style="padding-top:2.5rem;">
 
+      <!-- Owner & Administrator Security Gate (Shown when unauthenticated or non-admin) -->
+      <div id="admin-security-gate" style="max-width:540px;margin:2rem auto 4rem;">
+        <div class="admin-panel-card" style="padding:2.5rem;border:2px solid var(--border-hover);">
+          <div class="text-center" style="margin-bottom:1.5rem;">
+            <span class="badge-tag" style="margin-bottom:0.75rem;">
+              <span class="dot"></span>
+              RESTRICTED OWNER &amp; ADMIN VAULT
+            </span>
+            <h1 style="font-size:1.85rem;margin-bottom:0.4rem;">Administrator Authentication</h1>
+            <p class="text-muted" id="admin-gate-subtitle" style="font-size:0.9rem;">
+              This control center is restricted exclusively to the Website Owner and authorized Administrators.
+            </p>
+          </div>
+
+          <div id="admin-gate-alert" class="hidden" style="background:rgba(220,38,38,0.08);border:1px solid rgba(220,38,38,0.28);color:var(--danger);padding:0.85rem 1rem;border-radius:8px;font-size:0.86rem;font-weight:600;margin-bottom:1.25rem;"></div>
+
+          <form id="admin-gate-login-form">
+            <div class="form-group">
+              <label class="form-label" for="admin-gate-email">Owner / Admin Email</label>
+              <input type="email" id="admin-gate-email" class="form-input" placeholder="admin@quickcart.com" required autocomplete="username">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="admin-gate-password">Administrator Passcode</label>
+              <input type="password" id="admin-gate-password" class="form-input" placeholder="Enter administrator password" required autocomplete="current-password">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="admin-gate-master-key">Owner Master Key <span class="text-muted" style="font-weight:400;">(Optional - elevates your account to Owner/Admin)</span></label>
+              <input type="password" id="admin-gate-master-key" class="form-input" placeholder="Leave blank if account is already Admin">
+            </div>
+            <button type="submit" class="btn btn-primary btn-block btn-lg" id="admin-gate-submit-btn">
+              Verify &amp; Unlock Admin Vault
+            </button>
+          </form>
+
+          <div style="margin-top:1.5rem;padding-top:1.15rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.5rem;font-size:0.82rem;">
+            <a href="/index.html" class="text-muted" style="font-weight:600;">&larr; Return to Storefront</a>
+            <button type="button" class="btn btn-secondary btn-sm" onclick="fillDefaultOwnerCredentials()">
+              Use Owner Credentials
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Protected Admin Workspace (Hidden until JWT + Admin Role Verified) -->
+      <div id="admin-protected-workspace" style="display:none;">
+
       <!-- Top Admin Command Header -->
       <div class="admin-header-bar">
         <div>
           <span class="badge-tag">
             <span class="dot"></span>
-            FULL STOREFRONT ACCESS
+            VERIFIED OWNER &amp; ADMIN ACCESS
           </span>
           <h1 style="font-size:2rem;margin-top:0.5rem;">Admin Control Center</h1>
-          <p class="text-muted" style="font-size:0.92rem;">Manage products, inventory, customer orders, user accounts, and customize every section of the live site.</p>
+          <p class="text-muted" style="font-size:0.92rem;">
+            Signed in as <strong id="admin-identity-badge" style="color:var(--text-primary);">Administrator</strong> | Full control over products, theme, orders, and users.
+          </p>
         </div>
         <div class="flex" style="gap:0.75rem;flex-wrap:wrap;">
           <button type="button" class="btn btn-secondary btn-sm" onclick="seedSampleProducts()">
@@ -266,6 +313,9 @@
           </a>
           <button type="button" class="btn btn-primary btn-sm" onclick="switchAdminTab('products'); document.getElementById('new-prod-name').focus();">
             + Add New Product
+          </button>
+          <button type="button" class="btn btn-danger btn-sm" onclick="lockAdminSession()">
+            Lock Vault
           </button>
         </div>
       </div>
@@ -651,6 +701,8 @@
 
         </div>
       </section>
+
+      </div><!-- /#admin-protected-workspace -->
 
     </div>
   </main>
