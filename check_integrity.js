@@ -1,6 +1,18 @@
 const fs = require('fs');
 const path = require('path');
 
+// 1. Add cache-busting query string (?v=3) to CSS & JS references in HTML files
+for (const f of fs.readdirSync('public')) {
+  if (f.endsWith('.html')) {
+    const p = path.join('public', f);
+    let c = fs.readFileSync(p, 'utf8');
+    c = c.replace(/\/css\/style\.css(\?v=\d+)?/g, '/css/style.css?v=3');
+    c = c.replace(/\/js\/([a-zA-Z0-9-]+)\.js(\?v=\d+)?/g, '/js/$1.js?v=3');
+    fs.writeFileSync(p, c, 'utf8');
+  }
+}
+
+// 2. Audit all files for zero emojis and zero em-dashes
 function walk(dir) {
   let files = [];
   for (const item of fs.readdirSync(dir)) {
@@ -35,7 +47,7 @@ for (const file of files) {
 }
 
 if (errorCount === 0) {
-  console.log('AUDIT PASSED: Zero emojis and zero em-dashes across all public files.');
+  console.log('AUDIT PASSED: Cache-busted (?v=3), zero emojis, and zero em-dashes across all public files.');
 } else {
   console.error('AUDIT FAILED with ' + errorCount + ' issues.');
   process.exit(1);
