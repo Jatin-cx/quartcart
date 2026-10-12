@@ -68,6 +68,18 @@ async function loadProducts() {
       });
     });
 
+    // Attach wishlist buttons
+    productsGrid.querySelectorAll('.wishlist-card-btn').forEach((btn) => {
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const product = JSON.parse(btn.dataset.product);
+        if (typeof toggleWishlistItem === 'function') {
+          const added = toggleWishlistItem(product);
+          btn.textContent = added ? 'Saved' : 'Save';
+        }
+      });
+    });
+
     // Card click → product detail
     productsGrid.querySelectorAll('.product-card-link').forEach((link) => {
       link.addEventListener('click', (e) => {
@@ -95,6 +107,8 @@ function renderProductCard(product) {
   const img1 = images[0];
   const img2 = images[1] || null;
   const inStock = product.stock > 0;
+  const saved = typeof isInWishlist === 'function' && isInWishlist(product._id);
+  const safeProdJson = JSON.stringify({ _id: product._id, name: product.name, price: product.price, category: product.category, images: product.images, stock: product.stock }).replace(/'/g, '&#39;');
 
   return `
     <article class="product-card" data-id="${product._id}">
@@ -127,13 +141,22 @@ function renderProductCard(product) {
           <div class="product-card-stock ${inStock ? '' : 'out'}">${inStock ? 'Available' : 'Allocated'}</div>
         </div>
       </div>
-      <div class="product-card-footer">
+      <div class="product-card-footer" style="display:flex;gap:0.5rem;">
         <button
-          class="btn btn-primary btn-block btn-sm add-to-cart-btn"
-          data-product='${JSON.stringify({ _id: product._id, name: product.name, price: product.price, images: product.images, stock: product.stock })}'
+          class="btn btn-primary btn-sm add-to-cart-btn"
+          style="flex:1;"
+          data-product='${safeProdJson}'
           ${!inStock ? 'disabled' : ''}
         >
           ${inStock ? 'Add To Bag' : 'Sold Out'}
+        </button>
+        <button
+          type="button"
+          class="btn btn-secondary btn-sm wishlist-card-btn"
+          data-product='${safeProdJson}'
+          title="Save to Wishlist"
+        >
+          ${saved ? 'Saved' : 'Save'}
         </button>
       </div>
     </article>

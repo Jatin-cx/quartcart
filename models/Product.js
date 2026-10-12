@@ -4,7 +4,8 @@ const mongoose = require('mongoose');
 
 const ratingSchema = new mongoose.Schema(
   {
-    user: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+    user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
+    reviewerName: { type: String, trim: true, default: 'Verified Shopper' },
     rating: { type: Number, required: true, min: 1, max: 5 },
     review: { type: String, trim: true, maxlength: 1000 },
   },

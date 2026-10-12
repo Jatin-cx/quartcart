@@ -1,120 +1,77 @@
-# QuickCart — E-Commerce Store
+# QuickCart - Full-Stack 3D E-Commerce Platform
 
-A production-quality e-commerce website built with **Node.js**, **Express**, **MongoDB**, **Stripe**, and vanilla HTML/CSS/JS frontend.
-
-## Features
-
-- 🛒 Full shopping cart (localStorage)
-- 🔐 JWT authentication (register / login)
-- 💳 Stripe payment integration
-- 📦 Order management
-- 🔍 Product search, filter, sort
-- 📱 Fully responsive design
+A complete, production-ready full-stack e-commerce web application built with **Node.js**, **Express**, **MongoDB (Mongoose)**, **Three.js (WebGL 3D)**, **JWT Authentication & Role-Based Authorization**, and **Stripe Payments**.
 
 ---
 
-## Prerequisites
+## Key Features
 
-- Node.js >= 18
-- MongoDB (local or Atlas)
-- Stripe account (for payment keys)
+- **Interactive 3D Retail Showroom (Three.js / WebGL):**
+  - Full-viewport 3D floating shopping bags, wrapped gift boxes, and orbiting gold rings (`public/js/bg-3d.js`).
+  - Interactive 360-degree 3D Studio Product Turntable with real-time colorway switching (`public/js/three-hero.js`).
+  - 3D Luxury Shopping Pedestal on Sign In & Sign Up pages (`public/js/three-shopping-auth.js`).
+  - Interactive 3D Card Tilt & Specular Glare physics across product cards (`public/js/tilt3d.js`).
+  - Interactive 3D 404 Not Found page (`public/404.html`).
+- **Secured Owner & Admin Control Center (`/admin.html`):**
+  - Protected by JWT Authentication (`authMiddleware`) and Admin Role Authorization (`requireAdmin`).
+  - Add, edit, delete products, adjust inventory stock (`+5` / `-1`), toggle homepage spotlight, or 1-click seed 6 flagship products.
+  - **Live Site & Theme Customizer:** Change store name, switch between 5 color palettes live, toggle 3D background, edit homepage headlines, and update store policies directly from the browser.
+  - Manage customer orders (payment status & fulfillment status) and user accounts/roles.
+- **Full Customer Storefront Experience:**
+  - Product catalog with live search, category filtering, and price/date sorting.
+  - Slide-out Shopping Bag Drawer + full Shopping Bag page (`cart.html`).
+  - Checkout workflow with promo code support (`QUICK3D`) and Stripe payment integration.
+  - Customer registration, login, password reset, profile management, and order history.
 
 ---
 
-## Quick Start
+## Quick Start Guide (For College Project Setup)
 
-### 1. Clone / Download the project
+### 1. Prerequisites
+- **Node.js** (v18 or higher)
+- **MongoDB** (Local MongoDB Community Server or MongoDB Atlas URI)
 
-### 2. Install dependencies
+### 2. Install Dependencies
+Open a terminal in the project folder and run:
 
 ```bash
 npm install
 ```
 
-### 3. Configure environment
+### 3. Configure Environment Variables
+Make sure a `.env` file exists in the root directory (or copy `.env.example` to `.env`):
 
-Copy `.env.example` to `.env` and fill in your values:
-
-```bash
-cp .env.example .env
-```
-
-```
+```env
 PORT=5000
-MONGODB_URI=mongodb://localhost:27017/ecommerce-store
-JWT_SECRET=your_super_secret_jwt_key_change_this_in_production
-STRIPE_SECRET_KEY=sk_test_your_stripe_secret_key
-STRIPE_WEBHOOK_SECRET=whsec_your_stripe_webhook_secret
+MONGODB_URI=mongodb://127.0.0.1:27017/shopease
+JWT_SECRET=quickcart_super_secret_jwt_key_2026
+STRIPE_SECRET_KEY=sk_test_placeholder
+STRIPE_WEBHOOK_SECRET=whsec_placeholder
 CLIENT_URL=http://localhost:5000
 ```
 
-### 4. Run the development server
+### 4. Seed Sample Products (Optional)
+You can seed the 6 flagship 3D products from the terminal or via the Admin Dashboard button:
 
 ```bash
-npm run dev
+node seed.js
 ```
 
-The app will be available at **http://localhost:5000**
+### 5. Start the Server
 
-### 5. Seed sample products (optional)
-
-You can POST to `/api/products` to create products for testing:
-
-```json
-{
-  "name": "Wireless Headphones",
-  "description": "Premium noise-cancelling wireless headphones.",
-  "price": 79.99,
-  "category": "Electronics",
-  "stock": 50,
-  "images": ["https://via.placeholder.com/400x400?text=Headphones"],
-  "isFeatured": true
-}
+```bash
+npm start
 ```
 
----
-
-## API Reference
-
-| Method | Endpoint | Auth | Description |
-|--------|----------|------|-------------|
-| POST | /api/auth/register | ❌ | Register new user |
-| POST | /api/auth/login | ❌ | Login, returns JWT |
-| GET | /api/auth/profile | ✅ | Get current user |
-| PUT | /api/auth/profile | ✅ | Update profile |
-| GET | /api/products | ❌ | List all products |
-| GET | /api/products/featured | ❌ | Featured products |
-| GET | /api/products/:id | ❌ | Single product |
-| POST | /api/products | ❌ | Create product (admin) |
-| PUT | /api/products/:id | ❌ | Update product |
-| DELETE | /api/products/:id | ❌ | Delete product |
-| POST | /api/orders | ✅ | Place an order |
-| GET | /api/orders/my | ✅ | My orders |
-| GET | /api/orders/:id | ✅ | Single order |
-| POST | /api/payment/create-intent | ❌ | Create Stripe PaymentIntent |
-| POST | /api/payment/webhook | ❌ | Stripe webhook |
+- **Storefront URL:** http://localhost:5000
+- **Admin Control Center URL:** http://localhost:5000/admin.html
+- **404 Page URL:** http://localhost:5000/404.html
 
 ---
 
-## Tech Stack
+## Default Owner / Admin Login Credentials
 
-**Backend:** Node.js, Express, Mongoose, bcryptjs, jsonwebtoken, Stripe, Helmet, express-rate-limit  
-**Frontend:** Vanilla HTML5, CSS3 (custom properties, CSS Grid/Flexbox), Vanilla JavaScript (ES6+)  
-**Database:** MongoDB  
-**Payments:** Stripe
-
----
-
-## Security
-
-- Passwords hashed with bcrypt (salt rounds: 12)
-- JWT expires in 7 days
-- Rate limiting on auth routes (20 req/15min)
-- Helmet.js for security headers
-- CORS restricted to CLIENT_URL
-
----
-
-## License
-
-MIT
+To unlock the **Admin Control Center** at `http://localhost:5000/admin.html`:
+- **Email:** `admin@quickcart.com`
+- **Password:** `Admin@12345`
+- **Owner Master Key (optional):** `QUICKCART-OWNER-2026`

@@ -132,6 +132,42 @@ router.put('/:id', authMiddleware, authMiddleware.requireAdmin, async (req, res,
   }
 });
 
+// ─── POST /api/products/:id/reviews (Submit Customer Star Rating & Review) ─
+router.post('/:id/reviews', async (req, res, next) => {
+  try {
+    const { rating, review, reviewerName } = req.body;
+    const numericRating = Number(rating);
+
+    if (!numericRating || numericRating < 1 || numericRating > 5) {
+      return res.status(400).json({ message: 'Please select a star rating between 1 and 5.' });
+    }
+    if (!review || !String(review).trim()) {
+      return res.status(400).json({ message: 'Please write a brief review comment.' });
+    }
+
+    const product = await Product.findById(req.params.id);
+    if (!product) {
+      return res.status(404).json({ message: 'Product not found.' });
+    }
+
+    product.ratings.unshift({
+      reviewerName: reviewerName && String(reviewerName).trim() ? String(reviewerName).trim() : 'Verified Shopper',
+      rating: numericRating,
+      review: String(review).trim().slice(0, 1000),
+    });
+
+    product.recalcAvgRating();
+    await product.save();
+
+    res.status(201).json({
+      message: 'Customer review published.',
+      product,
+    });
+  } catch (err) {
+    next(err);
+  }
+});
+
 // ─── DELETE /api/products/:id (Admin Only) ─────────────────────────────────
 router.delete('/:id', authMiddleware, authMiddleware.requireAdmin, async (req, res, next) => {
   try {

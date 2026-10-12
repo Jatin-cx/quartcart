@@ -304,9 +304,15 @@
             Signed in as <strong id="admin-identity-badge" style="color:var(--text-primary);">Administrator</strong> | Full control over products, theme, orders, and users.
           </p>
         </div>
-        <div class="flex" style="gap:0.75rem;flex-wrap:wrap;">
+        <div class="flex" style="gap:0.65rem;flex-wrap:wrap;">
           <button type="button" class="btn btn-secondary btn-sm" onclick="seedSampleProducts()">
             + Seed Flagship Products
+          </button>
+          <button type="button" class="btn btn-secondary btn-sm" onclick="exportProductsCSV()">
+            Export Products CSV
+          </button>
+          <button type="button" class="btn btn-secondary btn-sm" onclick="exportOrdersCSV()">
+            Export Orders CSV
           </button>
           <a href="/index.html" target="_blank" class="btn btn-outline btn-sm">
             Open Live Storefront &rarr;
@@ -342,6 +348,21 @@
           <div class="admin-kpi-value" id="kpi-users">0</div>
           <div class="admin-kpi-sub">Customers &amp; Admins</div>
         </div>
+      </div>
+
+      <!-- Visual Analytics & Inventory Valuation Breakdown -->
+      <div class="admin-panel-card" style="margin-bottom:2rem;padding:1.4rem 1.75rem;">
+        <div class="flex-between" style="flex-wrap:wrap;gap:0.75rem;margin-bottom:1rem;">
+          <div>
+            <span class="badge-tag" style="margin-bottom:0.25rem;">LIVE STORE ANALYTICS</span>
+            <h3 style="font-size:1.15rem;">Department Distribution &amp; Inventory Asset Valuation</h3>
+          </div>
+          <div style="text-align:right;">
+            <span class="text-muted" style="font-size:0.76rem;text-transform:uppercase;letter-spacing:0.06em;display:block;">Total Warehouse Stock Value</span>
+            <strong id="analytics-total-stock-value" style="font-size:1.35rem;color:var(--accent-primary);">$0.00</strong>
+          </div>
+        </div>
+        <div id="admin-category-bars" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:1rem;"></div>
       </div>
 
       <!-- Navigation Tabs -->

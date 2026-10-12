@@ -111,8 +111,13 @@ function renderProductDetail(product) {
 
       <!-- Specs Column -->
       <div>
-        <div class="badge-tag">${product.category}</div>
-        <h1 style="font-size:clamp(1.8rem, 3.2vw, 2.4rem);margin-top:0.75rem;color:var(--text-main);">${product.name}</h1>
+        <div class="flex-between" style="margin-bottom:0.5rem;flex-wrap:wrap;gap:0.5rem;">
+          <div class="badge-tag">${product.category}</div>
+          <div style="font-size:0.86rem;font-weight:700;color:var(--accent-secondary);">
+            Rating: ${product.avgRating ? product.avgRating.toFixed(1) : '5.0'} / 5.0 (${(product.ratings && product.ratings.length) || 0} Reviews)
+          </div>
+        </div>
+        <h1 style="font-size:clamp(1.8rem, 3.2vw, 2.4rem);margin-top:0.35rem;color:var(--text-main);">${product.name}</h1>
 
         <div class="detail-price" style="font-size:1.8rem;font-weight:800;color:var(--accent-primary);margin:1rem 0;">${formatPrice(product.price)}</div>
 
@@ -133,8 +138,8 @@ function renderProductDetail(product) {
           </div>
         </div>
 
-        <!-- Add To Bag Bar -->
-        <div class="flex" style="gap:1rem;align-items:center;">
+        <!-- Add To Bag & Save to Wishlist Bar -->
+        <div class="flex" style="gap:0.85rem;align-items:center;flex-wrap:wrap;">
           <div class="qty-control" style="padding:0.25rem;">
             <button type="button" class="qty-btn" id="qty-dec">-</button>
             <span class="qty-val" id="qty-val">1</span>
@@ -144,10 +149,19 @@ function renderProductDetail(product) {
           <button
             class="btn btn-primary btn-lg"
             id="detail-add-cart-btn"
-            style="flex:1;"
+            style="flex:1;min-width:160px;"
             ${!inStock ? 'disabled' : ''}
           >
             ${inStock ? 'Add To Bag' : 'Out of Stock'}
+          </button>
+
+          <button
+            type="button"
+            class="btn btn-secondary btn-lg"
+            id="detail-wishlist-btn"
+            title="Save to Wishlist"
+          >
+            ${typeof isInWishlist === 'function' && isInWishlist(product._id) ? 'Saved in Wishlist' : 'Save to Wishlist'}
           </button>
         </div>
 
@@ -164,7 +178,92 @@ function renderProductDetail(product) {
         </div>
       </div>
     </div>
+
+    <!-- Customer Star Ratings & Written Reviews Section -->
+    <div style="margin-top:4rem;padding-top:3rem;border-top:1px solid var(--border);">
+      <div class="grid-2" style="gap:2.25rem;align-items:start;">
+
+        <!-- Left: Submit Review Card -->
+        <div class="card" style="padding:1.85rem;">
+          <span class="badge-tag" style="margin-bottom:0.5rem;">CUSTOMER FEEDBACK</span>
+          <h3 style="font-size:1.35rem;margin-bottom:0.4rem;">Write a Product Review</h3>
+          <p class="text-muted" style="font-size:0.88rem;margin-bottom:1.25rem;">Share your experience with the ${product.name}.</p>
+
+          <form id="review-submit-form">
+            <div class="form-group">
+              <label class="form-label" for="review-author-name">Your Name</label>
+              <input type="text" id="review-author-name" class="form-input" placeholder="Enter your name" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="review-star-rating">Star Rating (1 to 5)</label>
+              <select id="review-star-rating" class="form-select" required>
+                <option value="5">5 / 5 Stars - Exceptional Quality</option>
+                <option value="4">4 / 5 Stars - Very Good</option>
+                <option value="3">3 / 5 Stars - Good</option>
+                <option value="2">2 / 5 Stars - Fair</option>
+                <option value="1">1 / 5 Stars - Needs Improvement</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="review-comment-text">Written Review</label>
+              <textarea id="review-comment-text" class="form-input" rows="3" placeholder="Describe build quality, design, and performance..." required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block" id="review-submit-btn">
+              Publish Verified Review
+            </button>
+          </form>
+        </div>
+
+        <!-- Right: Verified Reviews List -->
+        <div class="card" style="padding:1.85rem;">
+          <div class="flex-between" style="margin-bottom:1.25rem;">
+            <div>
+              <span class="badge-tag" style="margin-bottom:0.4rem;">VERIFIED REVIEWS</span>
+              <h3 style="font-size:1.35rem;">Customer Ratings (${(product.ratings && product.ratings.length) || 0})</h3>
+            </div>
+            <div style="text-align:right;">
+              <div style="font-size:1.65rem;font-weight:800;color:var(--accent-primary);">
+                ${product.avgRating ? product.avgRating.toFixed(1) : '5.0'} / 5.0
+              </div>
+              <div class="text-muted" style="font-size:0.76rem;">Average Score</div>
+            </div>
+          </div>
+
+          <div id="product-reviews-list" style="display:flex;flex-direction:column;gap:0.9rem;max-height:380px;overflow-y:auto;">
+            ${
+              product.ratings && product.ratings.length > 0
+                ? product.ratings
+                    .map(
+                      (r) => `
+                <div style="padding:1rem;background:var(--bg-secondary);border:1px solid var(--border);border-radius:var(--radius-md);">
+                  <div class="flex-between" style="margin-bottom:0.35rem;">
+                    <strong style="font-size:0.92rem;">${r.reviewerName || 'Verified Shopper'}</strong>
+                    <span class="badge badge-paid">${Number(r.rating).toFixed(1)} / 5.0 Stars</span>
+                  </div>
+                  <p style="font-size:0.88rem;color:var(--text-secondary);margin:0;">${r.review || ''}</p>
+                </div>
+              `
+                    )
+                    .join('')
+                : `<div style="padding:1.5rem;text-align:center;color:var(--text-muted);background:var(--bg-secondary);border-radius:var(--radius-md);">
+                     No customer reviews yet. Be the first to review this flagship item!
+                   </div>`
+            }
+          </div>
+        </div>
+
+      </div>
+    </div>
   `;
+
+  // Pre-fill reviewer name if user is logged in
+  try {
+    const savedUser = JSON.parse(localStorage.getItem('user') || 'null');
+    const nameInput = document.getElementById('review-author-name');
+    if (savedUser && savedUser.name && nameInput) {
+      nameInput.value = savedUser.name;
+    }
+  } catch {}
 
   // Attach thumbnail clicks
   const thumbs = detailContainer.querySelectorAll('.thumb-item');
@@ -233,6 +332,48 @@ function renderProductDetail(product) {
     addBtn.onclick = () => {
       addToCart(product, currentQty);
     };
+  }
+
+  // Save to Wishlist
+  const wishBtn = document.getElementById('detail-wishlist-btn');
+  if (wishBtn && typeof toggleWishlistItem === 'function') {
+    wishBtn.onclick = () => {
+      const added = toggleWishlistItem(product);
+      wishBtn.textContent = added ? 'Saved in Wishlist' : 'Save to Wishlist';
+    };
+  }
+
+  // Submit Customer Review
+  const reviewForm = document.getElementById('review-submit-form');
+  if (reviewForm) {
+    reviewForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const reviewerName = document.getElementById('review-author-name').value.trim();
+      const rating = Number(document.getElementById('review-star-rating').value);
+      const review = document.getElementById('review-comment-text').value.trim();
+      const btn = document.getElementById('review-submit-btn');
+
+      if (btn) {
+        btn.disabled = true;
+        btn.textContent = 'Publishing...';
+      }
+
+      try {
+        const res = await api.post(`/products/${product._id}/reviews`, {
+          reviewerName,
+          rating,
+          review,
+        });
+        showToast('Thank you! Your review has been published.', 'success');
+        renderProductDetail(res.product);
+      } catch (err) {
+        showToast(err.message || 'Could not submit review.', 'error');
+        if (btn) {
+          btn.disabled = false;
+          btn.textContent = 'Publish Verified Review';
+        }
+      }
+    });
   }
 }
 

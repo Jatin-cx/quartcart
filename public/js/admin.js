@@ -167,7 +167,117 @@ function renderAdminKPIs() {
   }
   if (ordEl) ordEl.textContent = s.totalOrders || 0;
   if (usrEl) usrEl.textContent = s.totalUsers || 0;
+
+  renderAdminAnalytics();
 }
+
+/**
+ * Render Visual Category & Inventory Valuation Chart Bars
+ */
+function renderAdminAnalytics() {
+  const valEl = document.getElementById('analytics-total-stock-value');
+  const barsEl = document.getElementById('admin-category-bars');
+  if (!barsEl) return;
+
+  const products = adminState.products || [];
+  let totalStockVal = 0;
+  const catMap = {};
+
+  products.forEach((p) => {
+    const val = (Number(p.price) || 0) * (Number(p.stock) || 0);
+    totalStockVal += val;
+    const cat = p.category || 'Other';
+    if (!catMap[cat]) catMap[cat] = { count: 0, stock: 0, val: 0 };
+    catMap[cat].count += 1;
+    catMap[cat].stock += Number(p.stock) || 0;
+    catMap[cat].val += val;
+  });
+
+  if (valEl) valEl.textContent = formatPrice(totalStockVal);
+
+  const entries = Object.entries(catMap);
+  if (entries.length === 0) {
+    barsEl.innerHTML = `<div class="text-muted" style="font-size:0.85rem;">No inventory data to chart yet.</div>`;
+    return;
+  }
+
+  const maxVal = Math.max(...entries.map(([, d]) => d.val), 1);
+
+  barsEl.innerHTML = entries
+    .map(([cat, d]) => {
+      const pct = Math.max(8, Math.round((d.val / maxVal) * 100));
+      return `
+        <div style="padding:0.85rem 1rem;background:var(--bg-secondary);border:1px solid var(--border);border-radius:10px;">
+          <div class="flex-between" style="font-size:0.82rem;margin-bottom:0.35rem;">
+            <strong>${cat} (${d.count})</strong>
+            <span style="font-weight:700;color:var(--accent-primary);">${formatPrice(d.val)}</span>
+          </div>
+          <div style="width:100%;height:8px;background:var(--border);border-radius:4px;overflow:hidden;">
+            <div style="width:${pct}%;height:100%;background:var(--accent-gradient);border-radius:4px;transition:width 0.4s ease;"></div>
+          </div>
+          <div style="font-size:0.74rem;color:var(--text-muted);margin-top:0.35rem;">${d.stock} total units in stock</div>
+        </div>
+      `;
+    })
+    .join('');
+}
+
+/**
+ * 1-Click Export Products to Excel-Compatible CSV
+ */
+window.exportProductsCSV = function () {
+  const products = adminState.products || [];
+  if (products.length === 0) {
+    showToast('No products to export.', 'warning');
+    return;
+  }
+  const headers = ['ID', 'Name', 'Category', 'Price (USD)', 'Stock', 'Featured', 'Avg Rating'];
+  const rows = products.map((p) => [
+    p._id,
+    `"${String(p.name || '').replace(/"/g, '""')}"`,
+    `"${String(p.category || '').replace(/"/g, '""')}"`,
+    p.price || 0,
+    p.stock || 0,
+    p.isFeatured ? 'Yes' : 'No',
+    p.avgRating || 0,
+  ]);
+  const csv = [headers.join(','), ...rows.map((r) => r.join(','))].join('\n');
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = `QuickCart-Products-${new Date().toISOString().slice(0, 10)}.csv`;
+  link.click();
+  showToast('Exported Products catalog to CSV.', 'success');
+};
+
+/**
+ * 1-Click Export Customer Orders to Excel-Compatible CSV
+ */
+window.exportOrdersCSV = function () {
+  const orders = adminState.orders || [];
+  if (orders.length === 0) {
+    showToast('No customer orders to export.', 'warning');
+    return;
+  }
+  const headers = ['Order ID', 'Date', 'Customer Name', 'Customer Email', 'Total Amount (USD)', 'Payment Status', 'Fulfillment Status', 'Items'];
+  const rows = orders.map((o) => [
+    o._id,
+    o.createdAt ? new Date(o.createdAt).toISOString().slice(0, 10) : '',
+    `"${String((o.user && o.user.name) || 'Guest').replace(/"/g, '""')}"`,
+    `"${String((o.user && o.user.email) || '').replace(/"/g, '""')}"`,
+    o.totalAmount || 0,
+    o.paymentStatus || 'pending',
+    o.status || 'processing',
+    `"${(o.items || []).map((i) => `${i.name} x${i.qty}`).join('; ').replace(/"/g, '""')}"`,
+  ]);
+  const csv = [headers.join(','), ...rows.map((r) => r.join(','))].join('\n');
+  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = `QuickCart-Orders-${new Date().toISOString().slice(0, 10)}.csv`;
+  link.click();
+  showToast('Exported Customer Orders to CSV.', 'success');
+};
 
 /**
  * 2. Render Products & Inventory Table
@@ -375,7 +485,7 @@ function renderAdminOrders() {
   }
 
   tbody.innerHTML = adminState.orders
-    .map((o) => {
+    .map((o, idx) => {
       const customerName = (o.user && o.user.name) || 'Guest Customer';
       const customerEmail = (o.user && o.user.email) || '';
       const itemSummary = (o.items || []).map((i) => `${i.name} (x${i.qty})`).join(', ');
@@ -416,7 +526,10 @@ function renderAdminOrders() {
             </select>
           </td>
           <td>
-            <button type="button" class="btn btn-danger btn-sm" onclick="deleteAdminOrder('${o._id}')">Delete</button>
+            <div class="admin-action-row">
+              <button type="button" class="btn btn-secondary btn-sm" onclick="downloadOrderInvoice(adminState.orders[${idx}])">Invoice PDF</button>
+              <button type="button" class="btn btn-danger btn-sm" onclick="deleteAdminOrder('${o._id}')">Delete</button>
+            </div>
           </td>
         </tr>
       `;

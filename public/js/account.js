@@ -83,8 +83,9 @@ async function loadOrders() {
     }
 
     if (ordersEmpty) ordersEmpty.classList.add('hidden');
+    window.__customerOrdersCache = orders;
 
-    ordersTableBody.innerHTML = orders.map((order) => `
+    ordersTableBody.innerHTML = orders.map((order, idx) => `
       <tr>
         <td>
           <span class="fw-bold fs-sm" style="font-family:monospace;">#${order._id.slice(-8).toUpperCase()}</span>
@@ -98,19 +99,24 @@ async function loadOrders() {
         </td>
         <td class="fw-bold text-primary">${formatPrice(order.totalAmount)}</td>
         <td>
-          <details style="cursor:pointer;">
-            <summary class="btn btn-secondary btn-sm" style="display:inline-block;list-style:none;">
-              View Items
-            </summary>
-            <div style="margin-top:0.5rem;min-width:220px;">
-              ${order.items.map((item) => `
-                <div class="flex-between" style="font-size:0.82rem;padding:0.2rem 0;border-bottom:1px solid var(--light-2);">
-                  <span>${item.name} ×${item.qty}</span>
-                  <span>${formatPrice(item.price * item.qty)}</span>
-                </div>
-              `).join('')}
-            </div>
-          </details>
+          <div style="display:flex;gap:0.45rem;align-items:center;flex-wrap:wrap;">
+            <button type="button" class="btn btn-primary btn-sm" onclick="downloadOrderInvoice(window.__customerOrdersCache[${idx}])">
+              Invoice PDF
+            </button>
+            <details style="cursor:pointer;">
+              <summary class="btn btn-secondary btn-sm" style="display:inline-block;list-style:none;">
+                View Items
+              </summary>
+              <div style="margin-top:0.5rem;min-width:220px;">
+                ${order.items.map((item) => `
+                  <div class="flex-between" style="font-size:0.82rem;padding:0.2rem 0;border-bottom:1px solid var(--light-2);">
+                    <span>${item.name} ×${item.qty}</span>
+                    <span>${formatPrice(item.price * item.qty)}</span>
+                  </div>
+                `).join('')}
+              </div>
+            </details>
+          </div>
         </td>
       </tr>
     `).join('');
