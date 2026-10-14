@@ -15,7 +15,7 @@ const siteConfigSchema = new mongoose.Schema(
     },
     announcementText: {
       type: String,
-      default: 'Free standard shipping on orders over ₹999 / 30-day return policy / Secure checkout powered by Stripe',
+      default: 'Free standard shipping across India on orders over ₹999 / Instant UPI & Google Pay / 30-day returns',
     },
     heroBadge: {
       type: String,

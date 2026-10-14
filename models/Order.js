@@ -66,6 +66,14 @@ const orderSchema = new mongoose.Schema(
       enum: ['processing', 'shipped', 'delivered', 'cancelled'],
       default: 'processing',
     },
+    paymentMethod: {
+      type: String,
+      default: 'gpay',
+    },
+    paymentDetails: {
+      type: mongoose.Schema.Types.Mixed,
+      default: {},
+    },
   },
   {
     timestamps: true,

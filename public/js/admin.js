@@ -261,12 +261,13 @@ window.exportOrdersCSV = function () {
     showToast('No customer orders to export.', 'warning');
     return;
   }
-  const headers = ['Order ID', 'Date', 'Customer Name', 'Customer Email', 'Total Amount (INR)', 'Payment Status', 'Fulfillment Status', 'Items'];
+  const headers = ['Order ID', 'Date', 'Customer Name', 'Customer Email', 'Payment Method', 'Total Amount (INR)', 'Payment Status', 'Fulfillment Status', 'Items'];
   const rows = orders.map((o) => [
     o._id,
     o.createdAt ? new Date(o.createdAt).toISOString().slice(0, 10) : '',
     `"${String((o.user && o.user.name) || 'Guest').replace(/"/g, '""')}"`,
     `"${String((o.user && o.user.email) || '').replace(/"/g, '""')}"`,
+    `"${String(o.paymentMethod || 'gpay').toUpperCase()}"`,
     o.totalAmount || 0,
     o.paymentStatus || 'pending',
     o.status || 'processing',
@@ -503,7 +504,10 @@ function renderAdminOrders() {
             <div class="text-dim" style="font-size:0.76rem;">${customerEmail}</div>
           </td>
           <td style="max-width:240px;font-size:0.82rem;color:var(--text-muted);">${itemSummary}</td>
-          <td style="font-weight:800;color:var(--accent-primary);">${formatPrice(o.totalAmount || 0)}</td>
+          <td>
+            <div style="font-weight:800;color:var(--accent-primary);">${formatPrice(o.totalAmount || 0)}</div>
+            <div style="font-size:0.72rem;color:var(--text-dim);text-transform:uppercase;font-weight:700;">${o.paymentMethod || 'gpay'}</div>
+          </td>
           <td>
             <select
               class="sort-select"

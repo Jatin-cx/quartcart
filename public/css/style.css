@@ -2178,3 +2178,305 @@ footer {
     font-size: 2.2rem;
   }
 }
+
+/* ─── Indian Multi-Payment Method Selector ─── */
+.pay-methods-container {
+  margin-top: 1.5rem;
+}
+
+.pay-method-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  margin-bottom: 1.75rem;
+}
+
+.pay-option {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.15rem 1.35rem;
+  background: #fffcf7;
+  border: 1.5px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  transition: var(--transition);
+  box-shadow: 0 2px 6px rgba(92, 52, 26, 0.05);
+  position: relative;
+}
+
+.pay-option:hover {
+  border-color: rgba(224, 79, 51, 0.45);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(224, 79, 51, 0.1);
+}
+
+.pay-option.active {
+  border-color: var(--accent-primary);
+  background: #fffaf4;
+  box-shadow: 0 4px 14px rgba(224, 79, 51, 0.16), 0 0 0 1px var(--accent-primary);
+}
+
+.pay-option-radio {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid var(--text-dim);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: var(--transition);
+}
+
+.pay-option.active .pay-option-radio {
+  border-color: var(--accent-primary);
+}
+
+.pay-option.active .pay-option-radio::after {
+  content: '';
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--accent-primary);
+}
+
+.pay-option-content {
+  flex: 1;
+}
+
+.pay-option-title {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  font-weight: 800;
+  font-size: 0.98rem;
+  color: var(--text-main);
+}
+
+.pay-pill-tag {
+  font-size: 0.68rem;
+  font-weight: 800;
+  padding: 0.15rem 0.5rem;
+  border-radius: 4px;
+  background: rgba(13, 148, 136, 0.12);
+  color: #0d9488;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.pay-option-sub {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin-top: 0.2rem;
+}
+
+.pay-option-logos {
+  display: flex;
+  gap: 0.4rem;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.pay-logo-badge {
+  font-size: 0.72rem;
+  font-weight: 800;
+  padding: 0.22rem 0.55rem;
+  border-radius: 4px;
+  background: var(--bg-surface-elevated);
+  border: 1px solid var(--glass-border);
+  color: var(--text-main);
+  letter-spacing: 0.02em;
+}
+
+.pay-logo-badge.gpay {
+  background: #ffffff;
+  color: #1a73e8;
+  border-color: rgba(26, 115, 232, 0.35);
+}
+
+.pay-logo-badge.phonepe {
+  background: #ffffff;
+  color: #5f259f;
+  border-color: rgba(95, 37, 159, 0.35);
+}
+
+.pay-logo-badge.upi {
+  background: #ffffff;
+  color: #ea580c;
+  border-color: rgba(234, 88, 12, 0.35);
+}
+
+/* Payment Panel Content */
+.pay-panel {
+  display: none;
+  background: rgba(255, 252, 247, 0.95);
+  border: 1.5px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  padding: 1.5rem;
+  margin-bottom: 1.5rem;
+  animation: fadeInPanel 0.25s ease;
+}
+
+.pay-panel.active {
+  display: block;
+}
+
+@keyframes fadeInPanel {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Quick UPI App Selector */
+.upi-apps-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.upi-app-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0.85rem 0.5rem;
+  border-radius: var(--radius-sm);
+  background: #ffffff;
+  border: 1.5px solid var(--glass-border);
+  cursor: pointer;
+  transition: var(--transition);
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--text-main);
+  gap: 0.35rem;
+}
+
+.upi-app-btn:hover,
+.upi-app-btn.active {
+  border-color: var(--accent-primary);
+  background: rgba(224, 79, 51, 0.05);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(224, 79, 51, 0.15);
+}
+
+.upi-app-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+  font-size: 0.82rem;
+}
+
+.upi-app-icon.gpay-icon {
+  background: #e8f0fe;
+  color: #1a73e8;
+  border: 1px solid rgba(26, 115, 232, 0.3);
+}
+
+.upi-app-icon.phonepe-icon {
+  background: #f3e8ff;
+  color: #5f259f;
+  border: 1px solid rgba(95, 37, 159, 0.3);
+}
+
+.upi-app-icon.paytm-icon {
+  background: #e0f2fe;
+  color: #002970;
+  border: 1px solid rgba(0, 41, 112, 0.3);
+}
+
+.upi-app-icon.bhim-icon {
+  background: #fff7ed;
+  color: #ea580c;
+  border: 1px solid rgba(234, 88, 12, 0.3);
+}
+
+.upi-handle-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-top: 0.5rem;
+}
+
+.upi-handle-chip {
+  padding: 0.28rem 0.65rem;
+  border-radius: 6px;
+  background: var(--bg-surface-elevated);
+  border: 1px solid var(--glass-border);
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: var(--transition);
+}
+
+.upi-handle-chip:hover {
+  background: var(--accent-primary);
+  color: #ffffff;
+  border-color: var(--accent-primary);
+}
+
+/* Dynamic QR Box */
+.qr-modal-box {
+  background: #ffffff;
+  border: 1.5px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  padding: 1.25rem;
+  text-align: center;
+  margin-top: 1rem;
+  box-shadow: var(--shadow-3d-sm);
+}
+
+.qr-code-img {
+  width: 170px;
+  height: 170px;
+  margin: 0.5rem auto;
+  display: block;
+  border: 1px solid var(--border-subtle);
+  border-radius: 8px;
+  padding: 6px;
+  background: #ffffff;
+}
+
+/* Bank Selection Grid */
+.bank-select-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.bank-tile {
+  padding: 0.85rem 0.75rem;
+  border-radius: var(--radius-sm);
+  background: #ffffff;
+  border: 1.5px solid var(--glass-border);
+  cursor: pointer;
+  text-align: center;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--text-main);
+  transition: var(--transition);
+}
+
+.bank-tile:hover,
+.bank-tile.active {
+  border-color: var(--accent-primary);
+  background: rgba(224, 79, 51, 0.05);
+  box-shadow: 0 4px 10px rgba(224, 79, 51, 0.12);
+}
+
+/* COD Card Banner */
+.cod-banner {
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.08) 0%, rgba(13, 148, 136, 0.04) 100%);
+  border: 1.5px solid rgba(16, 185, 129, 0.35);
+  border-radius: var(--radius-sm);
+  padding: 1.25rem;
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}

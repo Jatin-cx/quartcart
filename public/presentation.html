@@ -382,30 +382,30 @@
     <section class="slide">
       <div>
         <span class="slide-badge">05 | CHECKOUT &amp; PAYMENTS</span>
-        <h2>Smart Checkout, Promo Engine &amp; Stripe Integration</h2>
-        <p class="slide-sub">Seamless order placement, automatic inventory stock deduction, and PCI-compliant payment processing.</p>
+        <h2>Indian Multi-Payment Architecture &amp; Google Pay Integration</h2>
+        <p class="slide-sub">Seamless support for Google Pay (GPay), UPI, RuPay &amp; Visa Cards, Net Banking, and Cash on Delivery.</p>
         <div class="grid-2">
           <div class="card-box">
-            <h3>Checkout &amp; Order Pipeline (checkout.html)</h3>
+            <h3>Multi-Payment Methods (checkout.html)</h3>
             <ul>
-              <li><strong>Address Auto-Fill:</strong> Pre-fills saved customer address from User profile and validates all shipping fields.</li>
-              <li><strong>Promo Code Engine:</strong> Supports promo code <code>QUICK3D</code> (15% instant discount) and automatic complimentary shipping across India on orders over ₹999.</li>
-              <li><strong>Atomic Stock Deduction:</strong> Backend verifies product availability in MongoDB and decrements stock upon order creation.</li>
-              <li><strong>Order Confirmation:</strong> Generates unique Order ID and saves to customer order history.</li>
+              <li><strong>Google Pay &amp; UPI:</strong> 1-click checkout via Google Pay, PhonePe, Paytm, BHIM, or any verified UPI ID handle.</li>
+              <li><strong>Dynamic UPI QR Code:</strong> On-demand dynamic QR generator for instant scan and pay from mobile UPI apps.</li>
+              <li><strong>RuPay, Visa &amp; Cards:</strong> Live card brand detection, 16-digit spacing, MM/YY expiry auto-formatting, and CVV masking.</li>
+              <li><strong>Net Banking &amp; COD:</strong> Instant access to 40+ Indian scheduled banks (SBI, HDFC, ICICI, Axis) plus Doorstep Cash on Delivery.</li>
             </ul>
           </div>
           <div class="card-box gold">
-            <h3>Stripe Payment Architecture (routes/payment.js)</h3>
+            <h3>Order Settlement Pipeline (routes/orders.js)</h3>
             <ul>
-              <li><strong>POST /api/payment/create-intent:</strong> Calculates order total in cents and returns a Stripe <code>clientSecret</code>.</li>
-              <li><strong>Stripe Elements UI:</strong> Mounts the Stripe Card Element inside <code>checkout.html</code> with real-time validation.</li>
-              <li><strong>POST /api/payment/webhook:</strong> Verifies cryptographic Stripe signature and updates <code>paymentStatus</code> to <code>paid</code>.</li>
-              <li><strong>Local Demo Mode:</strong> Supports instant test order placement when running in local classroom environments.</li>
+              <li><strong>POST /api/orders:</strong> Records items, address, paymentMethod (gpay, upi, card, netbanking, cod), and paymentDetails.</li>
+              <li><strong>Atomic Stock Deduction:</strong> Decrements available product stock atomically in MongoDB upon order confirmation.</li>
+              <li><strong>Indian Shipping Fee Engine:</strong> Unlocks complimentary shipping across India for orders over ₹999 (₹99 under ₹999).</li>
+              <li><strong>Downloadable Tax Invoice:</strong> Generates official GST/retail invoices with itemized totals, payment methods, and delivery tracking.</li>
             </ul>
           </div>
         </div>
       </div>
-      <div class="slide-footer"><span>QuickCart Checkout &amp; Stripe</span><span>Slide 6 of 12</span></div>
+      <div class="slide-footer"><span>QuickCart Multi-Payment Architecture</span><span>Slide 6 of 12</span></div>
     </section>
 
     <!-- SLIDE 7 -->

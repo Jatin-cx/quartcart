@@ -96,6 +96,9 @@ async function loadOrders() {
         </td>
         <td>
           <span class="status-badge ${order.paymentStatus}">${order.paymentStatus}</span>
+          <div style="font-size:0.72rem;color:var(--text-dim);font-weight:700;text-transform:uppercase;margin-top:0.25rem;">
+            ${order.paymentMethod === 'gpay' ? 'Google Pay' : order.paymentMethod === 'upi' ? 'UPI' : order.paymentMethod === 'card' ? 'Card' : order.paymentMethod === 'netbanking' ? 'Net Banking' : 'COD'}
+          </div>
         </td>
         <td class="fw-bold text-primary">${formatPrice(order.totalAmount)}</td>
         <td>

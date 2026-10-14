@@ -29,7 +29,13 @@ router.post(
         return res.status(400).json({ message: 'Validation failed', errors: errors.array() });
       }
 
-      const { items, shippingAddress, paymentIntentId } = req.body;
+      const {
+        items,
+        shippingAddress,
+        paymentIntentId,
+        paymentMethod = 'gpay',
+        paymentDetails = {},
+      } = req.body;
 
       // Verify products and compute totals
       const orderItems = [];
@@ -61,15 +67,22 @@ router.post(
         await product.save();
       }
 
-      totalAmount = Math.round(totalAmount * 100) / 100;
+      const shippingFee = totalAmount >= 999 || totalAmount === 0 ? 0 : 99;
+      const grandTotal = Math.round((totalAmount + shippingFee) * 100) / 100;
+
+      // Determine payment status: Online UPI / GPay / Card / NetBanking are verified as paid; COD is pending
+      const isOnlinePaid = paymentMethod !== 'cod';
+      const generatedTxnId = paymentIntentId || (isOnlinePaid ? `TXN_${String(paymentMethod).toUpperCase()}_${Date.now()}` : null);
 
       const order = await Order.create({
         user: req.user._id,
         items: orderItems,
         shippingAddress,
-        totalAmount,
-        paymentIntentId: paymentIntentId || null,
-        paymentStatus: paymentIntentId ? 'pending' : 'pending',
+        totalAmount: grandTotal,
+        paymentIntentId: generatedTxnId,
+        paymentStatus: isOnlinePaid ? 'paid' : 'pending',
+        paymentMethod: paymentMethod || 'gpay',
+        paymentDetails: paymentDetails || {},
       });
 
       res.status(201).json({ message: 'Order placed successfully.', order });

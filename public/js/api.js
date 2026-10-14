@@ -627,6 +627,7 @@ window.downloadOrderInvoice = function (order) {
             <div style="font-size:11px;font-weight:700;text-transform:uppercase;color:#7d6a5e;margin-bottom:4px;">Shipping Destination</div>
             <div>${addressLine}</div>
             <div style="font-size:12px;color:#0d9488;font-weight:700;margin-top:4px;">Fulfillment Status: ${(order.status || 'processing').toUpperCase()}</div>
+            <div style="font-size:12px;color:#e04f33;font-weight:700;margin-top:2px;">Payment Method: ${order.paymentMethod === 'cod' ? 'Cash on Delivery' : order.paymentMethod === 'card' ? 'Credit / Debit Card' : order.paymentMethod === 'netbanking' ? 'Net Banking' : 'Google Pay (UPI)'}</div>
           </div>
         </div>
         <table>
