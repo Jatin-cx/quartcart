@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QuickCart - 12-Slide Interactive Project Presentation</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-cream: #f6efe6;
+      --bg-ivory: #fffdf9;
+      --bg-warm: #efe5d8;
+      --espresso: #1e1612;
+      --charcoal: #4a3a31;
+      --muted: #7d6a5e;
+      --terracotta: #e04f33;
+      --gold: #d97706;
+      --emerald: #0d9488;
+      --cobalt: #2563eb;
+      --border: rgba(120, 82, 54, 0.18);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: var(--bg-cream);
+      color: var(--espresso);
+      overflow: hidden;
+      height: 100vh;
+      width: 100vw;
+      display: flex;
+      flex-direction: column;
+    }
+    /* Top Deck Bar */
+    .deck-topbar {
+      height: 58px;
+      background: rgba(255, 253, 249, 0.94);
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 2rem;
+      z-index: 20;
+    }
+    .deck-brand {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.25rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .deck-brand .dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: var(--terracotta);
+      box-shadow: 0 0 0 3px rgba(224,79,51,0.18);
+    }
+    .deck-brand span.accent { color: var(--terracotta); }
+    .deck-controls {
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+    }
+    .deck-btn {
+      background: var(--bg-ivory);
+      border: 1px solid var(--border);
+      color: var(--espresso);
+      font-weight: 700;
+      font-size: 0.82rem;
+      padding: 0.45rem 0.95rem;
+      border-radius: 6px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.2s ease;
+    }
+    .deck-btn:hover {
+      border-color: var(--terracotta);
+      color: var(--terracotta);
+    }
+    .deck-btn.primary {
+      background: linear-gradient(135deg, #ea5838 0%, #c83b1f 100%);
+      color: #fff;
+      border: none;
+    }
+    /* Slide Stage */
+    .slide-stage {
+      flex: 1;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.75rem 3rem;
+      overflow: hidden;
+    }
+    .slide {
+      display: none;
+      width: 100%;
+      max-width: 1260px;
+      height: 100%;
+      max-height: 680px;
+      background: var(--bg-ivory);
+      border: 1px solid var(--border);
+      border-top: 6px solid var(--terracotta);
+      border-radius: 16px;
+      box-shadow: 0 24px 60px rgba(45, 26, 14, 0.11);
+      padding: 2.5rem 3rem;
+      flex-direction: column;
+      justify-content: space-between;
+      animation: fadeSlide 0.32s ease;
+    }
+    .slide.active { display: flex; }
+    @keyframes fadeSlide {
+      from { opacity: 0; transform: translateY(10px) scale(0.99); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .slide-badge {
+      display: inline-block;
+      background: var(--bg-warm);
+      color: var(--terracotta);
+      border: 1px solid var(--border);
+      font-size: 0.75rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 0.3rem 0.75rem;
+      border-radius: 5px;
+      margin-bottom: 0.65rem;
+    }
+    .slide h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(2rem, 3.3vw, 2.85rem);
+      line-height: 1.12;
+      margin-bottom: 0.45rem;
+    }
+    .slide h2 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(1.55rem, 2.4vw, 2.1rem);
+      margin-bottom: 0.35rem;
+    }
+    .slide-sub {
+      color: var(--muted);
+      font-size: 1rem;
+      margin-bottom: 1.35rem;
+    }
+    .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; flex: 1; align-items: stretch; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; flex: 1; align-items: stretch; }
+    .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.15rem; flex: 1; align-items: stretch; }
+    .card-box {
+      background: var(--bg-cream);
+      border: 1px solid var(--border);
+      border-top: 4px solid var(--terracotta);
+      border-radius: 10px;
+      padding: 1.25rem 1.35rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.55rem;
+    }
+    .card-box.gold { border-top-color: var(--gold); }
+    .card-box.emerald { border-top-color: var(--emerald); }
+    .card-box.cobalt { border-top-color: var(--cobalt); }
+    .card-box h3 {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: var(--espresso);
+    }
+    .card-box p, .card-box li {
+      font-size: 0.88rem;
+      line-height: 1.55;
+      color: var(--charcoal);
+    }
+    .card-box ul { padding-left: 1.1rem; display: flex; flex-direction: column; gap: 0.4rem; }
+    table.ppt-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.86rem;
+    }
+    table.ppt-table th {
+      background: var(--terracotta);
+      color: #fff;
+      text-align: left;
+      padding: 0.65rem 0.9rem;
+      font-weight: 700;
+    }
+    table.ppt-table td {
+      padding: 0.65rem 0.9rem;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg-cream);
+      color: var(--charcoal);
+    }
+    .slide-footer {
+      border-top: 1px solid var(--border);
+      padding-top: 0.75rem;
+      margin-top: 1rem;
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--muted);
+    }
+  </style>
+</head>
+<body>
+
+  <header class="deck-topbar">
+    <div class="deck-brand">
+      <span class="dot"></span>
+      Quick<span class="accent">Cart</span>
+      <span style="font-family:'Plus Jakarta Sans',sans-serif;font-size:0.8rem;font-weight:600;color:var(--muted);margin-left:0.5rem;">| 12-Slide Project Presentation</span>
+    </div>
+    <div class="deck-controls">
+      <button class="deck-btn" onclick="prevSlide()">&larr; Prev</button>
+      <span id="slide-counter" style="font-size:0.85rem;font-weight:800;min-width:90px;text-align:center;">Slide 1 / 12</span>
+      <button class="deck-btn" onclick="nextSlide()">Next &rarr;</button>
+      <button class="deck-btn" onclick="toggleFullscreen()">Fullscreen</button>
+      <a href="QuickCart-Project-Presentation.pptx" download class="deck-btn primary">Download .PPTX</a>
+    </div>
+  </header>
+
+  <main class="slide-stage">
+
+    <!-- SLIDE 1 -->
+    <section class="slide active">
+      <div>
+        <span class="slide-badge">FULL-STACK WEB &amp; 3D GRAPHICS PROJECT</span>
+        <h1>Quick<span style="color:var(--terracotta);">Cart</span>: 3D Full-Stack E-Commerce Platform</h1>
+        <p class="slide-sub">Next-Generation Interactive 3D Retail Showroom, Real-Time Shopping Bag &amp; JWT-Secured Owner Control Center</p>
+        <div class="grid-4" style="margin-top:1.75rem;">
+          <div class="card-box">
+            <h3>Frontend Engine</h3>
+            <p>HTML5, CSS3 Custom Design System, Vanilla ES6 JS &amp; Three.js WebGL 3D</p>
+          </div>
+          <div class="card-box gold">
+            <h3>Backend Server</h3>
+            <p>Node.js &amp; Express.js RESTful API Architecture with Modular Routers</p>
+          </div>
+          <div class="card-box emerald">
+            <h3>Database ODM</h3>
+            <p>MongoDB &amp; Mongoose with 4 Schemas (User, Product, Order, SiteConfig)</p>
+          </div>
+          <div class="card-box cobalt">
+            <h3>Security &amp; Payments</h3>
+            <p>JWT + Role-Based Admin Vault, Bcrypt Hashing, Helmet &amp; Stripe API</p>
+          </div>
+        </div>
+      </div>
+      <div class="slide-footer">
+        <span>QuickCart | College &amp; Client Presentation Deck</span>
+        <span>Slide 1 of 12 (Use Left/Right Arrow Keys)</span>
+      </div>
+    </section>
+
+    <!-- SLIDE 2 -->
+    <section class="slide">
+      <div>
+        <span class="slide-badge">01 | PROJECT VISION</span>
+        <h2>Problem Statement &amp; Project Objectives</h2>
+        <p class="slide-sub">Bridging the gap between flat 2D online catalogs and physical luxury retail showrooms.</p>
+        <div class="grid-2">
+          <div class="card-box">
+            <h3>Limitations of Conventional Online Stores</h3>
+            <ul>
+              <li><strong>Flat 2D Product Grids:</strong> Shoppers cannot inspect product depth, finish, or spatial geometry before buying.</li>
+              <li><strong>Disconnected Cart Flows:</strong> Adding products often triggers page reloads or lacks instant visual confirmation.</li>
+              <li><strong>Hardcoded Storefront Themes:</strong> Changing brand titles, color palettes, or hero copy requires developer code edits.</li>
+              <li><strong>Unprotected Admin Pages:</strong> Prototype dashboards often lack proper role-based authentication gates.</li>
+            </ul>
+          </div>
+          <div class="card-box emerald">
+            <h3>How QuickCart Solves These Challenges</h3>
+            <ul>
+              <li><strong>Three.js WebGL 3D Showroom:</strong> Interactive 360-degree product turntable, 3D floating background, and 3D card tilt physics.</li>
+              <li><strong>Global Slide-Out Bag Drawer:</strong> Instant localStorage-synced shopping bag drawer with free shipping progress bar.</li>
+              <li><strong>Live Site &amp; Theme Customizer:</strong> Admin can rebrand the store, switch 5 color palettes, and edit hero text live.</li>
+              <li><strong>Multi-Layer JWT + RBAC Security:</strong> Hidden navbar link + dedicated Admin Security Gate + <code>requireAdmin</code> middleware.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="slide-footer"><span>QuickCart Architecture</span><span>Slide 2 of 12</span></div>
+    </section>
+
+    <!-- SLIDE 3 -->
+    <section class="slide">
+      <div>
+        <span class="slide-badge">02 | SYSTEM ARCHITECTURE</span>
+        <h2>Three-Tier System Architecture &amp; Tech Stack</h2>
+        <p class="slide-sub">Clean separation of concerns across 3D client presentation, Express REST APIs, and MongoDB persistence.</p>
+        <div class="grid-3">
+          <div class="card-box">
+            <h3>1. Client Presentation Layer</h3>
+            <ul>
+              <li>13 Semantic HTML5 Storefront &amp; Auth Pages</li>
+              <li>Warm Luxury Retail CSS3 Design System</li>
+              <li>Three.js (r128) WebGL 3D Rendering</li>
+              <li>Interactive 3D Tilt &amp; Specular Glare Engine</li>
+              <li>Centralized Fetch Wrapper (<code>api.js</code>)</li>
+            </ul>
+          </div>
+          <div class="card-box gold">
+            <h3>2. Application &amp; API Layer</h3>
+            <ul>
+              <li>Node.js + Express.js REST Server</li>
+              <li>JWT Bearer Verification (<code>authMiddleware</code>)</li>
+              <li>Role-Based Access Control (<code>requireAdmin</code>)</li>
+              <li>Helmet CSP &amp; Express Rate Limiter</li>
+              <li>Stripe PaymentIntent &amp; Webhook Handler</li>
+            </ul>
+          </div>
+          <div class="card-box emerald">
+            <h3>3. Database &amp; Persistence Layer</h3>
+            <ul>
+              <li>MongoDB Atlas &amp; Local Community Server</li>
+              <li><code>User</code> Schema (Bcrypt Salt-12 Hashing)</li>
+              <li><code>Product</code> Schema (Slugs, Stock, Ratings)</li>
+              <li><code>Order</code> Schema (Items, Payment, Fulfillment)</li>
+              <li><code>SiteConfig</code> Schema (Live Theme &amp; Copy)</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="slide-footer"><span>QuickCart Architecture</span><span>Slide 3 of 12</span></div>
+    </section>
+
+    <!-- SLIDE 4 -->
+    <section class="slide">
+      <div>
+        <span class="slide-badge">03 | 3D WEBGL ENGINEERING</span>
+        <h2>Custom 3D Interactive Visual Engines</h2>
+        <p class="slide-sub">Hardware-accelerated WebGL scenes built with Three.js and CSS3 3D perspective transforms.</p>
+        <div class="grid-2">
+          <div class="card-box">
+            <h3>1. Full-Viewport 3D Retail Showroom (bg-3d.js)</h3>
+            <p>Renders floating 3D designer shopping bags with metallic handles, wrapped gift parcels with gold ribbons, and orbiting rings that react smoothly to cursor parallax and scroll depth across every page.</p>
+          </div>
+          <div class="card-box gold">
+            <h3>2. 360-Degree Studio Turntable (three-hero.js)</h3>
+            <p>Interactive 3D flagship headphone sculpture on the homepage and product detail pages. Supports click-and-drag 360-degree rotation and real-time colorway switching (Obsidian, Titanium, Cyber).</p>
+          </div>
+          <div class="card-box emerald">
+            <h3>3. 3D Luxury Auth Pedestal (three-shopping-auth.js)</h3>
+            <p>Dedicated Three.js retail showcase on Sign In and Sign Up pages featuring a rotating luxury shopping bag, gift box, floating gold price tag, and VIP member card.</p>
+          </div>
+          <div class="card-box cobalt">
+            <h3>4. 3D Card Tilt &amp; Glare Physics (tilt3d.js)</h3>
+            <p>Applies real-time cursor-tracked 3D perspective rotation (<code>rotateX</code> / <code>rotateY</code>) and radial specular lighting across all product and category cards.</p>
+          </div>
+        </div>
+      </div>
+      <div class="slide-footer"><span>QuickCart 3D Graphics</span><span>Slide 4 of 12</span></div>
+    </section>
+
+    <!-- SLIDE 5 -->
+    <section class="slide">
+      <div>
+        <span class="slide-badge">04 | STOREFRONT UX</span>
+        <h2>End-to-End Customer Shopping Journey</h2>
+        <p class="slide-sub">Designed for high conversion, instant responsiveness, and frictionless product discovery.</p>
+        <div class="grid-4">
+          <div class="card-box">
+            <h3>Step 1: Homepage Showroom</h3>
+            <p>Hero 3D turntable, live announcement banner, spotlight flagship grid, category cards, and verified customer reviews.</p>
+          </div>
+          <div class="card-box gold">
+            <h3>Step 2: Catalog &amp; Filters</h3>
+            <p>Instant keyword search, 1-click department filter pills (Audio, Watches, Footwear, Photography, Accessories), and price sorting.</p>
+          </div>
+          <div class="card-box emerald">
+            <h3>Step 3: 3D Product Detail</h3>
+            <p>Toggle between high-res studio photography and the interactive 3D turntable, check live stock status, and select quantities.</p>
+          </div>
+          <div class="card-box cobalt">
+            <h3>Step 4: Slide-Out Bag</h3>
+            <p>Global slide-out shopping bag drawer opens immediately when adding items, paired with a full cart page and free shipping tracker.</p>
+          </div>
+        </div>
+      </div>
+      <div class="slide-footer"><span>QuickCart Storefront</span><span>Slide 5 of 12</span></div>
+    </section>
+
+    <!-- SLIDE 6 -->
+    <section class="slide">
+      <div>
+        <span class="slide-badge">05 | CHECKOUT &amp; PAYMENTS</span>
+        <h2>Smart Checkout, Promo Engine &amp; Stripe Integration</h2>
+        <p class="slide-sub">Seamless order placement, automatic inventory stock deduction, and PCI-compliant payment processing.</p>
+        <div class="grid-2">
+          <div class="card-box">
+            <h3>Checkout &amp; Order Pipeline (checkout.html)</h3>
+            <ul>
+              <li><strong>Address Auto-Fill:</strong> Pre-fills saved customer address from User profile and validates all shipping fields.</li>
+              <li><strong>Promo Code Engine:</strong> Supports promo code <code>QUICK3D</code> (15% instant discount) and automatic complimentary shipping across India on orders over ₹999.</li>
+              <li><strong>Atomic Stock Deduction:</strong> Backend verifies product availability in MongoDB and decrements stock upon order creation.</li>
+              <li><strong>Order Confirmation:</strong> Generates unique Order ID and saves to customer order history.</li>
+            </ul>
+          </div>
+          <div class="card-box gold">
+            <h3>Stripe Payment Architecture (routes/payment.js)</h3>
+            <ul>
+              <li><strong>POST /api/payment/create-intent:</strong> Calculates order total in cents and returns a Stripe <code>clientSecret</code>.</li>
+              <li><strong>Stripe Elements UI:</strong> Mounts the Stripe Card Element inside <code>checkout.html</code> with real-time validation.</li>
+              <li><strong>POST /api/payment/webhook:</strong> Verifies cryptographic Stripe signature and updates <code>paymentStatus</code> to <code>paid</code>.</li>
+              <li><strong>Local Demo Mode:</strong> Supports instant test order placement when running in local classroom environments.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="slide-footer"><span>QuickCart Checkout &amp; Stripe</span><span>Slide 6 of 12</span></div>
+    </section>
+
+    <!-- SLIDE 7 -->
+    <section class="slide">
+      <div>
+        <span class="slide-badge">06 | SECURITY &amp; AUTHENTICATION</span>
+        <h2>Multi-Layer Authentication &amp; Security Architecture</h2>
+        <p class="slide-sub">Enterprise-grade password hashing, stateless JWT sessions, and HTTP security hardening.</p>
+        <div class="grid-2">
+          <div class="card-box">
+            <h3>Bcrypt Password Hashing (models/User.js)</h3>
+            <p>Passwords are never stored in plain text. Mongoose pre-save hooks automatically hash passwords using <code>bcryptjs</code> with 12 salt rounds, and <code>select: false</code> strips passwords from query results.</p>
+          </div>
+          <div class="card-box gold">
+            <h3>Stateless JWT Sessions (middleware/auth.js)</h3>
+            <p>Upon login, the server signs a JSON Web Token (JWT) containing user ID and role (7-day expiry). Protected routes verify the <code>Authorization: Bearer &lt;token&gt;</code> header on every request.</p>
+          </div>
+          <div class="card-box emerald">
+            <h3>Role-Based Access Control (requireAdmin)</h3>
+            <p>Strict separation between <code>customer</code> and <code>admin</code> roles. Any non-admin account attempting to call an admin endpoint receives an immediate <code>403 Forbidden</code> response.</p>
+          </div>
+          <div class="card-box cobalt">
+            <h3>Rate Limiting &amp; Helmet CSP (server.js)</h3>
+            <p><code>express-rate-limit</code> blocks brute-force login attempts, while <code>helmet</code> configures strict Content Security Policy (CSP) HTTP headers.</p>
+          </div>
+        </div>
+      </div>
+      <div class="slide-footer"><span>QuickCart Security</span><span>Slide 7 of 12</span></div>
+    </section>
+
+    <!-- SLIDE 8 -->
+    <section class="slide">
+      <div>
+        <span class="slide-badge">07 | ADMIN VAULT SECURITY</span>
+        <h2>Secured Owner &amp; Administrator Control Center</h2>
+        <p class="slide-sub">Invisible to regular customers and protected by a dedicated 4-layer Owner Authentication Gate (/admin.html).</p>
+        <div class="grid-4">
+          <div class="card-box">
+            <h3>Layer 1: Hidden Navbar Link</h3>
+            <p>Guests and logged-in Customer accounts never see the Admin Vault button in the navbar. <code>api.js</code> renders it only when <code>user.role === "admin"</code>.</p>
+          </div>
+          <div class="card-box gold">
+            <h3>Layer 2: Security Gate UI</h3>
+            <p>Visiting <code>/admin.html</code> directly hides the entire dashboard workspace and displays the Restricted Owner &amp; Admin Authentication Vault until verified.</p>
+          </div>
+          <div class="card-box emerald">
+            <h3>Layer 3: Dual API Middleware</h3>
+            <p>Every management route in <code>routes/admin.js</code> enforces both <code>authMiddleware</code> (401) and <code>requireAdmin</code> (403) on the server.</p>
+          </div>
+          <div class="card-box cobalt">
+            <h3>Layer 4: Master Key &amp; Lock</h3>
+            <p>Supports Owner Master Key (<code>kala_hu_re</code>) for account elevation and a 1-click <strong>Lock Vault</strong> button to end the session.</p>
+          </div>
+        </div>
+      </div>
+      <div class="slide-footer"><span>QuickCart Admin Security</span><span>Slide 8 of 12</span></div>
+    </section>
+
+    <!-- SLIDE 9 -->
+    <section class="slide">
+      <div>
+        <span class="slide-badge">08 | FULL SITE CONTROL</span>
+        <h2>Four Admin Control Modules: Change Every Part of the Site</h2>
+        <p class="slide-sub">Complete real-time control over inventory, storefront theme palettes, hero copy, orders, and users.</p>
+        <div class="grid-2">
+          <div class="card-box">
+            <h3>1. Products &amp; Inventory Manager</h3>
+            <p>Add new products with 1-click luxury preset images, edit product specs in a modal, adjust stock (<code>+5</code> / <code>-1</code>) instantaneously, toggle Homepage Spotlight, or seed 6 flagship products in one click.</p>
+          </div>
+          <div class="card-box gold">
+            <h3>2. Live Site &amp; Theme Customizer (SiteConfig)</h3>
+            <p>Change Store Brand Name across all pages, switch between 5 live color palettes (Terracotta, Emerald, Gold, Rose, Cobalt), toggle the 3D Showroom background, and edit Hero headlines &amp; 3D Studio pricing live.</p>
+          </div>
+          <div class="card-box emerald">
+            <h3>3. Orders &amp; Fulfillment Manager</h3>
+            <p>View all customer orders with itemized quantities, customer contact info, and total revenue. Update Payment Status (<code>pending</code>, <code>paid</code>, <code>failed</code>) and Fulfillment Status (<code>processing</code>, <code>shipped</code>, <code>delivered</code>, <code>cancelled</code>).</p>
+          </div>
+          <div class="card-box cobalt">
+            <h3>4. Users &amp; Role Manager</h3>
+            <p>Create new Customer or Admin accounts directly from the dashboard, promote or demote user roles between Customer and Admin, reset user passwords, and remove test accounts.</p>
+          </div>
+        </div>
+      </div>
+      <div class="slide-footer"><span>QuickCart Admin Control Center</span><span>Slide 9 of 12</span></div>
+    </section>
+
+    <!-- SLIDE 10 -->
+    <section class="slide">
+      <div>
+        <span class="slide-badge">09 | DATABASE DESIGN</span>
+        <h2>MongoDB &amp; Mongoose Data Models</h2>
+        <p class="slide-sub">Four structured NoSQL collections powering users, catalog items, orders, and live site configuration.</p>
+        <table class="ppt-table">
+          <thead>
+            <tr>
+              <th>Model</th>
+              <th>File Path</th>
+              <th>Key Schema Fields</th>
+              <th>Special Features &amp; Hooks</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>User</strong></td>
+              <td><code>models/User.js</code></td>
+              <td><code>name, email, password, role, address</code></td>
+              <td>Bcrypt salt-12 pre-save hook, <code>comparePassword()</code>, password stripping</td>
+            </tr>
+            <tr>
+              <td><strong>Product</strong></td>
+              <td><code>models/Product.js</code></td>
+              <td><code>name, slug, price, category, stock, images[], isFeatured</code></td>
+              <td>Auto-generated URL slug hook, computed <code>avgRating</code>, text search index</td>
+            </tr>
+            <tr>
+              <td><strong>Order</strong></td>
+              <td><code>models/Order.js</code></td>
+              <td><code>user, items[], shippingAddress, paymentStatus, status, totalAmount</code></td>
+              <td>Populates user reference, tracks payment &amp; shipping lifecycle</td>
+            </tr>
+            <tr>
+              <td><strong>SiteConfig</strong></td>
+              <td><code>models/SiteConfig.js</code></td>
+              <td><code>storeName, themePalette, enable3DBackground, heroTitleLine1, studioPrice</code></td>
+              <td>Singleton configuration document synced dynamically across all pages</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="slide-footer"><span>QuickCart Database Schemas</span><span>Slide 10 of 12</span></div>
+    </section>
+
+    <!-- SLIDE 11 -->
+    <section class="slide">
+      <div>
+        <span class="slide-badge">10 | REST API &amp; ROUTING</span>
+        <h2>API Endpoint Reference &amp; Interactive 3D 404 Page</h2>
+        <p class="slide-sub">Clean Express routing with role-protected endpoints and custom 3D fallback error handling.</p>
+        <table class="ppt-table">
+          <thead>
+            <tr>
+              <th>Route Group</th>
+              <th>Endpoints</th>
+              <th>Protection</th>
+              <th>Purpose</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>/api/auth</strong></td>
+              <td><code>POST /register, POST /login, GET &amp; PUT /profile</code></td>
+              <td>Rate Limited + JWT</td>
+              <td>Customer/Admin authentication, profile &amp; address updates</td>
+            </tr>
+            <tr>
+              <td><strong>/api/products</strong></td>
+              <td><code>GET /, GET /featured, GET /:id, POST/PUT/DELETE</code></td>
+              <td>Public Read / Admin Write</td>
+              <td>Catalog search, category filtering, sorting, and product CRUD</td>
+            </tr>
+            <tr>
+              <td><strong>/api/orders</strong></td>
+              <td><code>POST /, GET /my, GET /:id</code></td>
+              <td>JWT Authenticated</td>
+              <td>Order creation with stock deduction and customer order history</td>
+            </tr>
+            <tr>
+              <td><strong>/api/admin</strong></td>
+              <td><code>POST /login, GET /overview, PUT /config, CRUD routes</code></td>
+              <td>JWT + requireAdmin</td>
+              <td>Full Admin Control Center API &amp; live SiteConfig publishing</td>
+            </tr>
+            <tr>
+              <td><strong>404 Fallback</strong></td>
+              <td><code>GET /404.html &amp; Unknown URL Middleware</code></td>
+              <td>HTTP 404 Status</td>
+              <td>Interactive 3D rotating gift parcel sculpture, live search &amp; quick links</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="slide-footer"><span>QuickCart REST API</span><span>Slide 11 of 12</span></div>
+    </section>
+
+    <!-- SLIDE 12 -->
+    <section class="slide">
+      <div>
+        <span class="slide-badge">11 | LIVE DEMO &amp; CONCLUSION</span>
+        <h2>Cloud Deployment, Live Links &amp; Demo Access</h2>
+        <p class="slide-sub">Deployed on Render with MongoDB Atlas and ready for live classroom or client demonstration.</p>
+        <div class="grid-2">
+          <div class="card-box">
+            <h3>Live Application Links &amp; Admin Credentials</h3>
+            <ul>
+              <li><strong>Live Cloud Storefront:</strong> <code>https://quartcart.onrender.com</code></li>
+              <li><strong>Live Cloud Admin Vault:</strong> <code>https://quartcart.onrender.com/admin.html</code></li>
+              <li><strong>Local Storefront Server:</strong> <code>http://localhost:5000</code></li>
+              <li><strong>Local Admin Vault:</strong> <code>http://localhost:5000/admin.html</code></li>
+              <li><strong>Currency:</strong> <code>Indian Rupee (INR ₹)</code> across store, bag &amp; checkout</li>
+              <li><strong>Admin Login ID:</strong> <code>akash628484@gmail.com</code></li>
+              <li><strong>Admin Password:</strong> <code>Akash@6283077</code> (Master Key: <code>kala_hu_re</code>)</li>
+            </ul>
+          </div>
+          <div class="card-box emerald">
+            <h3>Conclusion &amp; Future Scope</h3>
+            <ul>
+              <li><strong>Conclusion:</strong> QuickCart combines 3D WebGL visual merchandising with a secure, full-stack Node.js, Express, and MongoDB architecture.</li>
+              <li><strong>Complete Owner Autonomy:</strong> The live <code>SiteConfig</code> engine lets the owner customize branding, themes, inventory, and orders without touching code.</li>
+              <li><strong>Future Scope 1:</strong> WebXR / Augmented Reality (AR) mobile product placement.</li>
+              <li><strong>Future Scope 2:</strong> AI shopping concierge &amp; automated PDF invoice generation.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="slide-footer"><span>Thank You | QuickCart Full-Stack Presentation</span><span>Slide 12 of 12</span></div>
+    </section>
+
+  </main>
+
+  <script>
+    var slides = document.querySelectorAll('.slide');
+    var counter = document.getElementById('slide-counter');
+    var current = 0;
+
+    function showSlide(idx) {
+      if (idx < 0) idx = 0;
+      if (idx >= slides.length) idx = slides.length - 1;
+      current = idx;
+      slides.forEach(function (s, i) {
+        s.classList.toggle('active', i === current);
+      });
+      counter.textContent = 'Slide ' + (current + 1) + ' / ' + slides.length;
+    }
+
+    function nextSlide() { showSlide(current + 1); }
+    function prevSlide() { showSlide(current - 1); }
+
+    function toggleFullscreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(function () {});
+      } else {
+        document.exitFullscreen().catch(function () {});
+      }
+    }
+
+    window.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowRight' || e.key === ' ') nextSlide();
+      if (e.key === 'ArrowLeft') prevSlide();
+    });
+  </script>
+</body>
+</html>

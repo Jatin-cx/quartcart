@@ -168,9 +168,14 @@ function initMobileMenu() {
   }
 }
 
-// ─── Format Currency ───────────────────────────────────────
+// ─── Format Currency (Indian Rupee - INR) ───────────────────
 function formatPrice(amount) {
-  return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount);
+  const num = Number(amount) || 0;
+  return new Intl.NumberFormat('en-IN', {
+    style: 'currency',
+    currency: 'INR',
+    maximumFractionDigits: num % 1 === 0 ? 0 : 2,
+  }).format(num);
 }
 
 // ─── Format Date ───────────────────────────────────────────
@@ -640,7 +645,7 @@ window.downloadOrderInvoice = function (order) {
         </table>
         <div class="totals">
           <div class="totals-row"><span>Items Subtotal:</span><strong>${formatPrice(subtotal)}</strong></div>
-          <div class="totals-row"><span>Express Shipping:</span><strong>${total >= 99 ? 'COMPLIMENTARY' : '$0.00'}</strong></div>
+          <div class="totals-row"><span>Express Shipping:</span><strong>${total >= 999 ? 'COMPLIMENTARY' : '₹99'}</strong></div>
           <div class="totals-row grand"><span>Total Paid:</span><span>${formatPrice(total)}</span></div>
         </div>
         <div style="margin-top:32px;padding-top:16px;border-top:1px solid #dfd1c2;font-size:12px;color:#7d6a5e;display:flex;justify-content:space-between;">

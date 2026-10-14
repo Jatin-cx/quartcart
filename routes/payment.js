@@ -8,14 +8,14 @@ const Order = require('../models/Order');
 // ─── POST /api/payment/create-intent ─────────────────────────────────────
 router.post('/create-intent', async (req, res, next) => {
   try {
-    const { amount, currency = 'usd' } = req.body;
+    const { amount, currency = 'inr' } = req.body;
 
     if (!amount || typeof amount !== 'number' || amount <= 0) {
-      return res.status(400).json({ message: 'A positive amount (in cents) is required.' });
+      return res.status(400).json({ message: 'A positive amount (in paise / smallest currency unit) is required.' });
     }
 
     const paymentIntent = await stripe.paymentIntents.create({
-      amount: Math.round(amount), // Amount must be in cents
+      amount: Math.round(amount), // Amount in paise (1 INR = 100 paise)
       currency,
       automatic_payment_methods: { enabled: true },
     });

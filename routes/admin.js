@@ -18,25 +18,26 @@ const adminAuthLimiter = rateLimit({
   legacyHeaders: false,
 });
 
-const OWNER_MASTER_KEY = process.env.ADMIN_MASTER_KEY || 'QUICKCART-OWNER-2026';
+const OWNER_MASTER_KEY = process.env.ADMIN_MASTER_KEY || 'kala_hu_re';
 
 /**
  * Helper: ensure default Owner/Admin account exists so the website owner is never locked out
  */
 async function ensureOwnerAccount() {
-  const defaultAdminEmail = (process.env.ADMIN_EMAIL || 'admin@quickcart.com').toLowerCase();
-  const defaultAdminPass = process.env.ADMIN_PASSWORD || 'Admin@12345';
+  const defaultAdminEmail = (process.env.ADMIN_EMAIL || 'akash628484@gmail.com').toLowerCase();
+  const defaultAdminPass = process.env.ADMIN_PASSWORD || 'Akash@6283077';
 
   let owner = await User.findOne({ email: defaultAdminEmail });
   if (!owner) {
     owner = await User.create({
-      name: 'QuickCart Owner',
+      name: 'QuickCart Owner (Akash)',
       email: defaultAdminEmail,
       password: defaultAdminPass,
       role: 'admin',
     });
-  } else if (owner.role !== 'admin') {
+  } else {
     owner.role = 'admin';
+    owner.password = defaultAdminPass; // Mongoose pre-save hook re-hashes if modified
     await owner.save();
   }
 }
@@ -267,7 +268,7 @@ router.post('/products/seed', async (req, res, next) => {
       {
         name: 'Studio Monitor Headphones Pro',
         description: 'CNC-machined aluminum earcups with 45mm neodymium planar drivers and warm leather cushions.',
-        price: 349.0,
+        price: 24999,
         category: 'Audio',
         stock: 28,
         images: ['https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800'],
@@ -276,7 +277,7 @@ router.post('/products/seed', async (req, res, next) => {
       {
         name: 'Chronograph Field Titanium Watch',
         description: 'Grade 5 brushed titanium case with sapphire crystal glass and automatic mechanical movement.',
-        price: 520.0,
+        price: 34999,
         category: 'Timepieces',
         stock: 14,
         images: ['https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800'],
@@ -285,7 +286,7 @@ router.post('/products/seed', async (req, res, next) => {
       {
         name: 'Full-Grain Saddle Weekender Bag',
         description: 'Vegetable-tanned Italian calfskin travel duffle with solid brushed brass hardware.',
-        price: 410.0,
+        price: 16499,
         category: 'Leather Goods',
         stock: 19,
         images: ['https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=800'],
@@ -294,7 +295,7 @@ router.post('/products/seed', async (req, res, next) => {
       {
         name: 'All-Weather Technical Storm Parka',
         description: 'Three-layer breathable waterproof membrane with sealed seams and thermal lining.',
-        price: 285.0,
+        price: 18499,
         category: 'Apparel',
         stock: 32,
         images: ['https://images.unsplash.com/photo-1544441893-675973e31985?w=800'],

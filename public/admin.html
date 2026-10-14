@@ -265,15 +265,15 @@
           <form id="admin-gate-login-form">
             <div class="form-group">
               <label class="form-label" for="admin-gate-email">Owner / Admin Email</label>
-              <input type="email" id="admin-gate-email" class="form-input" placeholder="admin@quickcart.com" required autocomplete="username">
+              <input type="email" id="admin-gate-email" class="form-input" placeholder="akash628484@gmail.com" required autocomplete="username">
             </div>
             <div class="form-group">
               <label class="form-label" for="admin-gate-password">Administrator Passcode</label>
               <input type="password" id="admin-gate-password" class="form-input" placeholder="Enter administrator password" required autocomplete="current-password">
             </div>
             <div class="form-group">
-              <label class="form-label" for="admin-gate-master-key">Owner Master Key <span class="text-muted" style="font-weight:400;">(Optional - elevates your account to Owner/Admin)</span></label>
-              <input type="password" id="admin-gate-master-key" class="form-input" placeholder="Leave blank if account is already Admin">
+              <label class="form-label" for="admin-gate-master-key">Owner Master Key <span class="text-muted" style="font-weight:400;">(Optional - elevates account to Owner/Admin)</span></label>
+              <input type="password" id="admin-gate-master-key" class="form-input" placeholder="kala_hu_re (or leave blank if already Admin)">
             </div>
             <button type="submit" class="btn btn-primary btn-block btn-lg" id="admin-gate-submit-btn">
               Verify &amp; Unlock Admin Vault
@@ -330,7 +330,7 @@
       <div class="admin-kpi-grid">
         <div class="admin-kpi-card">
           <div class="admin-kpi-label">Total Store Revenue</div>
-          <div class="admin-kpi-value" id="kpi-revenue">$0.00</div>
+          <div class="admin-kpi-value" id="kpi-revenue">₹0</div>
           <div class="admin-kpi-sub" id="kpi-revenue-sub">Active orders volume</div>
         </div>
         <div class="admin-kpi-card">
@@ -359,7 +359,7 @@
           </div>
           <div style="text-align:right;">
             <span class="text-muted" style="font-size:0.76rem;text-transform:uppercase;letter-spacing:0.06em;display:block;">Total Warehouse Stock Value</span>
-            <strong id="analytics-total-stock-value" style="font-size:1.35rem;color:var(--accent-primary);">$0.00</strong>
+            <strong id="analytics-total-stock-value" style="font-size:1.35rem;color:var(--accent-primary);">₹0</strong>
           </div>
         </div>
         <div id="admin-category-bars" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:1rem;"></div>
@@ -415,8 +415,8 @@
                   </datalist>
                 </div>
                 <div class="form-group">
-                  <label class="form-label" for="new-prod-price">Price (USD)</label>
-                  <input type="number" id="new-prod-price" class="form-input" step="0.01" min="0" placeholder="299.00" required>
+                  <label class="form-label" for="new-prod-price">Price (INR ₹)</label>
+                  <input type="number" id="new-prod-price" class="form-input" step="1" min="0" placeholder="24999" required>
                 </div>
               </div>
 
@@ -559,7 +559,7 @@
                   <input type="text" id="cfg-storeName" class="form-input" required>
                 </div>
                 <div class="form-group">
-                  <label class="form-label" for="cfg-freeShippingThreshold">Free Shipping Threshold ($)</label>
+                  <label class="form-label" for="cfg-freeShippingThreshold">Free Shipping Threshold (INR ₹)</label>
                   <input type="number" id="cfg-freeShippingThreshold" class="form-input" min="0" step="1">
                 </div>
                 <div class="form-group">
@@ -610,8 +610,8 @@
                   <input type="text" id="cfg-studioModelName" class="form-input">
                 </div>
                 <div class="form-group">
-                  <label class="form-label" for="cfg-studioPrice">3D Turntable Price ($)</label>
-                  <input type="number" id="cfg-studioPrice" class="form-input" step="0.01">
+                  <label class="form-label" for="cfg-studioPrice">3D Turntable Price (INR ₹)</label>
+                  <input type="number" id="cfg-studioPrice" class="form-input" step="1">
                 </div>
               </div>
             </div>
@@ -747,8 +747,8 @@
             <input type="text" id="edit-prod-category" class="form-input" required>
           </div>
           <div class="form-group">
-            <label class="form-label" for="edit-prod-price">Price ($)</label>
-            <input type="number" id="edit-prod-price" class="form-input" step="0.01" required>
+            <label class="form-label" for="edit-prod-price">Price (INR ₹)</label>
+            <input type="number" id="edit-prod-price" class="form-input" step="1" required>
           </div>
         </div>
         <div class="grid-2" style="gap:1rem;">

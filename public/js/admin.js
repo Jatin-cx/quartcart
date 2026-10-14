@@ -81,8 +81,10 @@ function unlockAdminWorkspace(user) {
 window.fillDefaultOwnerCredentials = function () {
   const emailInput = document.getElementById('admin-gate-email');
   const passInput = document.getElementById('admin-gate-password');
-  if (emailInput) emailInput.value = 'admin@quickcart.com';
-  if (passInput) passInput.value = 'Admin@12345';
+  const keyInput = document.getElementById('admin-gate-master-key');
+  if (emailInput) emailInput.value = 'akash628484@gmail.com';
+  if (passInput) passInput.value = 'Akash@6283077';
+  if (keyInput) keyInput.value = 'kala_hu_re';
   showToast('Owner credentials filled. Click Verify & Unlock Admin Vault.', 'info');
 };
 
@@ -231,7 +233,7 @@ window.exportProductsCSV = function () {
     showToast('No products to export.', 'warning');
     return;
   }
-  const headers = ['ID', 'Name', 'Category', 'Price (USD)', 'Stock', 'Featured', 'Avg Rating'];
+  const headers = ['ID', 'Name', 'Category', 'Price (INR)', 'Stock', 'Featured', 'Avg Rating'];
   const rows = products.map((p) => [
     p._id,
     `"${String(p.name || '').replace(/"/g, '""')}"`,
@@ -259,7 +261,7 @@ window.exportOrdersCSV = function () {
     showToast('No customer orders to export.', 'warning');
     return;
   }
-  const headers = ['Order ID', 'Date', 'Customer Name', 'Customer Email', 'Total Amount (USD)', 'Payment Status', 'Fulfillment Status', 'Items'];
+  const headers = ['Order ID', 'Date', 'Customer Name', 'Customer Email', 'Total Amount (INR)', 'Payment Status', 'Fulfillment Status', 'Items'];
   const rows = orders.map((o) => [
     o._id,
     o.createdAt ? new Date(o.createdAt).toISOString().slice(0, 10) : '',

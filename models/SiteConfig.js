@@ -15,7 +15,7 @@ const siteConfigSchema = new mongoose.Schema(
     },
     announcementText: {
       type: String,
-      default: 'Free standard shipping on orders over $150 / 30-day return policy / Secure checkout powered by Stripe',
+      default: 'Free standard shipping on orders over ₹999 / 30-day return policy / Secure checkout powered by Stripe',
     },
     heroBadge: {
       type: String,
@@ -47,7 +47,7 @@ const siteConfigSchema = new mongoose.Schema(
     },
     studioPrice: {
       type: Number,
-      default: 349.00,
+      default: 24999,
     },
     themePalette: {
       type: String,
@@ -68,7 +68,7 @@ const siteConfigSchema = new mongoose.Schema(
     },
     freeShippingThreshold: {
       type: Number,
-      default: 150,
+      default: 999,
     },
   },
   { timestamps: true }

@@ -6,8 +6,8 @@
 
 'use strict';
 
-const CART_KEY = 'quartcart_bag';
-const SHIPPING_THRESHOLD = 50; // Free shipping above $50
+const CART_KEY = 'quickcart_bag';
+const SHIPPING_THRESHOLD = 999; // Free shipping above ₹999
 
 // ─── 1. Core Data Helpers ─────────────────────────────────────
 
@@ -127,7 +127,7 @@ function injectCartDrawer() {
             </button>
           </div>
           <div class="cart-drawer-shipping-bar" id="drawer-shipping-notice">
-            Free shipping on orders over $50
+            Free shipping across India on orders over ₹999
           </div>
         </header>
 
@@ -138,7 +138,7 @@ function injectCartDrawer() {
         <footer class="cart-drawer-footer" id="drawer-footer">
           <div class="cart-drawer-subtotal-row">
             <span>Subtotal</span>
-            <span class="cart-drawer-total-val" id="drawer-subtotal">$0.00</span>
+            <span class="cart-drawer-total-val" id="drawer-subtotal">₹0</span>
           </div>
           <p class="cart-drawer-tax-note">Taxes and shipping calculated at checkout.</p>
           <div class="cart-drawer-actions">
@@ -182,14 +182,14 @@ function renderCartDrawer() {
   const subtotal = getCartTotal();
 
   if (countEl) countEl.textContent = `${count} ${count === 1 ? 'item' : 'items'}`;
-  if (subtotalEl) subtotalEl.textContent = typeof formatPrice === 'function' ? formatPrice(subtotal) : `$${subtotal.toFixed(2)}`;
+  if (subtotalEl) subtotalEl.textContent = typeof formatPrice === 'function' ? formatPrice(subtotal) : `₹${Math.round(subtotal)}`;
 
   if (shippingNotice) {
     if (subtotal >= SHIPPING_THRESHOLD) {
       shippingNotice.innerHTML = '<span style="color:#10b981;font-weight:600;">Complimentary Standard Shipping unlocked</span>';
     } else {
       const remaining = SHIPPING_THRESHOLD - subtotal;
-      shippingNotice.innerHTML = `Add <strong>$${remaining.toFixed(2)}</strong> more for free shipping`;
+      shippingNotice.innerHTML = `Add <strong>${typeof formatPrice === 'function' ? formatPrice(remaining) : '₹' + Math.round(remaining)}</strong> more for free shipping`;
     }
   }
 
@@ -327,12 +327,12 @@ function renderCartPage() {
   }).join('');
 
   const subtotal = getCartTotal();
-  const shipping = subtotal >= SHIPPING_THRESHOLD || subtotal === 0 ? 0 : 5.99;
+  const shipping = subtotal >= SHIPPING_THRESHOLD || subtotal === 0 ? 0 : 99;
   const total = subtotal + shipping;
 
-  if (subtotalEl) subtotalEl.textContent = typeof formatPrice === 'function' ? formatPrice(subtotal) : `$${subtotal.toFixed(2)}`;
-  if (shippingEl) shippingEl.textContent = shipping === 0 ? 'FREE' : (typeof formatPrice === 'function' ? formatPrice(shipping) : `$${shipping.toFixed(2)}`);
-  if (totalEl) totalEl.textContent = typeof formatPrice === 'function' ? formatPrice(total) : `$${total.toFixed(2)}`;
+  if (subtotalEl) subtotalEl.textContent = typeof formatPrice === 'function' ? formatPrice(subtotal) : `₹${Math.round(subtotal)}`;
+  if (shippingEl) shippingEl.textContent = shipping === 0 ? 'FREE' : (typeof formatPrice === 'function' ? formatPrice(shipping) : `₹${Math.round(shipping)}`);
+  if (totalEl) totalEl.textContent = typeof formatPrice === 'function' ? formatPrice(total) : `₹${Math.round(total)}`;
 
   // Attach button events
   cartTableBody.querySelectorAll('.qty-dec').forEach((btn) => {

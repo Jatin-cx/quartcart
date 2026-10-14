@@ -42,7 +42,7 @@ function loadOrderSummary() {
   }
 
   const subtotal = getCartTotal();
-  const shipping = subtotal >= 50 ? 0 : 5.99;
+  const shipping = subtotal >= 999 ? 0 : 99;
   const total = subtotal + shipping;
 
   if (summaryTotal) summaryTotal.textContent = formatPrice(total);
@@ -54,20 +54,20 @@ function loadOrderSummary() {
   const subtotalEl = document.getElementById('summary-subtotal');
   if (subtotalEl) subtotalEl.textContent = formatPrice(subtotal);
 
-  return Math.round(total * 100); // Return total in cents for Stripe
+  return Math.round(total * 100); // Return total in paise (1 INR = 100 paise) for Stripe
 }
 
 /**
  * Initialize Stripe and mount the card element.
  */
-async function initStripe(amountCents) {
+async function initStripe(amountPaise) {
   try {
     stripe = Stripe(STRIPE_PK);
 
     // Create payment intent
     const data = await api.post('/payment/create-intent', {
-      amount: amountCents,
-      currency: 'usd',
+      amount: amountPaise,
+      currency: 'inr',
     });
 
     paymentIntentId = data.paymentIntentId;
@@ -226,9 +226,9 @@ document.addEventListener('DOMContentLoaded', async () => {
     return;
   }
 
-  const amountCents = loadOrderSummary();
-  if (amountCents) {
-    await initStripe(amountCents);
+  const amountPaise = loadOrderSummary();
+  if (amountPaise) {
+    await initStripe(amountPaise);
   }
 
   if (checkoutForm) {

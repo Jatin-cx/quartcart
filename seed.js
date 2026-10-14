@@ -8,7 +8,7 @@ const demoProducts = [
   {
     name: 'Studio Monitor Headphones',
     description: 'Precision-tuned 45mm neodymium drivers, active noise cancellation, and 40-hour battery life with low-latency wired and wireless connectivity. Built for audio engineers and focused listening.',
-    price: 349.00,
+    price: 24999,
     category: 'Audio',
     stock: 28,
     images: [
@@ -20,7 +20,7 @@ const demoProducts = [
   {
     name: 'Titanium Field Watch 40mm',
     description: 'Machined Grade 5 aerospace titanium case with anti-reflective sapphire crystal, automatic 28,800 vph mechanical movement, and 200-meter water resistance rating.',
-    price: 489.00,
+    price: 34999,
     category: 'Timepieces',
     stock: 14,
     images: [
@@ -32,7 +32,7 @@ const demoProducts = [
   {
     name: 'Technical All-Weather Storm Parka',
     description: 'Three-layer waterproof breathable shell with fully taped micro-seams, articulated sleeves for mobility, two-way storm zipper, and concealed utility pockets.',
-    price: 295.00,
+    price: 18499,
     category: 'Apparel',
     stock: 35,
     images: [
@@ -44,7 +44,7 @@ const demoProducts = [
   {
     name: 'CNC Aluminum Mechanical Keyboard',
     description: 'Solid aluminum enclosure anodized in matte black. Hot-swappable PCB, factory-lubed mechanical linear switches, gasket-mounted acoustic dampening, and USB-C connectivity.',
-    price: 220.00,
+    price: 14999,
     category: 'Tech & EDC',
     stock: 19,
     images: [
@@ -56,7 +56,7 @@ const demoProducts = [
   {
     name: 'Full-Grain Leather Weekender Duffel',
     description: 'Handcrafted from 2.2mm vegetable-tanned full-grain leather with solid brass hardware, water-resistant interior lining, and dedicated ventilated compartment.',
-    price: 265.00,
+    price: 16499,
     category: 'Leather Goods',
     stock: 22,
     images: [
@@ -68,7 +68,7 @@ const demoProducts = [
   {
     name: 'Carbon-Plate Road Running Shoes',
     description: 'High-rebound supercritical foam midsole paired with a full-length curved carbon fiber propulsion plate. Breathable monofilament engineered mesh upper.',
-    price: 185.00,
+    price: 12999,
     category: 'Footwear',
     stock: 40,
     images: [
@@ -80,7 +80,7 @@ const demoProducts = [
   {
     name: 'Cast Concrete Minimalist Desk Lamp',
     description: 'Sculptural cast-concrete base with an anodized aluminum diffused LED arc. Touch-capacitive brightness control with memory preset.',
-    price: 160.00,
+    price: 8999,
     category: 'Home & Living',
     stock: 16,
     images: [
@@ -92,7 +92,7 @@ const demoProducts = [
   {
     name: 'Damascus Steel Santoku Chef Knife',
     description: 'Forged 67-layer Damascus steel with a high-carbon core. Ergonomic octagonal wood handle balanced for precise kitchen prep.',
-    price: 135.00,
+    price: 7499,
     category: 'Home & Living',
     stock: 25,
     images: [
