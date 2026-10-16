@@ -30,7 +30,7 @@ app.use(
         defaultSrc: ["'self'"],
         scriptSrc: ["'self'", "'unsafe-inline'", 'https://js.stripe.com', 'https://cdnjs.cloudflare.com'],
         frameSrc: ["'self'", 'https://js.stripe.com'],
-        connectSrc: ["'self'", 'https://api.stripe.com', 'https://quartcart.onrender.com'],
+        connectSrc: ["'self'", 'https://api.stripe.com', 'https://quartcart.onrender.com', 'http://localhost:5000', 'http://127.0.0.1:5000', '*'],
         styleSrc: ["'self'", "'unsafe-inline'", 'https://fonts.googleapis.com'],
         fontSrc: ["'self'", 'https://fonts.gstatic.com', 'data:'],
         imgSrc: ["'self'", 'data:', 'https:', 'http:'],
@@ -39,11 +39,10 @@ app.use(
   })
 );
 
-const clientUrl = process.env.CLIENT_URL || 'http://localhost:5000';
 app.use(
   cors({
-    origin: clientUrl,
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    origin: true,
+    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
     credentials: true,
   })

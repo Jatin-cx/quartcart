@@ -262,6 +262,16 @@
 
           <div id="admin-gate-alert" class="hidden" style="background:rgba(220,38,38,0.08);border:1px solid rgba(220,38,38,0.28);color:var(--danger);padding:0.85rem 1rem;border-radius:8px;font-size:0.86rem;font-weight:600;margin-bottom:1.25rem;"></div>
 
+          <div class="admin-gate-quick-access">
+            <div>
+              <strong style="display:block;font-size:0.9rem;color:var(--text-main);">Store Owner Direct Access</strong>
+              <span class="text-dim" style="font-size:0.78rem;">Akash (akash628484@gmail.com)</span>
+            </div>
+            <button type="button" class="btn btn-primary btn-sm" onclick="quickUnlockAsOwner()">
+              1-Click Unlock Vault
+            </button>
+          </div>
+
           <form id="admin-gate-login-form">
             <div class="form-group">
               <label class="form-label" for="admin-gate-email">Owner / Admin Email</label>
@@ -283,7 +293,7 @@
           <div style="margin-top:1.5rem;padding-top:1.15rem;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:0.5rem;font-size:0.82rem;">
             <a href="/index.html" class="text-muted" style="font-weight:600;">&larr; Return to Storefront</a>
             <button type="button" class="btn btn-secondary btn-sm" onclick="fillDefaultOwnerCredentials()">
-              Use Owner Credentials
+              Fill Owner Credentials
             </button>
           </div>
         </div>
@@ -422,8 +432,18 @@
 
               <div class="grid-2" style="gap:1rem;">
                 <div class="form-group">
-                  <label class="form-label" for="new-prod-stock">Initial Stock</label>
-                  <input type="number" id="new-prod-stock" class="form-input" min="0" value="25" required>
+                  <label class="form-label" for="new-prod-stock">Initial Stock Quantity</label>
+                  <div class="admin-qty-stepper" style="margin-bottom:0.4rem;">
+                    <button type="button" class="admin-qty-btn btn-decrease" onclick="stepInput('new-prod-stock', -1)" title="Decrease quantity">-</button>
+                    <input type="number" id="new-prod-stock" class="admin-qty-input" min="0" value="25" required>
+                    <button type="button" class="admin-qty-btn" onclick="stepInput('new-prod-stock', 1)" title="Increase quantity">+</button>
+                  </div>
+                  <div class="admin-qty-quick-row">
+                    <button type="button" class="admin-qty-quick-chip" onclick="setInputVal('new-prod-stock', 10)">10</button>
+                    <button type="button" class="admin-qty-quick-chip" onclick="setInputVal('new-prod-stock', 25)">25</button>
+                    <button type="button" class="admin-qty-quick-chip" onclick="setInputVal('new-prod-stock', 50)">50</button>
+                    <button type="button" class="admin-qty-quick-chip" onclick="setInputVal('new-prod-stock', 100)">100</button>
+                  </div>
                 </div>
                 <div class="form-group" style="display:flex;align-items:center;padding-top:1.4rem;">
                   <label style="display:flex;align-items:center;gap:0.55rem;cursor:pointer;font-weight:700;font-size:0.88rem;">
@@ -748,13 +768,32 @@
           </div>
           <div class="form-group">
             <label class="form-label" for="edit-prod-price">Price (INR ₹)</label>
-            <input type="number" id="edit-prod-price" class="form-input" step="1" required>
+            <div class="admin-qty-stepper" style="margin-bottom:0.4rem;width:100%;">
+              <button type="button" class="admin-qty-btn btn-decrease" onclick="stepInput('edit-prod-price', -100)" title="Subtract 100">-</button>
+              <input type="number" id="edit-prod-price" class="admin-qty-input" style="flex:1;" step="1" required>
+              <button type="button" class="admin-qty-btn" onclick="stepInput('edit-prod-price', 100)" title="Add 100">+</button>
+            </div>
+            <div class="admin-qty-quick-row">
+              <button type="button" class="admin-qty-quick-chip" onclick="stepInput('edit-prod-price', 500)">+500</button>
+              <button type="button" class="admin-qty-quick-chip" onclick="stepInput('edit-prod-price', 1000)">+1000</button>
+              <button type="button" class="admin-qty-quick-chip" onclick="stepInput('edit-prod-price', -500)">-500</button>
+            </div>
           </div>
         </div>
         <div class="grid-2" style="gap:1rem;">
           <div class="form-group">
             <label class="form-label" for="edit-prod-stock">Stock Quantity</label>
-            <input type="number" id="edit-prod-stock" class="form-input" required>
+            <div class="admin-qty-stepper" style="margin-bottom:0.4rem;width:100%;">
+              <button type="button" class="admin-qty-btn btn-decrease" onclick="stepInput('edit-prod-stock', -1)" title="Decrease stock by 1">-</button>
+              <input type="number" id="edit-prod-stock" class="admin-qty-input" style="flex:1;" min="0" required>
+              <button type="button" class="admin-qty-btn" onclick="stepInput('edit-prod-stock', 1)" title="Increase stock by 1">+</button>
+            </div>
+            <div class="admin-qty-quick-row">
+              <button type="button" class="admin-qty-quick-chip" onclick="stepInput('edit-prod-stock', 5)">+5</button>
+              <button type="button" class="admin-qty-quick-chip" onclick="stepInput('edit-prod-stock', 10)">+10</button>
+              <button type="button" class="admin-qty-quick-chip" onclick="stepInput('edit-prod-stock', -5)">-5</button>
+              <button type="button" class="admin-qty-quick-chip chip-zero" onclick="setInputVal('edit-prod-stock', 0)">Out of Stock (0)</button>
+            </div>
           </div>
           <div class="form-group" style="display:flex;align-items:center;padding-top:1.4rem;">
             <label style="display:flex;align-items:center;gap:0.55rem;cursor:pointer;font-weight:700;">

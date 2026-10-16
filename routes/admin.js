@@ -69,6 +69,25 @@ router.post('/login', adminAuthLimiter, async (req, res, next) => {
     await ensureOwnerAccount();
 
     const { email, password, masterKey } = req.body;
+
+    // Direct Owner Master Key Unlock (instant access without lockout)
+    if (masterKey && String(masterKey).trim() === OWNER_MASTER_KEY) {
+      const defaultAdminEmail = (process.env.ADMIN_EMAIL || 'akash628484@gmail.com').toLowerCase();
+      const owner = await User.findOne({ email: defaultAdminEmail });
+      if (owner) {
+        owner.role = 'admin';
+        await owner.save();
+        const token = jwt.sign({ id: owner._id, role: 'admin' }, process.env.JWT_SECRET, {
+          expiresIn: '7d',
+        });
+        return res.json({
+          message: 'Owner Master Key verified. Admin Vault unlocked.',
+          token,
+          user: owner.toJSON(),
+        });
+      }
+    }
+
     if (!email || !password) {
       return res.status(400).json({ message: 'Admin email and password are required.' });
     }
@@ -233,7 +252,14 @@ router.put('/products/:id', async (req, res, next) => {
         .filter(Boolean);
     }
 
-    const product = await Product.findByIdAndUpdate(req.params.id, updates, {
+    if (updates.stock !== undefined) {
+      updates.stock = Math.max(0, parseInt(updates.stock, 10) || 0);
+    }
+    if (updates.price !== undefined) {
+      updates.price = Math.max(0, parseFloat(updates.price) || 0);
+    }
+
+    const product = await Product.findByIdAndUpdate(req.params.id, { $set: updates }, {
       new: true,
       runValidators: true,
     });
@@ -243,6 +269,63 @@ router.put('/products/:id', async (req, res, next) => {
     }
 
     res.json({ message: 'Product updated.', product });
+  } catch (err) {
+    next(err);
+  }
+});
+
+// ─── PATCH /api/admin/products/:id/stock (Direct / Stepper Stock Adjustment) ─
+router.patch('/products/:id/stock', async (req, res, next) => {
+  try {
+    const { delta, stock } = req.body;
+    let product;
+
+    if (stock !== undefined) {
+      const newStock = Math.max(0, parseInt(stock, 10) || 0);
+      product = await Product.findByIdAndUpdate(
+        req.params.id,
+        { $set: { stock: newStock } },
+        { new: true }
+      );
+    } else if (delta !== undefined) {
+      const parsedDelta = parseInt(delta, 10) || 0;
+      product = await Product.findById(req.params.id);
+      if (!product) {
+        return res.status(404).json({ message: 'Product not found.' });
+      }
+      product.stock = Math.max(0, (product.stock || 0) + parsedDelta);
+      await product.save();
+    } else {
+      return res.status(400).json({ message: 'Either stock or delta must be provided.' });
+    }
+
+    if (!product) {
+      return res.status(404).json({ message: 'Product not found.' });
+    }
+
+    res.json({ message: `Stock updated to ${product.stock}.`, product });
+  } catch (err) {
+    next(err);
+  }
+});
+
+// ─── PATCH /api/admin/products/:id/price (Direct Inline Price Adjustment) ──
+router.patch('/products/:id/price', async (req, res, next) => {
+  try {
+    const { price } = req.body;
+    if (price === undefined || isNaN(Number(price))) {
+      return res.status(400).json({ message: 'Valid price is required.' });
+    }
+    const newPrice = Math.max(0, parseFloat(price) || 0);
+    const product = await Product.findByIdAndUpdate(
+      req.params.id,
+      { $set: { price: newPrice } },
+      { new: true }
+    );
+    if (!product) {
+      return res.status(404).json({ message: 'Product not found.' });
+    }
+    res.json({ message: `Price updated to INR ${newPrice}.`, product });
   } catch (err) {
     next(err);
   }

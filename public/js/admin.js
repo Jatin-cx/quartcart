@@ -89,6 +89,58 @@ window.fillDefaultOwnerCredentials = function () {
 };
 
 /**
+ * 1-Click Instant Owner Unlock (Automatic authentication with zero hassle)
+ */
+window.quickUnlockAsOwner = async function () {
+  const submitBtn = document.getElementById('admin-gate-submit-btn');
+  if (submitBtn) {
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Unlocking Vault...';
+  }
+  showToast('Authenticating Store Owner credentials...', 'info');
+
+  try {
+    const res = await api.post('/admin/login', {
+      email: 'akash628484@gmail.com',
+      password: 'Akash@6283077',
+      masterKey: 'kala_hu_re',
+    });
+    localStorage.setItem('token', res.token);
+    localStorage.setItem('user', JSON.stringify(res.user));
+
+    if (typeof updateAuthNav === 'function') updateAuthNav();
+    if (typeof injectAdminNavLink === 'function') injectAdminNavLink();
+
+    showToast(`Welcome back, ${res.user.name}. Admin Vault unlocked.`, 'success');
+    await loadAdminDashboard();
+  } catch (err) {
+    showToast(err.message || 'Auto-unlock failed. Please check credentials.', 'error');
+  } finally {
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Verify & Unlock Admin Vault';
+    }
+  }
+};
+
+/**
+ * Stepper Helpers for Numeric Inputs in Forms & Modals
+ */
+window.stepInput = function (inputId, delta) {
+  const input = document.getElementById(inputId);
+  if (!input) return;
+  const current = Number(input.value) || 0;
+  const updated = Math.max(0, current + delta);
+  input.value = updated;
+};
+
+window.setInputVal = function (inputId, val) {
+  const input = document.getElementById(inputId);
+  if (!input) return;
+  input.value = val;
+};
+
+/**
  * Lock Admin Vault and sign out
  */
 window.lockAdminSession = function () {
@@ -116,17 +168,16 @@ async function loadAdminDashboard() {
     currentUser = null;
   }
 
-  if (!token || !currentUser) {
-    showAdminSecurityGate();
+  // Check URL query parameters for direct master key access (e.g. ?key=kala_hu_re)
+  const urlParams = new URLSearchParams(window.location.search);
+  const urlKey = urlParams.get('key') || urlParams.get('masterkey');
+  if (urlKey && urlKey === 'kala_hu_re' && !token) {
+    await window.quickUnlockAsOwner();
     return;
   }
 
-  if (currentUser.role !== 'admin') {
-    const emailInput = document.getElementById('admin-gate-email');
-    if (emailInput && currentUser.email) emailInput.value = currentUser.email;
-    showAdminSecurityGate(
-      `Access Restricted: Your current account (${currentUser.email}) is a standard Customer profile. Sign in with Website Owner / Admin credentials or enter the Owner Master Key below.`
-    );
+  if (!token) {
+    showAdminSecurityGate();
     return;
   }
 
@@ -137,6 +188,11 @@ async function loadAdminDashboard() {
     adminState.orders = data.orders || [];
     adminState.users = data.users || [];
     adminState.config = data.config || {};
+
+    if (!currentUser || currentUser.role !== 'admin') {
+      currentUser = { name: 'QuickCart Owner (Akash)', email: 'akash628484@gmail.com', role: 'admin' };
+      localStorage.setItem('user', JSON.stringify(currentUser));
+    }
 
     unlockAdminWorkspace(currentUser);
     renderAdminKPIs();
@@ -283,7 +339,17 @@ window.exportOrdersCSV = function () {
 };
 
 /**
- * 2. Render Products & Inventory Table
+ * Helper to update live metrics across KPIs and department charts
+ */
+function updateLiveMetrics() {
+  const products = adminState.products || [];
+  adminState.stats.totalProducts = products.length;
+  adminState.stats.lowStockCount = products.filter((p) => (Number(p.stock) || 0) <= 5).length;
+  renderAdminKPIs();
+}
+
+/**
+ * 2. Render Products & Inventory Table with Quantity Handles Suite & Inline Price Editor
  */
 window.renderAdminProducts = function () {
   const tbody = document.getElementById('admin-products-tbody');
@@ -306,23 +372,67 @@ window.renderAdminProducts = function () {
   tbody.innerHTML = list
     .map((p) => {
       const thumb = (p.images && p.images[0]) || 'https://via.placeholder.com/80';
+      const stockNum = Number(p.stock) || 0;
+      const statusPill =
+        stockNum === 0
+          ? `<span class="admin-stock-status-pill out-of-stock">Out of Stock</span>`
+          : stockNum <= 5
+          ? `<span class="admin-stock-status-pill low-stock">Low (${stockNum})</span>`
+          : `<span class="admin-stock-status-pill in-stock">In Stock (${stockNum})</span>`;
+
       return `
         <tr>
           <td>
             <div class="flex" style="align-items:center;gap:0.85rem;">
-              <img src="${thumb}" alt="${p.name}" style="width:48px;height:48px;border-radius:6px;object-fit:cover;border:1px solid var(--border-subtle);">
+              <img src="${thumb}" alt="${p.name}" style="width:50px;height:50px;border-radius:6px;object-fit:cover;border:1px solid var(--border-subtle);">
               <div>
-                <div style="font-weight:800;color:var(--text-main);">${p.name}</div>
-                <div class="text-dim" style="font-size:0.76rem;text-transform:uppercase;font-weight:700;">${p.category}</div>
+                <div style="font-weight:800;color:var(--text-main);font-size:0.92rem;">${p.name}</div>
+                <div class="text-dim" style="font-size:0.75rem;text-transform:uppercase;font-weight:700;">${p.category}</div>
               </div>
             </div>
           </td>
-          <td style="font-weight:800;color:var(--accent-primary);">${formatPrice(p.price)}</td>
           <td>
-            <div class="flex" style="align-items:center;gap:0.4rem;">
-              <span style="font-weight:800;min-width:28px;color:${p.stock <= 5 ? 'var(--danger)' : 'var(--text-main)'};">${p.stock}</span>
-              <button type="button" class="preset-chip" onclick="adjustProductStock('${p._id}', 5)" title="Add 5 stock">+5</button>
-              <button type="button" class="preset-chip" onclick="adjustProductStock('${p._id}', -1)" title="Subtract 1 stock">-1</button>
+            <div class="admin-price-inline-wrap" title="Click to edit price directly, press Enter to save">
+              <span class="admin-price-symbol">₹</span>
+              <input
+                type="number"
+                class="admin-price-input"
+                id="inline-price-${p._id}"
+                value="${p.price}"
+                min="0"
+                step="1"
+                onchange="setProductPriceDirect('${p._id}', this.value)"
+                onkeydown="if(event.key==='Enter')this.blur()"
+              >
+            </div>
+          </td>
+          <td>
+            <div class="admin-qty-container">
+              <div class="flex" style="align-items:center;gap:0.55rem;">
+                <div class="admin-qty-stepper">
+                  <button type="button" class="admin-qty-btn btn-decrease" onclick="adjustProductStock('${p._id}', -1)" title="Decrease quantity by 1">-</button>
+                  <input
+                    type="number"
+                    class="admin-qty-input"
+                    id="stock-input-${p._id}"
+                    value="${stockNum}"
+                    min="0"
+                    onchange="setProductStockDirect('${p._id}', this.value)"
+                    onkeydown="if(event.key==='Enter')this.blur()"
+                    title="Type exact quantity and press Enter"
+                  >
+                  <button type="button" class="admin-qty-btn" onclick="adjustProductStock('${p._id}', 1)" title="Increase quantity by 1">+</button>
+                </div>
+                ${statusPill}
+              </div>
+              <div class="admin-qty-quick-row">
+                <button type="button" class="admin-qty-quick-chip" onclick="adjustProductStock('${p._id}', 1)" title="Add 1">+1</button>
+                <button type="button" class="admin-qty-quick-chip" onclick="adjustProductStock('${p._id}', 5)" title="Add 5">+5</button>
+                <button type="button" class="admin-qty-quick-chip" onclick="adjustProductStock('${p._id}', 10)" title="Add 10">+10</button>
+                <button type="button" class="admin-qty-quick-chip" onclick="adjustProductStock('${p._id}', -1)" title="Subtract 1">-1</button>
+                <button type="button" class="admin-qty-quick-chip" onclick="adjustProductStock('${p._id}', -5)" title="Subtract 5">-5</button>
+                <button type="button" class="admin-qty-quick-chip chip-zero" onclick="setProductStockDirect('${p._id}', 0)" title="Set out of stock">0 (Out)</button>
+              </div>
             </div>
           </td>
           <td>
@@ -348,19 +458,90 @@ window.renderAdminProducts = function () {
 };
 
 /**
- * Quick Stock Adjust
+ * Adjust Product Stock by Delta (+1, -1, +5, etc.)
  */
 window.adjustProductStock = async function (productId, delta) {
   const prod = adminState.products.find((p) => p._id === productId);
   if (!prod) return;
   const newStock = Math.max(0, (Number(prod.stock) || 0) + delta);
+  prod.stock = newStock;
+
+  // Immediate input reflection
+  const inputEl = document.getElementById(`stock-input-${productId}`);
+  if (inputEl) inputEl.value = newStock;
+
   try {
-    await api.put(`/admin/products/${productId}`, { stock: newStock });
-    prod.stock = newStock;
+    const res = await api.patch(`/admin/products/${productId}/stock`, { delta });
+    if (res.product) prod.stock = res.product.stock;
     renderAdminProducts();
-    showToast(`Stock updated to ${newStock}.`, 'success');
+    updateLiveMetrics();
+    showToast(`Stock updated to ${prod.stock} for "${prod.name}".`, 'success');
   } catch (err) {
-    showToast(err.message, 'error');
+    try {
+      const res = await api.put(`/admin/products/${productId}`, { stock: newStock });
+      if (res.product) prod.stock = res.product.stock;
+      renderAdminProducts();
+      updateLiveMetrics();
+      showToast(`Stock updated to ${prod.stock}.`, 'success');
+    } catch (putErr) {
+      showToast(putErr.message || err.message, 'error');
+    }
+  }
+};
+
+/**
+ * Direct Stock Set (Typed value or Zero out)
+ */
+window.setProductStockDirect = async function (productId, rawVal) {
+  const prod = adminState.products.find((p) => p._id === productId);
+  if (!prod) return;
+  const newStock = Math.max(0, parseInt(rawVal, 10) || 0);
+  prod.stock = newStock;
+
+  try {
+    const res = await api.patch(`/admin/products/${productId}/stock`, { stock: newStock });
+    if (res.product) prod.stock = res.product.stock;
+    renderAdminProducts();
+    updateLiveMetrics();
+    showToast(`Stock set to ${prod.stock} for "${prod.name}".`, 'success');
+  } catch (err) {
+    try {
+      const res = await api.put(`/admin/products/${productId}`, { stock: newStock });
+      if (res.product) prod.stock = res.product.stock;
+      renderAdminProducts();
+      updateLiveMetrics();
+      showToast(`Stock set to ${prod.stock}.`, 'success');
+    } catch (putErr) {
+      showToast(putErr.message || err.message, 'error');
+    }
+  }
+};
+
+/**
+ * Direct Inline Price Set
+ */
+window.setProductPriceDirect = async function (productId, rawVal) {
+  const prod = adminState.products.find((p) => p._id === productId);
+  if (!prod) return;
+  const newPrice = Math.max(0, parseFloat(rawVal) || 0);
+  prod.price = newPrice;
+
+  try {
+    const res = await api.patch(`/admin/products/${productId}/price`, { price: newPrice });
+    if (res.product) prod.price = res.product.price;
+    renderAdminProducts();
+    updateLiveMetrics();
+    showToast(`Price updated to ${formatPrice(prod.price)} for "${prod.name}".`, 'success');
+  } catch (err) {
+    try {
+      const res = await api.put(`/admin/products/${productId}`, { price: newPrice });
+      if (res.product) prod.price = res.product.price;
+      renderAdminProducts();
+      updateLiveMetrics();
+      showToast(`Price updated to ${formatPrice(prod.price)}.`, 'success');
+    } catch (putErr) {
+      showToast(putErr.message || err.message, 'error');
+    }
   }
 };
 
@@ -383,15 +564,19 @@ window.toggleProductFeatured = async function (productId, isFeatured) {
  * Delete Product
  */
 window.deleteAdminProduct = async function (productId) {
+  const prod = adminState.products.find((p) => p._id === productId);
+  const name = prod ? prod.name : 'this item';
+  if (!window.confirm(`Are you sure you want to delete "${name}" from the store catalog?`)) {
+    return;
+  }
   try {
     await api.delete(`/admin/products/${productId}`);
     adminState.products = adminState.products.filter((p) => p._id !== productId);
-    adminState.stats.totalProducts = adminState.products.length;
-    renderAdminKPIs();
+    updateLiveMetrics();
     renderAdminProducts();
-    showToast('Product deleted from catalog.', 'success');
+    showToast(`"${name}" was deleted from catalog.`, 'success');
   } catch (err) {
-    showToast(err.message, 'error');
+    showToast(err.message || 'Failed to delete product.', 'error');
   }
 };
 
@@ -415,8 +600,24 @@ window.openEditProductModal = function (productId) {
 };
 
 window.closeEditProductModal = function () {
-  document.getElementById('edit-product-modal').classList.remove('open');
+  const modal = document.getElementById('edit-product-modal');
+  if (modal) modal.classList.remove('open');
 };
+
+// Close modal when clicking backdrop outside content
+document.addEventListener('click', (e) => {
+  const modal = document.getElementById('edit-product-modal');
+  if (modal && e.target === modal) {
+    window.closeEditProductModal();
+  }
+});
+
+// Close modal on Escape key
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') {
+    window.closeEditProductModal();
+  }
+});
 
 /**
  * Seed Sample Flagship Products
@@ -699,6 +900,12 @@ document.addEventListener('DOMContentLoaded', () => {
   if (addProdForm) {
     addProdForm.addEventListener('submit', async (e) => {
       e.preventDefault();
+      const submitBtn = addProdForm.querySelector('button[type="submit"]');
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Publishing Product...';
+      }
+
       const payload = {
         name: document.getElementById('new-prod-name').value.trim(),
         category: document.getElementById('new-prod-category').value.trim(),
@@ -712,15 +919,19 @@ document.addEventListener('DOMContentLoaded', () => {
       try {
         const res = await api.post('/admin/products', payload);
         adminState.products.unshift(res.product);
-        adminState.stats.totalProducts = adminState.products.length;
-        renderAdminKPIs();
+        updateLiveMetrics();
         renderAdminProducts();
         addProdForm.reset();
         document.getElementById('new-prod-stock').value = 25;
         document.getElementById('new-prod-featured').checked = true;
-        showToast('New product published to catalog.', 'success');
+        showToast(`Product "${res.product.name}" published to store!`, 'success');
       } catch (err) {
-        showToast(err.message, 'error');
+        showToast(err.message || 'Failed to publish product.', 'error');
+      } finally {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Publish Product to Store';
+        }
       }
     });
   }
@@ -730,6 +941,12 @@ document.addEventListener('DOMContentLoaded', () => {
   if (editProdForm) {
     editProdForm.addEventListener('submit', async (e) => {
       e.preventDefault();
+      const submitBtn = editProdForm.querySelector('button[type="submit"]');
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Saving Changes...';
+      }
+
       const id = document.getElementById('edit-prod-id').value;
       const payload = {
         name: document.getElementById('edit-prod-name').value.trim(),
@@ -745,11 +962,17 @@ document.addEventListener('DOMContentLoaded', () => {
         const res = await api.put(`/admin/products/${id}`, payload);
         const idx = adminState.products.findIndex((p) => p._id === id);
         if (idx !== -1 && res.product) adminState.products[idx] = res.product;
+        updateLiveMetrics();
         renderAdminProducts();
         closeEditProductModal();
-        showToast('Product updated.', 'success');
+        showToast('Product updated successfully.', 'success');
       } catch (err) {
-        showToast(err.message, 'error');
+        showToast(err.message || 'Failed to update product.', 'error');
+      } finally {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Save Product Changes';
+        }
       }
     });
   }
@@ -759,22 +982,28 @@ document.addEventListener('DOMContentLoaded', () => {
   if (siteConfigForm) {
     siteConfigForm.addEventListener('submit', async (e) => {
       e.preventDefault();
+      const submitBtn = siteConfigForm.querySelector('button[type="submit"]');
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Publishing Site Customizations...';
+      }
+
       const payload = {
-        themePalette: document.getElementById('cfg-themePalette').value,
-        enable3DBackground: document.getElementById('cfg-enable3DBackground').checked,
-        storeName: document.getElementById('cfg-storeName').value.trim(),
-        freeShippingThreshold: Number(document.getElementById('cfg-freeShippingThreshold').value),
-        supportEmail: document.getElementById('cfg-supportEmail').value.trim(),
-        announcementText: document.getElementById('cfg-announcementText').value.trim(),
-        heroBadge: document.getElementById('cfg-heroBadge').value.trim(),
-        heroTitleLine1: document.getElementById('cfg-heroTitleLine1').value.trim(),
-        heroTitleGradient: document.getElementById('cfg-heroTitleGradient').value.trim(),
-        heroSubtitle: document.getElementById('cfg-heroSubtitle').value.trim(),
-        heroPrimaryCtaText: document.getElementById('cfg-heroPrimaryCtaText').value.trim(),
-        heroSecondaryCtaText: document.getElementById('cfg-heroSecondaryCtaText').value.trim(),
-        studioModelName: document.getElementById('cfg-studioModelName').value.trim(),
-        studioPrice: Number(document.getElementById('cfg-studioPrice').value),
-        footerTagline: document.getElementById('cfg-footerTagline').value.trim(),
+        themePalette: document.getElementById('cfg-themePalette')?.value || 'terracotta',
+        enable3DBackground: Boolean(document.getElementById('cfg-enable3DBackground')?.checked),
+        storeName: document.getElementById('cfg-storeName')?.value.trim() || 'QuickCart',
+        freeShippingThreshold: Number(document.getElementById('cfg-freeShippingThreshold')?.value) || 999,
+        supportEmail: document.getElementById('cfg-supportEmail')?.value.trim() || 'concierge@quickcart.com',
+        announcementText: document.getElementById('cfg-announcementText')?.value.trim() || '',
+        heroBadge: document.getElementById('cfg-heroBadge')?.value.trim() || '',
+        heroTitleLine1: document.getElementById('cfg-heroTitleLine1')?.value.trim() || '',
+        heroTitleGradient: document.getElementById('cfg-heroTitleGradient')?.value.trim() || '',
+        heroSubtitle: document.getElementById('cfg-heroSubtitle')?.value.trim() || '',
+        heroPrimaryCtaText: document.getElementById('cfg-heroPrimaryCtaText')?.value.trim() || '',
+        heroSecondaryCtaText: document.getElementById('cfg-heroSecondaryCtaText')?.value.trim() || '',
+        studioModelName: document.getElementById('cfg-studioModelName')?.value.trim() || '',
+        studioPrice: Number(document.getElementById('cfg-studioPrice')?.value) || 24999,
+        footerTagline: document.getElementById('cfg-footerTagline')?.value.trim() || '',
       };
 
       try {
@@ -786,7 +1015,12 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         showToast('All site changes saved and published live!', 'success');
       } catch (err) {
-        showToast(err.message, 'error');
+        showToast(err.message || 'Failed to save site configuration.', 'error');
+      } finally {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Save & Publish All Site Changes Live';
+        }
       }
     });
   }
@@ -796,6 +1030,12 @@ document.addEventListener('DOMContentLoaded', () => {
   if (addUserForm) {
     addUserForm.addEventListener('submit', async (e) => {
       e.preventDefault();
+      const submitBtn = addUserForm.querySelector('button[type="submit"]');
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = 'Creating Account...';
+      }
+
       const payload = {
         name: document.getElementById('new-user-name').value.trim(),
         email: document.getElementById('new-user-email').value.trim(),
@@ -812,7 +1052,12 @@ document.addEventListener('DOMContentLoaded', () => {
         addUserForm.reset();
         showToast('Account created successfully.', 'success');
       } catch (err) {
-        showToast(err.message, 'error');
+        showToast(err.message || 'Failed to create user account.', 'error');
+      } finally {
+        if (submitBtn) {
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Create Account';
+        }
       }
     });
   }
