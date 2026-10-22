@@ -3,10 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>404 Page Not Found | QuickCart</title>
+  <title>404 Page Not Found - QuickCart</title>
   <meta name="description" content="The page or item you are looking for could not be found on QuickCart.">
-  <meta property="og:title" content="404 Page Not Found | QuickCart">
-  <meta property="og:description" content="Explore our curated 3D flagship collection on QuickCart.">
+  <meta property="og:title" content="404 Page Not Found - QuickCart">
+  <meta property="og:description" content="Explore our curated flagship collection on QuickCart.">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <link rel="alternate icon" href="/favicon.ico">
   <link rel="stylesheet" href="/css/style.css?v=3">
   <style>
     .error-404-section {
@@ -17,10 +19,10 @@
       padding: 3.5rem 0;
     }
     .error-404-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
+      background: var(--bg-surface);
+      border: 1px solid var(--glass-border);
       border-radius: var(--radius-xl);
-      box-shadow: var(--shadow-lg);
+      box-shadow: var(--shadow-3d-lg);
       padding: 3rem;
       max-width: 960px;
       width: 100%;
@@ -30,9 +32,11 @@
       align-items: center;
       position: relative;
       overflow: hidden;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
     }
     .error-code-display {
-      font-family: var(--font-heading);
+      font-family: var(--font-display);
       font-size: clamp(4.5rem, 9vw, 7rem);
       font-weight: 800;
       line-height: 0.95;
@@ -46,13 +50,13 @@
     }
     .missing-path-pill {
       display: inline-block;
-      background: var(--bg-secondary);
-      border: 1px solid var(--border);
-      border-radius: var(--radius-sm);
+      background: rgba(14, 165, 233, 0.08);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-xs);
       padding: 0.35rem 0.75rem;
       font-family: monospace;
       font-size: 0.82rem;
-      color: var(--text-secondary);
+      color: var(--accent-primary);
       margin-bottom: 1.25rem;
       word-break: break-all;
     }
@@ -64,8 +68,8 @@
     .error-3d-stage {
       width: 100%;
       height: 340px;
-      background: radial-gradient(circle at 50% 45%, rgba(224, 79, 51, 0.12), rgba(217, 119, 6, 0.05) 65%, transparent 100%);
-      border: 1px solid var(--border);
+      background: radial-gradient(circle at 50% 45%, rgba(14, 165, 233, 0.18), rgba(255, 42, 133, 0.08) 65%, transparent 100%);
+      border: 1px solid var(--glass-border);
       border-radius: var(--radius-lg);
       position: relative;
       overflow: hidden;
@@ -110,29 +114,33 @@
 <body>
 
   <!-- Top Announcement Bar -->
-  <div class="announcement-bar">
-    <div class="container">
-      <span>COMPLIMENTARY EXPRESS SHIPPING ON ORDERS OVER $99 | USE CODE: <strong>QUICK3D</strong> FOR 15% OFF</span>
+  <aside class="announcement-bar" aria-label="Announcement">
+    <div class="container flex-between">
+      <span>COMPLIMENTARY EXPRESS SHIPPING ON ORDERS OVER ₹999</span>
+      <span>USE CODE: <strong>QUICKCART</strong> FOR SPECIAL OFFERS</span>
     </div>
-  </div>
+  </aside>
 
   <!-- Navigation -->
   <nav class="navbar" role="navigation" aria-label="Main navigation">
-    <div class="container">
-      <a href="/index.html" class="navbar-brand">
+    <div class="container flex-between">
+      <a href="/index.html" class="navbar-brand" aria-label="QuickCart Home">
         <span class="brand-dot"></span>
-        Quick<span>Cart</span>
+        QuickCart
       </a>
 
-      <button class="menu-toggle" id="menu-toggle" aria-label="Toggle navigation">
+      <button class="menu-toggle" id="menu-toggle" aria-label="Toggle navigation" aria-expanded="false">
         <span></span><span></span><span></span>
       </button>
 
-      <ul class="nav-links" id="nav-links">
+      <ul class="nav-links" id="nav-links" role="list">
         <li><a href="/index.html">Home</a></li>
-        <li><a href="/products.html">Products</a></li>
+        <li><a href="/products.html">All Products</a></li>
+        <li><a href="/products.html?category=Audio">Audio</a></li>
+        <li><a href="/products.html?category=Timepieces">Timepieces</a></li>
+        <li><a href="/products.html?category=Apparel">Apparel</a></li>
         <li>
-          <a href="/cart.html" class="cart-link" aria-label="Shopping cart">
+          <a href="/cart.html" class="cart-link" aria-label="Shopping Bag">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-2z"></path>
               <line x1="3" y1="6" x2="21" y2="6"></line>
@@ -143,7 +151,7 @@
           </a>
         </li>
         <li><a href="/login.html" id="nav-account-link">Sign In</a></li>
-        <li><button class="btn btn-secondary btn-sm" id="nav-logout-btn" style="display:none;">Sign Out</button></li>
+        <li style="display:none;"><a href="javascript:void(0)" id="nav-logout-btn">Sign Out</a></li>
       </ul>
     </div>
   </nav>
@@ -157,12 +165,12 @@
         <div>
           <span class="badge-tag" style="margin-bottom:0.85rem;">
             <span class="dot"></span>
-            ERROR 404 | DESTINATION NOT FOUND
+            ERROR 404: DESTINATION NOT FOUND
           </span>
           <div class="error-code-display">404</div>
           <h1 style="font-size:1.85rem;margin-bottom:0.65rem;">This Showcase Aisle Does Not Exist</h1>
           <p class="text-muted" style="font-size:0.96rem;margin-bottom:1rem;">
-            The page or product link you requested may have been moved, renamed, or sold out from our seasonal collection.
+            The page or product link you requested may have been moved, renamed, or is currently unavailable in our catalog.
           </p>
 
           <div class="missing-path-pill" id="missing-path-display">Requested path: /unknown</div>
@@ -173,7 +181,7 @@
               type="search"
               id="error-404-search-input"
               class="form-input"
-              placeholder="Search headphones, watches, cameras..."
+              placeholder="Search headphones, watches, apparel..."
               aria-label="Search products"
               required
             >
@@ -185,7 +193,7 @@
           <!-- Primary CTA Buttons -->
           <div class="flex" style="gap:0.85rem;flex-wrap:wrap;margin-top:1.25rem;">
             <a href="/index.html" class="btn btn-primary btn-lg">
-              Return to Homepage &rarr;
+              Return to Homepage
             </a>
             <a href="/products.html" class="btn btn-secondary btn-lg">
               Explore All Products
@@ -193,16 +201,16 @@
           </div>
 
           <!-- Quick Category Shortcuts -->
-          <div style="margin-top:1.75rem;padding-top:1.25rem;border-top:1px solid var(--border);">
+          <div style="margin-top:1.75rem;padding-top:1.25rem;border-top:1px solid var(--glass-border);">
             <div style="font-size:0.76rem;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-muted);margin-bottom:0.5rem;">
               Popular Storefront Departments
             </div>
             <div class="quick-links-row">
               <a href="/products.html?category=Audio" class="btn btn-secondary btn-sm">Audio</a>
-              <a href="/products.html?category=Watches" class="btn btn-secondary btn-sm">Watches</a>
+              <a href="/products.html?category=Timepieces" class="btn btn-secondary btn-sm">Timepieces</a>
+              <a href="/products.html?category=Apparel" class="btn btn-secondary btn-sm">Apparel</a>
               <a href="/products.html?category=Footwear" class="btn btn-secondary btn-sm">Footwear</a>
-              <a href="/products.html?category=Photography" class="btn btn-secondary btn-sm">Photography</a>
-              <a href="/products.html?category=Accessories" class="btn btn-secondary btn-sm">Accessories</a>
+              <a href="/products.html?category=Leather%20Goods" class="btn btn-secondary btn-sm">Leather Goods</a>
               <a href="/cart.html" class="btn btn-secondary btn-sm">View Shopping Bag</a>
             </div>
           </div>
@@ -222,19 +230,23 @@
     <div class="container">
       <div class="footer-grid">
         <div class="footer-col">
-          <div class="footer-brand">
+          <a href="/index.html" class="footer-brand" aria-label="QuickCart Home">
             <span class="brand-dot"></span>
-            Quick<span>Cart</span>
-          </div>
-          <p>Curated flagship essentials designed with tactile precision, warm aesthetics, and enduring quality.</p>
+            QuickCart
+          </a>
+          <p>Curated flagship essentials designed with tactile precision, deep contrast aesthetics, and enduring quality.</p>
+          <p style="margin-top:0.75rem;font-size:0.88rem;color:var(--text-muted);">
+            Email: <a href="mailto:support@quickcart.com" style="color:var(--accent-primary);">support@quickcart.com</a><br>
+            Phone: <a href="tel:+919876543210" style="color:var(--accent-primary);">+91 98765 43210</a>
+          </p>
         </div>
         <div class="footer-col">
           <h4>Shop</h4>
           <ul>
             <li><a href="/products.html">All Products</a></li>
             <li><a href="/products.html?category=Audio">Audio</a></li>
-            <li><a href="/products.html?category=Watches">Watches</a></li>
-            <li><a href="/products.html?category=Accessories">Accessories</a></li>
+            <li><a href="/products.html?category=Timepieces">Timepieces</a></li>
+            <li><a href="/products.html?category=Apparel">Apparel</a></li>
           </ul>
         </div>
         <div class="footer-col">
@@ -249,7 +261,7 @@
         <div class="footer-col">
           <h4>Policies</h4>
           <ul>
-            <li><a href="/policies.html">Returns &amp; Exchanges</a></li>
+            <li><a href="/policies.html">Shipping &amp; Returns</a></li>
             <li><a href="/privacy.html">Privacy Policy</a></li>
             <li><a href="/terms.html">Terms of Service</a></li>
           </ul>
@@ -273,13 +285,11 @@
   <script src="/js/tilt3d.js?v=3"></script>
   <script>
     (function () {
-      // 1. Show requested path
       var pathEl = document.getElementById('missing-path-display');
       if (pathEl) {
         pathEl.textContent = 'Requested URL: ' + window.location.pathname + (window.location.search || '');
       }
 
-      // 2. Bind search form to redirect to /products.html?search=...
       var searchForm = document.getElementById('error-404-search-form');
       if (searchForm) {
         searchForm.addEventListener('submit', function (e) {
@@ -293,7 +303,6 @@
         });
       }
 
-      // 3. Interactive Three.js 3D Sculpture inside #error-404-canvas-wrap
       var wrap = document.getElementById('error-404-canvas-wrap');
       if (!wrap || typeof THREE === 'undefined') return;
 
@@ -306,57 +315,53 @@
       renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
       wrap.insertBefore(renderer.domElement, wrap.firstChild);
 
-      var ambient = new THREE.AmbientLight(0xfff5ea, 0.85);
+      var ambient = new THREE.AmbientLight(0xffffff, 0.85);
       scene.add(ambient);
 
-      var keyLight = new THREE.DirectionalLight(0xffffff, 1.15);
+      var keyLight = new THREE.DirectionalLight(0x38bdf8, 1.2);
       keyLight.position.set(4, 6, 5);
       scene.add(keyLight);
 
-      var warmLight = new THREE.PointLight(0xe04f33, 1.1, 12);
-      warmLight.position.set(-3, -2, 3);
-      scene.add(warmLight);
+      var roseLight = new THREE.PointLight(0xff2a85, 1.3, 12);
+      roseLight.position.set(-3, -2, 3);
+      scene.add(roseLight);
 
       var group = new THREE.Group();
       scene.add(group);
 
-      // Luxury Terracotta Gift Parcel
       var boxGeo = new THREE.BoxGeometry(1.45, 1.45, 1.45);
       var boxMat = new THREE.MeshStandardMaterial({
-        color: 0xe04f33,
-        roughness: 0.32,
-        metalness: 0.15
+        color: 0x0ea5e9,
+        roughness: 0.28,
+        metalness: 0.55
       });
       var parcel = new THREE.Mesh(boxGeo, boxMat);
       group.add(parcel);
 
-      // Gold Ribbons around the Parcel
       var ribbonMat = new THREE.MeshStandardMaterial({
-        color: 0xf59e0b,
-        roughness: 0.22,
-        metalness: 0.78
+        color: 0xff2a85,
+        roughness: 0.2,
+        metalness: 0.75
       });
       var rib1 = new THREE.Mesh(new THREE.BoxGeometry(1.5, 1.5, 0.22), ribbonMat);
       var rib2 = new THREE.Mesh(new THREE.BoxGeometry(0.22, 1.5, 1.5), ribbonMat);
       var rib3 = new THREE.Mesh(new THREE.BoxGeometry(1.5, 0.22, 1.5), ribbonMat);
       group.add(rib1, rib2, rib3);
 
-      // Orbiting Champagne Gold Rings
       var ring1 = new THREE.Mesh(
         new THREE.TorusGeometry(1.65, 0.045, 20, 80),
-        ribbonMat
+        new THREE.MeshStandardMaterial({ color: 0x38bdf8, roughness: 0.25, metalness: 0.7 })
       );
       ring1.rotation.x = Math.PI / 3;
       group.add(ring1);
 
       var ring2 = new THREE.Mesh(
         new THREE.TorusGeometry(1.95, 0.03, 16, 80),
-        new THREE.MeshStandardMaterial({ color: 0x0d9488, roughness: 0.3, metalness: 0.6 })
+        ribbonMat
       );
       ring2.rotation.y = Math.PI / 4;
       group.add(ring2);
 
-      // Drag rotation support
       var isDragging = false;
       var prevX = 0;
       var prevY = 0;

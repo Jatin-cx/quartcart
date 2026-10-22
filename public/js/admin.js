@@ -371,7 +371,7 @@ window.renderAdminProducts = function () {
 
   tbody.innerHTML = list
     .map((p) => {
-      const thumb = (p.images && p.images[0]) || 'https://via.placeholder.com/80';
+      const thumb = (p.images && p.images[0]) || productImage([], p.name);
       const stockNum = Number(p.stock) || 0;
       const statusPill =
         stockNum === 0

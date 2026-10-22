@@ -142,7 +142,7 @@ if (registerForm) {
 
     const submitBtn = registerForm.querySelector('[type=submit]');
     submitBtn.disabled = true;
-    submitBtn.innerHTML = '<span class="spinner spinner-sm"></span> Creating account…';
+    submitBtn.innerHTML = '<span class="spinner spinner-sm"></span> Creating account...';
 
     try {
       const data = await api.post('/auth/register', { name, email, password });
@@ -193,7 +193,7 @@ if (loginForm) {
 
     const submitBtn = loginForm.querySelector('[type=submit]');
     submitBtn.disabled = true;
-    submitBtn.innerHTML = '<span class="spinner spinner-sm"></span> Signing in…';
+    submitBtn.innerHTML = '<span class="spinner spinner-sm"></span> Signing in...';
 
     try {
       const data = await api.post('/auth/login', { email, password });

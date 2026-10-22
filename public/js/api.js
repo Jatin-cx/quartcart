@@ -161,12 +161,20 @@ function initMobileMenu() {
   const navLinks = document.getElementById('nav-links');
   if (toggle && navLinks) {
     toggle.addEventListener('click', () => {
-      navLinks.classList.toggle('open');
+      const isOpen = navLinks.classList.toggle('open');
+      toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
     });
     document.addEventListener('click', (e) => {
       if (!toggle.contains(e.target) && !navLinks.contains(e.target)) {
         navLinks.classList.remove('open');
+        toggle.setAttribute('aria-expanded', 'false');
       }
+    });
+    navLinks.querySelectorAll('a').forEach((link) => {
+      link.addEventListener('click', () => {
+        navLinks.classList.remove('open');
+        toggle.setAttribute('aria-expanded', 'false');
+      });
     });
   }
 }
@@ -196,13 +204,14 @@ function renderStars(rating) {
 
 // ─── Truncate Text ─────────────────────────────────────────
 function truncate(str, max = 60) {
-  return str && str.length > max ? str.slice(0, max) + '…' : str;
+  return str && str.length > max ? str.slice(0, max) + '...' : str;
 }
 
 // ─── Image Placeholder ─────────────────────────────────────
 function productImage(images, name = 'Product') {
   if (images && images.length > 0 && images[0]) return images[0];
-  return `https://via.placeholder.com/400x400/0b0e14/0ea5e9?text=${encodeURIComponent(name.slice(0, 12))}`;
+  const safeName = String(name).slice(0, 16).replace(/[<>&"]/g, '');
+  return `data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="400" height="400" viewBox="0 0 400 400"><rect width="400" height="400" fill="%230d1017"/><circle cx="200" cy="180" r="70" fill="%230ea5e9" fill-opacity="0.2"/><text x="200" y="270" fill="%23f8fafc" font-family="sans-serif" font-size="18" font-weight="700" text-anchor="middle">${encodeURIComponent(safeName)}</text></svg>`;
 }
 
 // ─── Auto-Inject 3D Retail Background & 3D Tilt Engine ─────
@@ -471,7 +480,7 @@ function renderWishlistDrawer() {
     .map(
       (item) => `
       <div style="display:flex;gap:0.85rem;align-items:center;padding:0.85rem;background:var(--bg-secondary);border:1px solid var(--border);border-radius:10px;margin-bottom:0.75rem;">
-        <img src="${item.image || 'https://via.placeholder.com/64'}" alt="${item.name}" style="width:58px;height:58px;border-radius:8px;object-fit:cover;border:1px solid var(--border);">
+        <img src="${item.image || productImage([], item.name)}" alt="${item.name}" style="width:58px;height:58px;border-radius:8px;object-fit:cover;border:1px solid var(--border);">
         <div style="flex:1;min-width:0;">
           <a href="/product-detail.html?id=${item._id}" style="font-weight:700;font-size:0.9rem;color:var(--text-primary);display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;">${item.name}</a>
           <div style="font-weight:800;font-size:0.86rem;color:var(--accent-primary);margin-top:0.15rem;">${formatPrice(item.price)}</div>

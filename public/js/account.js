@@ -68,7 +68,7 @@ async function loadOrders() {
 
   ordersTableBody.innerHTML = `
     <tr><td colspan="5" style="text-align:center;padding:2rem;color:var(--text-muted);">
-      <div class="spinner" style="margin:0 auto 0.5rem;"></div> Loading orders…
+      <div class="spinner" style="margin:0 auto 0.5rem;"></div> Loading orders...
     </td></tr>
   `;
 
@@ -113,7 +113,7 @@ async function loadOrders() {
               <div style="margin-top:0.5rem;min-width:220px;">
                 ${order.items.map((item) => `
                   <div class="flex-between" style="font-size:0.82rem;padding:0.2rem 0;border-bottom:1px solid var(--light-2);">
-                    <span>${item.name} ×${item.qty}</span>
+                    <span>${item.name} x${item.qty}</span>
                     <span>${formatPrice(item.price * item.qty)}</span>
                   </div>
                 `).join('')}
@@ -141,7 +141,7 @@ if (profileEditForm) {
 
     const submitBtn = profileEditForm.querySelector('[type=submit]');
     submitBtn.disabled = true;
-    submitBtn.innerHTML = '<span class="spinner spinner-sm"></span> Saving…';
+    submitBtn.innerHTML = '<span class="spinner spinner-sm"></span> Saving...';
 
     try {
       const payload = {

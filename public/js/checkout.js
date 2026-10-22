@@ -36,7 +36,7 @@ function loadOrderSummary() {
   if (orderSummaryEl) {
     orderSummaryEl.innerHTML = cart.map((item) => `
       <div class="summary-row">
-        <span>${item.name} <span class="text-muted">×${item.qty}</span></span>
+        <span>${item.name} <span class="text-muted">x${item.qty}</span></span>
         <span style="font-weight:700;color:var(--text-main);">${formatPrice(item.price * item.qty)}</span>
       </div>
     `).join('');
@@ -352,7 +352,7 @@ async function handlePayment(e) {
 
   // Processing state
   payBtn.disabled = true;
-  payBtn.innerHTML = '<span class="spinner spinner-sm"></span> Authorizing with bank…';
+  payBtn.innerHTML = '<span class="spinner spinner-sm"></span> Authorizing with bank...';
   if (cardErrors) cardErrors.textContent = '';
 
   try {

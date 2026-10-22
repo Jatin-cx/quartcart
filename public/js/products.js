@@ -25,7 +25,7 @@ async function loadProducts() {
   productsGrid.innerHTML = `
     <div class="loading-grid" style="grid-column:1/-1;padding:4rem 0;">
       <div class="spinner"></div>
-      <p class="text-center mt-2 text-muted">Retrieving catalog drops…</p>
+      <p class="text-center mt-2 text-muted">Retrieving catalog drops...</p>
     </div>
   `;
 
@@ -175,7 +175,7 @@ function renderPagination({ page, pages }) {
   let html = '<div class="flex-center" style="gap:0.5rem;margin-top:2.5rem;flex-wrap:wrap;">';
 
   if (page > 1) {
-    html += `<button class="btn btn-secondary btn-sm page-btn" data-page="${page - 1}">← Previous</button>`;
+    html += `<button class="btn btn-secondary btn-sm page-btn" data-page="${page - 1}">&larr; Previous</button>`;
   }
 
   for (let i = 1; i <= pages; i++) {
@@ -187,7 +187,7 @@ function renderPagination({ page, pages }) {
   }
 
   if (page < pages) {
-    html += `<button class="btn btn-secondary btn-sm page-btn" data-page="${page + 1}">Next →</button>`;
+    html += `<button class="btn btn-secondary btn-sm page-btn" data-page="${page + 1}">Next &rarr;</button>`;
   }
 
   html += '</div>';

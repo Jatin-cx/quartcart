@@ -49,6 +49,10 @@ function addToCart(product, qty = 1) {
 
   saveCart(cart);
 
+  if (typeof showToast === 'function') {
+    showToast(`${product.name || 'Item'} added to shopping bag`, 'success');
+  }
+
   // Animate badge
   document.querySelectorAll('.cart-badge').forEach((b) => {
     b.classList.remove('badge-pop');
@@ -61,8 +65,12 @@ function addToCart(product, qty = 1) {
 }
 
 function removeFromCart(productId) {
-  const cart = getCart().filter((item) => item._id !== productId);
+  const item = getCart().find((i) => i._id === productId);
+  const cart = getCart().filter((i) => i._id !== productId);
   saveCart(cart);
+  if (typeof showToast === 'function') {
+    showToast(`${item ? item.name : 'Item'} removed from bag`, 'info');
+  }
 }
 
 function updateCartQty(productId, qty) {
@@ -217,8 +225,8 @@ function renderCartDrawer() {
   if (footer) footer.style.display = 'block';
 
   list.innerHTML = cart.map((item) => {
-    const formattedPrice = typeof formatPrice === 'function' ? formatPrice(item.price) : `$${item.price.toFixed(2)}`;
-    const lineTotal = typeof formatPrice === 'function' ? formatPrice(item.price * item.qty) : `$${(item.price * item.qty).toFixed(2)}`;
+    const formattedPrice = typeof formatPrice === 'function' ? formatPrice(item.price) : `₹${Math.round(item.price)}`;
+    const lineTotal = typeof formatPrice === 'function' ? formatPrice(item.price * item.qty) : `₹${Math.round(item.price * item.qty)}`;
     const imgUrl = item.image || 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=120';
 
     return `
@@ -297,8 +305,8 @@ function renderCartPage() {
 
   cartTableBody.innerHTML = cart.map((item) => {
     const imgUrl = item.image || 'https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=120';
-    const unitPrice = typeof formatPrice === 'function' ? formatPrice(item.price) : `$${item.price.toFixed(2)}`;
-    const linePrice = typeof formatPrice === 'function' ? formatPrice(item.price * item.qty) : `$${(item.price * item.qty).toFixed(2)}`;
+    const unitPrice = typeof formatPrice === 'function' ? formatPrice(item.price) : `₹${Math.round(item.price)}`;
+    const linePrice = typeof formatPrice === 'function' ? formatPrice(item.price * item.qty) : `₹${Math.round(item.price * item.qty)}`;
 
     return `
       <tr data-id="${item._id}">
