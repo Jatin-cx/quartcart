@@ -1,12 +1,12 @@
 /**
  * three-hero.js - Interactive 3D Luxury Studio Headphone & Retail Pedestal Showcase
- * Renders an authentic 3D Studio Monitor Headphone in Warm Terracotta Copper,
- * Brushed Champagne Gold, and Botanical Emerald finishes over a 3D marble pedestal.
+ * Renders an authentic 3D Studio Monitor Headphone in Ice Silver, Deep Aubergine,
+ * and Radiant Marigold finishes over a 3D luxury pedestal.
  */
 
 'use strict';
 
-let currentHeadphoneTheme = 'obsidian';
+let currentHeadphoneTheme = 'silver';
 let updateHeadphoneColorFn = null;
 
 function initHero3D() {
@@ -29,19 +29,19 @@ function initHero3D() {
   renderer.toneMappingExposure = 1.35;
   container.appendChild(renderer.domElement);
 
-  // Cyber Luxury Retail Studio Lighting
-  const ambientLight = new THREE.AmbientLight(0x070c18, 1.6);
+  // Ice Silver & Marigold Luxury Retail Lighting
+  const ambientLight = new THREE.AmbientLight(0x1a0f26, 1.8);
   scene.add(ambientLight);
 
-  const keyLight = new THREE.DirectionalLight(0x0ea5e9, 2.6);
+  const keyLight = new THREE.DirectionalLight(0xe2e8f0, 2.6);
   keyLight.position.set(6, 9, 6);
   scene.add(keyLight);
 
-  const fillLight = new THREE.PointLight(0xff2a85, 3.2, 40);
+  const fillLight = new THREE.PointLight(0xf59e0b, 3.4, 40);
   fillLight.position.set(-5, 1, 5);
   scene.add(fillLight);
 
-  const rimLight = new THREE.DirectionalLight(0x38bdf8, 2.2);
+  const rimLight = new THREE.DirectionalLight(0xf8fafc, 2.0);
   rimLight.position.set(0, 5, -6);
   scene.add(rimLight);
 
@@ -52,58 +52,57 @@ function initHero3D() {
   const headphoneGroup = new THREE.Group();
   stageGroup.add(headphoneGroup);
 
-  // Cyber Materials (Default: Electric Cerulean Aluminum, Jet Black Leather & Neon Rose Accents)
+  // Luxury Finishes (Default: Ice Silver Metallic, Deep Aubergine Leather, Radiant Marigold Accents)
   const metalMat = new THREE.MeshPhysicalMaterial({
-    color: 0x0ea5e9,
-    metalness: 0.85,
-    roughness: 0.18,
-    clearcoat: 0.92,
+    color: 0xe2e8f0,
+    metalness: 0.92,
+    roughness: 0.16,
+    clearcoat: 0.95,
     clearcoatRoughness: 0.08,
   });
 
   const cushionMat = new THREE.MeshStandardMaterial({
-    color: 0x090c12,
+    color: 0x1a0f26,
     roughness: 0.65,
-    metalness: 0.15,
+    metalness: 0.18,
   });
 
   const goldAccentMat = new THREE.MeshStandardMaterial({
-    color: 0xff2a85,
+    color: 0xf59e0b,
     metalness: 0.88,
     roughness: 0.16,
-    emissive: 0x88003a,
+    emissive: 0xb45309,
     emissiveIntensity: 0.25,
   });
 
   const marbleMat = new THREE.MeshStandardMaterial({
-    color: 0x0d1017,
+    color: 0x12091c,
     roughness: 0.25,
-    metalness: 0.75,
+    metalness: 0.82,
   });
 
-  // 3D Obsidian Turntable Pedestal Base beneath Headphones
+  // 3D Aubergine & Silver Turntable Pedestal Base beneath Headphones
   const pedestalGroup = new THREE.Group();
   const baseDisc = new THREE.Mesh(new THREE.CylinderGeometry(2.35, 2.5, 0.24, 64), marbleMat);
   baseDisc.position.y = -2.1;
   pedestalGroup.add(baseDisc);
 
-  const ceruleanRimMat = new THREE.MeshStandardMaterial({
-    color: 0x0ea5e9,
-    metalness: 0.9,
+  const silverRimMat = new THREE.MeshStandardMaterial({
+    color: 0xe2e8f0,
+    metalness: 0.92,
     roughness: 0.15,
-    emissive: 0x0284c7,
-    emissiveIntensity: 0.35,
+    emissive: 0x94a3b8,
+    emissiveIntensity: 0.3,
   });
 
-  const goldRim = new THREE.Mesh(new THREE.TorusGeometry(2.4, 0.04, 16, 64), ceruleanRimMat);
-  goldRim.rotation.x = Math.PI / 2;
-  goldRim.position.y = -1.98;
-  pedestalGroup.add(goldRim);
+  const silverRim = new THREE.Mesh(new THREE.TorusGeometry(2.4, 0.04, 16, 64), silverRimMat);
+  silverRim.rotation.x = Math.PI / 2;
+  silverRim.position.y = -1.98;
+  pedestalGroup.add(silverRim);
 
   const floatingHalo = new THREE.Mesh(new THREE.TorusGeometry(2.75, 0.025, 12, 64), goldAccentMat);
   floatingHalo.rotation.x = Math.PI / 2;
   floatingHalo.position.y = -1.82;
-  pedestalGroup.add(floatingHalo);
   pedestalGroup.add(floatingHalo);
 
   stageGroup.add(pedestalGroup);
@@ -179,24 +178,24 @@ function initHero3D() {
   // Colorway Switcher
   updateHeadphoneColorFn = function (theme) {
     currentHeadphoneTheme = theme;
-    if (theme === 'obsidian') {
-      // Electric Cerulean Blue, Jet Black Chassis & Neon Rose Accents
-      metalMat.color.setHex(0x0ea5e9);
-      cushionMat.color.setHex(0x090c12);
-      goldAccentMat.color.setHex(0xff2a85);
-      fillLight.color.setHex(0xff2a85);
-    } else if (theme === 'titanium') {
-      // Neon Rose Metallic Body, Jet Black Cushions & Cerulean Trim
-      metalMat.color.setHex(0xff2a85);
-      cushionMat.color.setHex(0x090c12);
-      goldAccentMat.color.setHex(0x38bdf8);
-      fillLight.color.setHex(0x0ea5e9);
-    } else if (theme === 'cyan') {
-      // Cyber Ice Cyan, Obsidian Midnight & Neon Rose Fill
-      metalMat.color.setHex(0x06b6d4);
-      cushionMat.color.setHex(0x0f172a);
-      goldAccentMat.color.setHex(0xff2a85);
-      fillLight.color.setHex(0x06b6d4);
+    if (theme === 'silver' || theme === 'obsidian') {
+      // Ice Silver Metallic Body, Deep Aubergine Cushions & Radiant Marigold Accents
+      metalMat.color.setHex(0xe2e8f0);
+      cushionMat.color.setHex(0x1a0f26);
+      goldAccentMat.color.setHex(0xf59e0b);
+      fillLight.color.setHex(0xf59e0b);
+    } else if (theme === 'aubergine' || theme === 'titanium') {
+      // Deep Aubergine Metallic Body, Dark Velvet Cushions & Ice Silver Trim
+      metalMat.color.setHex(0x251536);
+      cushionMat.color.setHex(0x12091c);
+      goldAccentMat.color.setHex(0xe2e8f0);
+      fillLight.color.setHex(0xa855f7);
+    } else if (theme === 'marigold' || theme === 'cyan') {
+      // Radiant Marigold Metallic Body, Deep Aubergine Cushions & Ice Silver Accent
+      metalMat.color.setHex(0xf59e0b);
+      cushionMat.color.setHex(0x1a0f26);
+      goldAccentMat.color.setHex(0xe2e8f0);
+      fillLight.color.setHex(0xfbbf24);
     }
   };
 

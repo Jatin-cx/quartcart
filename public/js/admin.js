@@ -653,9 +653,9 @@ function populateSiteConfigForm() {
     if (el && val !== undefined) el.value = val;
   };
 
-  setVal('cfg-themePalette', c.themePalette || 'cerulean_rose');
+  setVal('cfg-themePalette', c.themePalette || 'aubergine_silver');
   document.querySelectorAll('.theme-option-card').forEach((card) => {
-    card.classList.toggle('active', card.dataset.theme === (c.themePalette || 'cerulean_rose'));
+    card.classList.toggle('active', card.dataset.theme === (c.themePalette || 'aubergine_silver'));
   });
 
   const bgCheck = document.getElementById('cfg-enable3DBackground');
@@ -989,7 +989,7 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       const payload = {
-        themePalette: document.getElementById('cfg-themePalette')?.value || 'terracotta',
+        themePalette: document.getElementById('cfg-themePalette')?.value || 'aubergine_silver',
         enable3DBackground: Boolean(document.getElementById('cfg-enable3DBackground')?.checked),
         storeName: document.getElementById('cfg-storeName')?.value.trim() || 'QuickCart',
         freeShippingThreshold: Number(document.getElementById('cfg-freeShippingThreshold')?.value) || 999,

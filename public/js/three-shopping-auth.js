@@ -1,7 +1,7 @@
 /**
  * three-shopping-auth.js - Interactive 3D Luxury Shopping Bag & Gift Pedestal
  * For Login & Sign Up pages: renders an authentic 3D retail shopping bag,
- * wrapped gift box, and golden member tag on a warm studio turntable.
+ * wrapped gift box, and golden member card on a studio turntable.
  */
 
 'use strict';
@@ -24,83 +24,85 @@
     container.innerHTML = '';
     container.appendChild(renderer.domElement);
 
-    // Cyber Retail Studio Lighting
-    const ambient = new THREE.AmbientLight(0x070b16, 1.6);
+    // Luxury Retail Studio Lighting
+    const ambient = new THREE.AmbientLight(0x1a0f26, 1.8);
     scene.add(ambient);
 
-    const keyLight = new THREE.DirectionalLight(0x0ea5e9, 2.2);
+    const keyLight = new THREE.DirectionalLight(0xe2e8f0, 2.2);
     keyLight.position.set(5, 8, 6);
     scene.add(keyLight);
 
-    const rosePoint = new THREE.PointLight(0xff2a85, 3.2, 25);
-    rosePoint.position.set(-4, 3, 4);
-    scene.add(rosePoint);
+    const marigoldPoint = new THREE.PointLight(0xf59e0b, 3.4, 25);
+    marigoldPoint.position.set(-4, 3, 4);
+    scene.add(marigoldPoint);
 
-    const ceruleanPoint = new THREE.PointLight(0x0ea5e9, 2.8, 25);
-    ceruleanPoint.position.set(4, -2, 5);
-    scene.add(ceruleanPoint);
+    const violetPoint = new THREE.PointLight(0xa855f7, 2.8, 25);
+    violetPoint.position.set(4, -2, 5);
+    scene.add(violetPoint);
 
     // Root Turntable Group
     const stageGroup = new THREE.Group();
     scene.add(stageGroup);
 
-    // Cyber Materials
-    const ceruleanMat = new THREE.MeshStandardMaterial({
-      color: 0x0ea5e9,
+    // Luxury Materials
+    const aubergineMat = new THREE.MeshStandardMaterial({
+      color: 0x251536,
       roughness: 0.22,
       metalness: 0.75,
-      emissive: 0x0284c7,
+      emissive: 0x12091c,
       emissiveIntensity: 0.25
     });
-    const obsidianMat = new THREE.MeshStandardMaterial({
-      color: 0x0d1017,
-      roughness: 0.25,
-      metalness: 0.85
+    const silverMat = new THREE.MeshStandardMaterial({
+      color: 0xe2e8f0,
+      roughness: 0.16,
+      metalness: 0.92,
+      emissive: 0x94a3b8,
+      emissiveIntensity: 0.2
     });
-    const neonRoseMat = new THREE.MeshStandardMaterial({
-      color: 0xff2a85,
+    const marigoldMat = new THREE.MeshStandardMaterial({
+      color: 0xf59e0b,
       roughness: 0.18,
       metalness: 0.85,
-      emissive: 0x88003a,
+      emissive: 0xb45309,
       emissiveIntensity: 0.35
     });
-    const deepBlackMat = new THREE.MeshStandardMaterial({
-      color: 0x090c12,
-      roughness: 0.2,
-      metalness: 0.9
+    const basePedestalMat = new THREE.MeshStandardMaterial({
+      color: 0x12091c,
+      roughness: 0.25,
+      metalness: 0.85
     });
 
     // 1. Studio Pedestal Base
     const pedestalGeo = new THREE.CylinderGeometry(2.1, 2.25, 0.22, 48);
-    const pedestal = new THREE.Mesh(pedestalGeo, obsidianMat);
+    const pedestal = new THREE.Mesh(pedestalGeo, basePedestalMat);
     pedestal.position.y = -1.25;
     stageGroup.add(pedestal);
 
     const rimGeo = new THREE.TorusGeometry(2.15, 0.035, 16, 64);
-    const rim = new THREE.Mesh(rimGeo, ceruleanMat);
+    const rim = new THREE.Mesh(rimGeo, silverMat);
     rim.rotation.x = Math.PI / 2;
     rim.position.y = -1.14;
     stageGroup.add(rim);
 
-    // 2. Hero Cyber Shopping Bag (Center-Left)
+    // 2. Hero Luxury Shopping Bag (Center-Left)
     const bagGroup = new THREE.Group();
-    const bagBody = new THREE.Mesh(new THREE.BoxGeometry(1.5, 1.75, 0.72), ceruleanMat);
+    const bagBody = new THREE.Mesh(new THREE.BoxGeometry(1.5, 1.75, 0.72), aubergineMat);
     bagGroup.add(bagBody);
 
-    const bagTopCuff = new THREE.Mesh(new THREE.BoxGeometry(1.54, 0.2, 0.76), neonRoseMat);
+    const bagTopCuff = new THREE.Mesh(new THREE.BoxGeometry(1.54, 0.2, 0.76), marigoldMat);
     bagTopCuff.position.y = 0.78;
     bagGroup.add(bagTopCuff);
 
-    const bagBadge = new THREE.Mesh(new THREE.BoxGeometry(0.65, 0.34, 0.05), obsidianMat);
+    const bagBadge = new THREE.Mesh(new THREE.BoxGeometry(0.65, 0.34, 0.05), silverMat);
     bagBadge.position.set(0, 0.12, 0.37);
     bagGroup.add(bagBadge);
 
     const handleGeo = new THREE.TorusGeometry(0.36, 0.05, 14, 32, Math.PI);
-    const handleF = new THREE.Mesh(handleGeo, neonRoseMat);
+    const handleF = new THREE.Mesh(handleGeo, marigoldMat);
     handleF.position.set(0, 0.88, 0.2);
     bagGroup.add(handleF);
 
-    const handleB = new THREE.Mesh(handleGeo, neonRoseMat);
+    const handleB = new THREE.Mesh(handleGeo, marigoldMat);
     handleB.position.set(0, 0.88, -0.2);
     bagGroup.add(handleB);
 
@@ -110,18 +112,18 @@
 
     // 3. Companion Wrapped Gift Box (Right)
     const giftGroup = new THREE.Group();
-    const giftBase = new THREE.Mesh(new THREE.BoxGeometry(1.05, 0.95, 1.05), deepBlackMat);
+    const giftBase = new THREE.Mesh(new THREE.BoxGeometry(1.05, 0.95, 1.05), silverMat);
     giftGroup.add(giftBase);
 
-    const giftLid = new THREE.Mesh(new THREE.BoxGeometry(1.12, 0.2, 1.12), deepBlackMat);
+    const giftLid = new THREE.Mesh(new THREE.BoxGeometry(1.12, 0.2, 1.12), silverMat);
     giftLid.position.y = 0.42;
     giftGroup.add(giftLid);
 
-    const ribA = new THREE.Mesh(new THREE.BoxGeometry(1.14, 1.02, 0.16), neonRoseMat);
+    const ribA = new THREE.Mesh(new THREE.BoxGeometry(1.14, 1.02, 0.16), marigoldMat);
     ribA.position.y = 0.02;
     giftGroup.add(ribA);
 
-    const ribB = new THREE.Mesh(new THREE.BoxGeometry(0.16, 1.02, 1.14), neonRoseMat);
+    const ribB = new THREE.Mesh(new THREE.BoxGeometry(0.16, 1.02, 1.14), marigoldMat);
     ribB.position.y = 0.02;
     giftGroup.add(ribB);
 
@@ -129,14 +131,14 @@
     giftGroup.rotation.y = -0.35;
     stageGroup.add(giftGroup);
 
-    // 4. Floating Cyber Member Card (Top Right)
+    // 4. Floating Luxury Member Card (Top Right)
     const cardGroup = new THREE.Group();
-    const cardMesh = new THREE.Mesh(new THREE.BoxGeometry(1.15, 0.72, 0.06), obsidianMat);
+    const cardMesh = new THREE.Mesh(new THREE.BoxGeometry(1.15, 0.72, 0.06), aubergineMat);
     cardGroup.add(cardMesh);
-    const chipMesh = new THREE.Mesh(new THREE.BoxGeometry(0.22, 0.18, 0.08), neonRoseMat);
+    const chipMesh = new THREE.Mesh(new THREE.BoxGeometry(0.22, 0.18, 0.08), marigoldMat);
     chipMesh.position.set(-0.32, 0.05, 0);
     cardGroup.add(chipMesh);
-    const cardTrimMesh = new THREE.Mesh(new THREE.BoxGeometry(1.17, 0.04, 0.065), ceruleanMat);
+    const cardTrimMesh = new THREE.Mesh(new THREE.BoxGeometry(1.17, 0.04, 0.065), silverMat);
     cardTrimMesh.position.set(0, -0.26, 0);
     cardGroup.add(cardTrimMesh);
     cardGroup.position.set(0.95, 0.65, -0.2);

@@ -48,9 +48,9 @@ async function ensureOwnerAccount() {
 async function getOrCreateConfig() {
   let config = await SiteConfig.findOne({ key: 'main' });
   if (!config) {
-    config = await SiteConfig.create({ key: 'main', themePalette: 'cerulean_rose' });
-  } else if (!config.themePalette || config.themePalette === 'terracotta') {
-    config.themePalette = 'cerulean_rose';
+    config = await SiteConfig.create({ key: 'main', themePalette: 'aubergine_silver' });
+  } else if (!config.themePalette || config.themePalette === 'terracotta' || config.themePalette === 'cerulean_rose') {
+    config.themePalette = 'aubergine_silver';
     await config.save();
   }
   return config;

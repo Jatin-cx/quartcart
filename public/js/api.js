@@ -228,7 +228,7 @@ function ensure3DEnginesLoaded() {
   }
 }
 
-// ─── Inject Admin Control Center Link into Navbar (Owner / Admin Only) ─────
+// --- Inject Admin Control Center Link into Navbar (Owner / Admin Only) ---
 function injectAdminNavLink() {
   const navLinks = document.getElementById('nav-links');
   if (!navLinks) return;
@@ -265,17 +265,28 @@ function injectAdminNavLink() {
   navLinks.appendChild(li);
 }
 
-// ─── Apply Live Storefront Config Across Every Page ────────
+// --- Apply Live Storefront Config Across Every Page ---
 const THEME_PALETTES = {
+  aubergine_silver: {
+    primary: '#f59e0b',
+    secondary: '#a855f7',
+    gradient: 'linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #d97706 100%)',
+    bgDeep: '#12091c',
+    bgSurface: '#1a0f26',
+  },
   cerulean_rose: {
     primary: '#0ea5e9',
     secondary: '#ff2a85',
     gradient: 'linear-gradient(135deg, #0ea5e9 0%, #0284c7 45%, #ff2a85 100%)',
+    bgDeep: '#07080b',
+    bgSurface: '#0d1017',
   },
   terracotta: {
-    primary: '#0ea5e9',
-    secondary: '#ff2a85',
-    gradient: 'linear-gradient(135deg, #0ea5e9 0%, #0284c7 45%, #ff2a85 100%)',
+    primary: '#f59e0b',
+    secondary: '#a855f7',
+    gradient: 'linear-gradient(135deg, #fbbf24 0%, #f59e0b 50%, #d97706 100%)',
+    bgDeep: '#12091c',
+    bgSurface: '#1a0f26',
   },
   emerald: {
     primary: '#0d9488',
@@ -303,10 +314,12 @@ function applyConfigToDOM(cfg) {
   if (!cfg) return;
 
   // 1. Theme Palette
-  const pal = THEME_PALETTES[cfg.themePalette] || THEME_PALETTES.cerulean_rose;
+  const pal = THEME_PALETTES[cfg.themePalette] || THEME_PALETTES.aubergine_silver;
   document.documentElement.style.setProperty('--accent-primary', pal.primary);
   document.documentElement.style.setProperty('--accent-secondary', pal.secondary);
   document.documentElement.style.setProperty('--accent-gradient', pal.gradient);
+  if (pal.bgDeep) document.documentElement.style.setProperty('--bg-deep', pal.bgDeep);
+  if (pal.bgSurface) document.documentElement.style.setProperty('--bg-surface-solid', pal.bgSurface);
 
   // 2. 3D Showroom Background visibility
   const bgCanvas = document.getElementById('retail-3d-bg-canvas');

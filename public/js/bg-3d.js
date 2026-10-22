@@ -1,7 +1,7 @@
 /**
- * bg-3d.js - Full-Viewport Interactive 3D Cyber Retail Showroom Background
- * Renders floating 3D shopping bags, wrapped gift boxes, neon rose studio rings,
- * and drifting cyber star particles in Jet Black, Cerulean Blue, and Neon Rose.
+ * bg-3d.js - Full-Viewport Interactive 3D Retail Showroom Background
+ * Renders floating 3D luxury shopping bags, wrapped gift parcels, and retail tori
+ * in Ice Silver, Deep Aubergine, and Radiant Marigold.
  */
 
 'use strict';
@@ -35,7 +35,7 @@
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
     const scene = new THREE.Scene();
-    scene.fog = new THREE.FogExp2(0x07080b, 0.035);
+    scene.fog = new THREE.FogExp2(0x12091c, 0.032);
 
     const camera = new THREE.PerspectiveCamera(
       50,
@@ -45,91 +45,91 @@
     );
     camera.position.set(0, 0, 18);
 
-    // Cyber Cerulean & Neon Rose Studio Lighting
-    const ambientLight = new THREE.AmbientLight(0x0a101f, 1.6);
+    // Ice Silver, Deep Aubergine & Radiant Marigold Luxury Lighting
+    const ambientLight = new THREE.AmbientLight(0x1a0f26, 1.8);
     scene.add(ambientLight);
 
-    const keyLight = new THREE.DirectionalLight(0x0ea5e9, 1.8);
+    const keyLight = new THREE.DirectionalLight(0xe2e8f0, 2.0);
     keyLight.position.set(10, 16, 12);
     scene.add(keyLight);
 
-    const ceruleanPoint = new THREE.PointLight(0x0ea5e9, 3.4, 55);
-    ceruleanPoint.position.set(-13, 8, 9);
-    scene.add(ceruleanPoint);
+    const marigoldPoint = new THREE.PointLight(0xf59e0b, 3.8, 55);
+    marigoldPoint.position.set(-13, 8, 9);
+    scene.add(marigoldPoint);
 
-    const neonRosePoint = new THREE.PointLight(0xff2a85, 3.8, 55);
-    neonRosePoint.position.set(13, -8, 10);
-    scene.add(neonRosePoint);
+    const auberginePoint = new THREE.PointLight(0xa855f7, 3.2, 55);
+    auberginePoint.position.set(13, -8, 10);
+    scene.add(auberginePoint);
 
-    const cyanGlow = new THREE.PointLight(0x38bdf8, 2.2, 45);
-    cyanGlow.position.set(0, 12, -8);
-    scene.add(cyanGlow);
+    const silverGlow = new THREE.PointLight(0xf8fafc, 2.2, 45);
+    silverGlow.position.set(0, 12, -8);
+    scene.add(silverGlow);
 
-    const deepRoseFill = new THREE.PointLight(0xf43f5e, 2.4, 45);
-    deepRoseFill.position.set(0, -10, 6);
-    scene.add(deepRoseFill);
+    const amberFill = new THREE.PointLight(0xd97706, 2.4, 45);
+    amberFill.position.set(0, -10, 6);
+    scene.add(amberFill);
 
-    // Shared Cyber Retail Materials
+    // Shared Luxury Retail Materials
     const bagMaterials = [
       new THREE.MeshStandardMaterial({
-        color: 0x090c12,
+        color: 0x1a0f26,
         roughness: 0.22,
-        metalness: 0.88,
-        emissive: 0x05080f,
+        metalness: 0.85,
+        emissive: 0x12091c,
         emissiveIntensity: 0.2
-      }), // Obsidian Jet Black Gloss
-      new THREE.MeshStandardMaterial({
-        color: 0x0ea5e9,
-        roughness: 0.24,
-        metalness: 0.65,
-        emissive: 0x0284c7,
-        emissiveIntensity: 0.25
-      }), // Electric Cerulean
-      new THREE.MeshStandardMaterial({
-        color: 0xff2a85,
-        roughness: 0.2,
-        metalness: 0.6,
-        emissive: 0x88003a,
-        emissiveIntensity: 0.35
-      }), // Neon Rose Glow
-      new THREE.MeshStandardMaterial({
-        color: 0x0369a1,
-        roughness: 0.28,
-        metalness: 0.7,
-        emissive: 0x02456b,
-        emissiveIntensity: 0.2
-      }), // Deep Cerulean Obsidian
+      }), // Deep Aubergine Obsidian Gloss
       new THREE.MeshStandardMaterial({
         color: 0xe2e8f0,
         roughness: 0.15,
         metalness: 0.95,
-        emissive: 0x38bdf8,
+        emissive: 0x94a3b8,
         emissiveIntensity: 0.15
-      })  // Cyber Ice Chrome
+      }), // Ice Silver Metallic Chrome
+      new THREE.MeshStandardMaterial({
+        color: 0xf59e0b,
+        roughness: 0.2,
+        metalness: 0.8,
+        emissive: 0xb45309,
+        emissiveIntensity: 0.25
+      }), // Radiant Marigold
+      new THREE.MeshStandardMaterial({
+        color: 0x251536,
+        roughness: 0.28,
+        metalness: 0.72,
+        emissive: 0x180b26,
+        emissiveIntensity: 0.2
+      }), // Rich Plum Aubergine
+      new THREE.MeshStandardMaterial({
+        color: 0xf8fafc,
+        roughness: 0.12,
+        metalness: 0.96,
+        emissive: 0xe2e8f0,
+        emissiveIntensity: 0.18
+      })  // Pristine Silver Mirror
     ];
 
-    const neonRoseTrimMat = new THREE.MeshStandardMaterial({
-      color: 0xff2a85,
+    const marigoldTrimMat = new THREE.MeshStandardMaterial({
+      color: 0xf59e0b,
       roughness: 0.15,
       metalness: 0.85,
-      emissive: 0xff2a85,
-      emissiveIntensity: 0.45
+      emissive: 0xd97706,
+      emissiveIntensity: 0.4
     });
 
-    const ceruleanTrimMat = new THREE.MeshStandardMaterial({
-      color: 0x38bdf8,
-      roughness: 0.18,
-      metalness: 0.88,
-      emissive: 0x0ea5e9,
-      emissiveIntensity: 0.35
+    const silverTrimMat = new THREE.MeshStandardMaterial({
+      color: 0xe2e8f0,
+      roughness: 0.16,
+      metalness: 0.92,
+      emissive: 0x94a3b8,
+      emissiveIntensity: 0.3
     });
 
     /**
      * Build a 3D Shopping Bag mesh group
      */
-    function createShoppingBag(mat, isRoseAccent) {
+    function createShoppingBag(mat, isMarigoldAccent) {
       const bagGroup = new THREE.Group();
-      const trimMat = isRoseAccent ? neonRoseTrimMat : ceruleanTrimMat;
+      const trimMat = isMarigoldAccent ? marigoldTrimMat : silverTrimMat;
 
       // Main bag body
       const bodyGeo = new THREE.BoxGeometry(1.3, 1.55, 0.58);
@@ -144,7 +144,7 @@
 
       // Front emblem tag
       const tagGeo = new THREE.BoxGeometry(0.45, 0.25, 0.04);
-      const tagMesh = new THREE.Mesh(tagGeo, isRoseAccent ? ceruleanTrimMat : neonRoseTrimMat);
+      const tagMesh = new THREE.Mesh(tagGeo, isMarigoldAccent ? silverTrimMat : marigoldTrimMat);
       tagMesh.position.set(0, 0.1, 0.3);
       bagGroup.add(tagMesh);
 
@@ -164,9 +164,9 @@
     /**
      * Build a 3D Wrapped Gift Box mesh group
      */
-    function createGiftBox(mat, isRoseAccent) {
+    function createGiftBox(mat, isMarigoldAccent) {
       const boxGroup = new THREE.Group();
-      const trimMat = isRoseAccent ? neonRoseTrimMat : ceruleanTrimMat;
+      const trimMat = isMarigoldAccent ? marigoldTrimMat : silverTrimMat;
 
       const baseGeo = new THREE.BoxGeometry(1.2, 1.05, 1.2);
       const baseMesh = new THREE.Mesh(baseGeo, mat);
@@ -204,11 +204,11 @@
     }
 
     /**
-     * Build a 3D Cyber Studio Torus Ring
+     * Build a 3D Luxury Studio Torus Ring
      */
-    function createStudioRing(mat, isRoseAccent) {
+    function createStudioRing(mat, isMarigoldAccent) {
       const ringGroup = new THREE.Group();
-      const trimMat = isRoseAccent ? neonRoseTrimMat : ceruleanTrimMat;
+      const trimMat = isMarigoldAccent ? marigoldTrimMat : silverTrimMat;
 
       const torusGeo = new THREE.TorusGeometry(0.85, 0.16, 20, 48);
       const torus = new THREE.Mesh(torusGeo, mat);
@@ -220,21 +220,21 @@
       return ringGroup;
     }
 
-    // Populate 3D Cyber Objects around the viewport
+    // Populate 3D Retail Objects around the viewport
     const floatingItems = [];
     const totalObjects = 24;
 
     for (let i = 0; i < totalObjects; i++) {
       const mat = bagMaterials[i % bagMaterials.length];
-      const isRose = i % 2 === 0;
+      const isMarigold = i % 2 === 0;
       let mesh;
       const type = i % 3;
       if (type === 0) {
-        mesh = createShoppingBag(mat, isRose);
+        mesh = createShoppingBag(mat, isMarigold);
       } else if (type === 1) {
-        mesh = createGiftBox(mat, !isRose);
+        mesh = createGiftBox(mat, !isMarigold);
       } else {
-        mesh = createStudioRing(mat, isRose);
+        mesh = createStudioRing(mat, isMarigold);
       }
 
       // Distribute mainly around the left/right edges and deep background
@@ -269,15 +269,15 @@
       });
     }
 
-    // ─── Floating Cyber Star & Ember Particles ──────────────────
+    // --- Floating Luxury Star and Starlight Particles ---
     const starCount = 260;
     const starGeo = new THREE.BufferGeometry();
     const starPositions = new Float32Array(starCount * 3);
     const starColors = new Float32Array(starCount * 3);
 
-    const ceruleanCol = new THREE.Color(0x0ea5e9);
-    const neonRoseCol = new THREE.Color(0xff2a85);
-    const cyanCol = new THREE.Color(0x38bdf8);
+    const silverCol = new THREE.Color(0xe2e8f0);
+    const marigoldCol = new THREE.Color(0xf59e0b);
+    const goldCol = new THREE.Color(0xfbbf24);
 
     for (let i = 0; i < starCount; i++) {
       const i3 = i * 3;
@@ -286,7 +286,7 @@
       starPositions[i3 + 2] = (Math.random() - 0.5) * 24;
 
       const pick = Math.random();
-      const col = pick < 0.45 ? ceruleanCol : pick < 0.8 ? neonRoseCol : cyanCol;
+      const col = pick < 0.45 ? silverCol : pick < 0.8 ? marigoldCol : goldCol;
       starColors[i3] = col.r;
       starColors[i3 + 1] = col.g;
       starColors[i3 + 2] = col.b;
