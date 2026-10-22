@@ -29,19 +29,19 @@ function initHero3D() {
   renderer.toneMappingExposure = 1.35;
   container.appendChild(renderer.domElement);
 
-  // Warm Luxury Retail Studio Lighting
-  const ambientLight = new THREE.AmbientLight(0xfff6eb, 1.3);
+  // Cyber Luxury Retail Studio Lighting
+  const ambientLight = new THREE.AmbientLight(0x070c18, 1.6);
   scene.add(ambientLight);
 
-  const keyLight = new THREE.DirectionalLight(0xfff0dd, 2.4);
+  const keyLight = new THREE.DirectionalLight(0x0ea5e9, 2.6);
   keyLight.position.set(6, 9, 6);
   scene.add(keyLight);
 
-  const fillLight = new THREE.PointLight(0xe04f33, 2.8, 40);
+  const fillLight = new THREE.PointLight(0xff2a85, 3.2, 40);
   fillLight.position.set(-5, 1, 5);
   scene.add(fillLight);
 
-  const rimLight = new THREE.DirectionalLight(0xf59e0b, 2.2);
+  const rimLight = new THREE.DirectionalLight(0x38bdf8, 2.2);
   rimLight.position.set(0, 5, -6);
   scene.add(rimLight);
 
@@ -52,47 +52,58 @@ function initHero3D() {
   const headphoneGroup = new THREE.Group();
   stageGroup.add(headphoneGroup);
 
-  // Warm Retail Materials (Default: Terracotta Copper & Brushed Gold)
+  // Cyber Materials (Default: Electric Cerulean Aluminum, Jet Black Leather & Neon Rose Accents)
   const metalMat = new THREE.MeshPhysicalMaterial({
-    color: 0xd95338,
-    metalness: 0.78,
-    roughness: 0.22,
-    clearcoat: 0.85,
-    clearcoatRoughness: 0.12,
+    color: 0x0ea5e9,
+    metalness: 0.85,
+    roughness: 0.18,
+    clearcoat: 0.92,
+    clearcoatRoughness: 0.08,
   });
 
   const cushionMat = new THREE.MeshStandardMaterial({
-    color: 0x5c3a28,
+    color: 0x090c12,
     roughness: 0.65,
-    metalness: 0.08,
+    metalness: 0.15,
   });
 
   const goldAccentMat = new THREE.MeshStandardMaterial({
-    color: 0xf59e0b,
-    metalness: 0.9,
-    roughness: 0.18,
+    color: 0xff2a85,
+    metalness: 0.88,
+    roughness: 0.16,
+    emissive: 0x88003a,
+    emissiveIntensity: 0.25,
   });
 
   const marbleMat = new THREE.MeshStandardMaterial({
-    color: 0xfffaf2,
-    roughness: 0.35,
-    metalness: 0.05,
+    color: 0x0d1017,
+    roughness: 0.25,
+    metalness: 0.75,
   });
 
-  // 3D Retail Turntable Pedestal Base beneath Headphones
+  // 3D Obsidian Turntable Pedestal Base beneath Headphones
   const pedestalGroup = new THREE.Group();
   const baseDisc = new THREE.Mesh(new THREE.CylinderGeometry(2.35, 2.5, 0.24, 64), marbleMat);
   baseDisc.position.y = -2.1;
   pedestalGroup.add(baseDisc);
 
-  const goldRim = new THREE.Mesh(new THREE.TorusGeometry(2.4, 0.04, 16, 64), goldAccentMat);
+  const ceruleanRimMat = new THREE.MeshStandardMaterial({
+    color: 0x0ea5e9,
+    metalness: 0.9,
+    roughness: 0.15,
+    emissive: 0x0284c7,
+    emissiveIntensity: 0.35,
+  });
+
+  const goldRim = new THREE.Mesh(new THREE.TorusGeometry(2.4, 0.04, 16, 64), ceruleanRimMat);
   goldRim.rotation.x = Math.PI / 2;
   goldRim.position.y = -1.98;
   pedestalGroup.add(goldRim);
 
-  const floatingHalo = new THREE.Mesh(new THREE.TorusGeometry(2.75, 0.02, 12, 64), goldAccentMat);
+  const floatingHalo = new THREE.Mesh(new THREE.TorusGeometry(2.75, 0.025, 12, 64), goldAccentMat);
   floatingHalo.rotation.x = Math.PI / 2;
   floatingHalo.position.y = -1.82;
+  pedestalGroup.add(floatingHalo);
   pedestalGroup.add(floatingHalo);
 
   stageGroup.add(pedestalGroup);
@@ -169,23 +180,23 @@ function initHero3D() {
   updateHeadphoneColorFn = function (theme) {
     currentHeadphoneTheme = theme;
     if (theme === 'obsidian') {
-      // Terracotta Copper & Warm Espresso Leather
-      metalMat.color.setHex(0xd95338);
-      cushionMat.color.setHex(0x5c3a28);
-      goldAccentMat.color.setHex(0xf59e0b);
-      fillLight.color.setHex(0xe04f33);
+      // Electric Cerulean Blue, Jet Black Chassis & Neon Rose Accents
+      metalMat.color.setHex(0x0ea5e9);
+      cushionMat.color.setHex(0x090c12);
+      goldAccentMat.color.setHex(0xff2a85);
+      fillLight.color.setHex(0xff2a85);
     } else if (theme === 'titanium') {
-      // Champagne Gold & Cream Sand Leather
-      metalMat.color.setHex(0xd4a359);
-      cushionMat.color.setHex(0x8c735b);
-      goldAccentMat.color.setHex(0xfff3d6);
-      fillLight.color.setHex(0xf59e0b);
+      // Neon Rose Metallic Body, Jet Black Cushions & Cerulean Trim
+      metalMat.color.setHex(0xff2a85);
+      cushionMat.color.setHex(0x090c12);
+      goldAccentMat.color.setHex(0x38bdf8);
+      fillLight.color.setHex(0x0ea5e9);
     } else if (theme === 'cyan') {
-      // Botanical Emerald & Brushed Brass
-      metalMat.color.setHex(0x0d9488);
-      cushionMat.color.setHex(0x2d4a43);
-      goldAccentMat.color.setHex(0xf59e0b);
-      fillLight.color.setHex(0x10b981);
+      // Cyber Ice Cyan, Obsidian Midnight & Neon Rose Fill
+      metalMat.color.setHex(0x06b6d4);
+      cushionMat.color.setHex(0x0f172a);
+      goldAccentMat.color.setHex(0xff2a85);
+      fillLight.color.setHex(0x06b6d4);
     }
   };
 

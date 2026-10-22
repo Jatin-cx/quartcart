@@ -48,11 +48,11 @@ function applyCardTilt(card) {
     const tiltY = ((xPct - 0.5) * maxTilt).toFixed(2);
 
     card.style.transform = `perspective(1100px) rotateX(${tiltX}deg) rotateY(${tiltY}deg) translateY(-10px) scale3d(1.02, 1.02, 1.02)`;
-    card.style.boxShadow = `0 28px 55px -10px rgba(120, 53, 25, 0.24), 0 12px 24px -6px rgba(224, 79, 51, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.95)`;
-    card.style.borderColor = 'rgba(224, 79, 51, 0.55)';
+    card.style.boxShadow = `0 28px 55px -10px rgba(0, 0, 0, 0.85), 0 12px 24px -6px rgba(14, 165, 233, 0.35), inset 0 1px 0 rgba(255, 42, 133, 0.35)`;
+    card.style.borderColor = 'rgba(14, 165, 233, 0.65)';
 
     if (glare) {
-      glare.style.background = `radial-gradient(circle at ${(xPct * 100).toFixed(1)}% ${(yPct * 100).toFixed(1)}%, rgba(255, 248, 235, 0.65) 0%, rgba(245, 158, 11, 0.15) 35%, transparent 65%)`;
+      glare.style.background = `radial-gradient(circle at ${(xPct * 100).toFixed(1)}% ${(yPct * 100).toFixed(1)}%, rgba(14, 165, 233, 0.35) 0%, rgba(255, 42, 133, 0.22) 35%, transparent 68%)`;
     }
 
     if (imgWrapper) {

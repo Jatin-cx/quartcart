@@ -653,9 +653,9 @@ function populateSiteConfigForm() {
     if (el && val !== undefined) el.value = val;
   };
 
-  setVal('cfg-themePalette', c.themePalette || 'terracotta');
+  setVal('cfg-themePalette', c.themePalette || 'cerulean_rose');
   document.querySelectorAll('.theme-option-card').forEach((card) => {
-    card.classList.toggle('active', card.dataset.theme === (c.themePalette || 'terracotta'));
+    card.classList.toggle('active', card.dataset.theme === (c.themePalette || 'cerulean_rose'));
   });
 
   const bgCheck = document.getElementById('cfg-enable3DBackground');

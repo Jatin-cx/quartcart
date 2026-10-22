@@ -48,7 +48,10 @@ async function ensureOwnerAccount() {
 async function getOrCreateConfig() {
   let config = await SiteConfig.findOne({ key: 'main' });
   if (!config) {
-    config = await SiteConfig.create({ key: 'main' });
+    config = await SiteConfig.create({ key: 'main', themePalette: 'cerulean_rose' });
+  } else if (!config.themePalette || config.themePalette === 'terracotta') {
+    config.themePalette = 'cerulean_rose';
+    await config.save();
   }
   return config;
 }

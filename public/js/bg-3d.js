@@ -1,7 +1,7 @@
 /**
- * bg-3d.js - Full-Viewport Interactive 3D Retail Showroom Background
- * Renders floating 3D shopping bags, wrapped gift boxes, brushed gold rings,
- * and warm ceramic spheres that respond to mouse parallax and page scroll.
+ * bg-3d.js - Full-Viewport Interactive 3D Cyber Retail Showroom Background
+ * Renders floating 3D shopping bags, wrapped gift boxes, neon rose studio rings,
+ * and drifting cyber star particles in Jet Black, Cerulean Blue, and Neon Rose.
  */
 
 'use strict';
@@ -21,7 +21,7 @@
       'height: 100vh',
       'pointer-events: none',
       'z-index: 0',
-      'opacity: 0.92'
+      'opacity: 0.94'
     ].join(';');
     document.body.prepend(canvas);
 
@@ -35,7 +35,7 @@
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
     const scene = new THREE.Scene();
-    scene.fog = new THREE.FogExp2(0xf6efe4, 0.028);
+    scene.fog = new THREE.FogExp2(0x07080b, 0.035);
 
     const camera = new THREE.PerspectiveCamera(
       50,
@@ -45,77 +45,116 @@
     );
     camera.position.set(0, 0, 18);
 
-    // Warm Luxury Retail Lighting
-    const ambientLight = new THREE.AmbientLight(0xfff5e8, 1.35);
+    // Cyber Cerulean & Neon Rose Studio Lighting
+    const ambientLight = new THREE.AmbientLight(0x0a101f, 1.6);
     scene.add(ambientLight);
 
-    const sunLight = new THREE.DirectionalLight(0xffdfba, 1.6);
-    sunLight.position.set(10, 16, 12);
-    scene.add(sunLight);
+    const keyLight = new THREE.DirectionalLight(0x0ea5e9, 1.8);
+    keyLight.position.set(10, 16, 12);
+    scene.add(keyLight);
 
-    const coralLight = new THREE.PointLight(0xe04f33, 2.2, 45);
-    coralLight.position.set(-12, 8, 8);
-    scene.add(coralLight);
+    const ceruleanPoint = new THREE.PointLight(0x0ea5e9, 3.4, 55);
+    ceruleanPoint.position.set(-13, 8, 9);
+    scene.add(ceruleanPoint);
 
-    const goldLight = new THREE.PointLight(0xf59e0b, 2.0, 45);
-    goldLight.position.set(12, -8, 10);
-    scene.add(goldLight);
+    const neonRosePoint = new THREE.PointLight(0xff2a85, 3.8, 55);
+    neonRosePoint.position.set(13, -8, 10);
+    scene.add(neonRosePoint);
 
-    const tealLight = new THREE.PointLight(0x0d9488, 1.4, 40);
-    tealLight.position.set(0, 10, -8);
-    scene.add(tealLight);
+    const cyanGlow = new THREE.PointLight(0x38bdf8, 2.2, 45);
+    cyanGlow.position.set(0, 12, -8);
+    scene.add(cyanGlow);
 
-    // Shared Retail Materials
+    const deepRoseFill = new THREE.PointLight(0xf43f5e, 2.4, 45);
+    deepRoseFill.position.set(0, -10, 6);
+    scene.add(deepRoseFill);
+
+    // Shared Cyber Retail Materials
     const bagMaterials = [
-      new THREE.MeshStandardMaterial({ color: 0xe04f33, roughness: 0.35, metalness: 0.1 }), // Terracotta
-      new THREE.MeshStandardMaterial({ color: 0xf59e0b, roughness: 0.3, metalness: 0.2 }),  // Warm Amber Gold
-      new THREE.MeshStandardMaterial({ color: 0x0d9488, roughness: 0.4, metalness: 0.1 }),  // Botanical Emerald
-      new THREE.MeshStandardMaterial({ color: 0xfff8ef, roughness: 0.45, metalness: 0.05 }), // Cream Ivory
-      new THREE.MeshStandardMaterial({ color: 0xc23b22, roughness: 0.35, metalness: 0.15 })  // Crimson Clay
+      new THREE.MeshStandardMaterial({
+        color: 0x090c12,
+        roughness: 0.22,
+        metalness: 0.88,
+        emissive: 0x05080f,
+        emissiveIntensity: 0.2
+      }), // Obsidian Jet Black Gloss
+      new THREE.MeshStandardMaterial({
+        color: 0x0ea5e9,
+        roughness: 0.24,
+        metalness: 0.65,
+        emissive: 0x0284c7,
+        emissiveIntensity: 0.25
+      }), // Electric Cerulean
+      new THREE.MeshStandardMaterial({
+        color: 0xff2a85,
+        roughness: 0.2,
+        metalness: 0.6,
+        emissive: 0x88003a,
+        emissiveIntensity: 0.35
+      }), // Neon Rose Glow
+      new THREE.MeshStandardMaterial({
+        color: 0x0369a1,
+        roughness: 0.28,
+        metalness: 0.7,
+        emissive: 0x02456b,
+        emissiveIntensity: 0.2
+      }), // Deep Cerulean Obsidian
+      new THREE.MeshStandardMaterial({
+        color: 0xe2e8f0,
+        roughness: 0.15,
+        metalness: 0.95,
+        emissive: 0x38bdf8,
+        emissiveIntensity: 0.15
+      })  // Cyber Ice Chrome
     ];
 
-    const goldRibbonMat = new THREE.MeshStandardMaterial({
-      color: 0xd97706,
-      roughness: 0.2,
-      metalness: 0.85
+    const neonRoseTrimMat = new THREE.MeshStandardMaterial({
+      color: 0xff2a85,
+      roughness: 0.15,
+      metalness: 0.85,
+      emissive: 0xff2a85,
+      emissiveIntensity: 0.45
     });
 
-    const creamRibbonMat = new THREE.MeshStandardMaterial({
-      color: 0xfffaf0,
-      roughness: 0.3,
-      metalness: 0.1
+    const ceruleanTrimMat = new THREE.MeshStandardMaterial({
+      color: 0x38bdf8,
+      roughness: 0.18,
+      metalness: 0.88,
+      emissive: 0x0ea5e9,
+      emissiveIntensity: 0.35
     });
 
     /**
      * Build a 3D Shopping Bag mesh group
      */
-    function createShoppingBag(mat) {
+    function createShoppingBag(mat, isRoseAccent) {
       const bagGroup = new THREE.Group();
+      const trimMat = isRoseAccent ? neonRoseTrimMat : ceruleanTrimMat;
 
-      // Main bag body (tapered box appearance)
+      // Main bag body
       const bodyGeo = new THREE.BoxGeometry(1.3, 1.55, 0.58);
       const bodyMesh = new THREE.Mesh(bodyGeo, mat);
       bagGroup.add(bodyMesh);
 
       // Top cuff fold accent
       const cuffGeo = new THREE.BoxGeometry(1.34, 0.18, 0.62);
-      const cuffMesh = new THREE.Mesh(cuffGeo, goldRibbonMat);
+      const cuffMesh = new THREE.Mesh(cuffGeo, trimMat);
       cuffMesh.position.y = 0.7;
       bagGroup.add(cuffMesh);
 
       // Front emblem tag
       const tagGeo = new THREE.BoxGeometry(0.45, 0.25, 0.04);
-      const tagMesh = new THREE.Mesh(tagGeo, creamRibbonMat);
+      const tagMesh = new THREE.Mesh(tagGeo, isRoseAccent ? ceruleanTrimMat : neonRoseTrimMat);
       tagMesh.position.set(0, 0.1, 0.3);
       bagGroup.add(tagMesh);
 
       // Arched Handles (Front & Back)
       const handleGeo = new THREE.TorusGeometry(0.32, 0.045, 12, 28, Math.PI);
-      const handleFront = new THREE.Mesh(handleGeo, goldRibbonMat);
+      const handleFront = new THREE.Mesh(handleGeo, trimMat);
       handleFront.position.set(0, 0.78, 0.18);
       bagGroup.add(handleFront);
 
-      const handleBack = new THREE.Mesh(handleGeo, goldRibbonMat);
+      const handleBack = new THREE.Mesh(handleGeo, trimMat);
       handleBack.position.set(0, 0.78, -0.18);
       bagGroup.add(handleBack);
 
@@ -125,8 +164,9 @@
     /**
      * Build a 3D Wrapped Gift Box mesh group
      */
-    function createGiftBox(mat) {
+    function createGiftBox(mat, isRoseAccent) {
       const boxGroup = new THREE.Group();
+      const trimMat = isRoseAccent ? neonRoseTrimMat : ceruleanTrimMat;
 
       const baseGeo = new THREE.BoxGeometry(1.2, 1.05, 1.2);
       const baseMesh = new THREE.Mesh(baseGeo, mat);
@@ -139,23 +179,23 @@
 
       // Cross Ribbons
       const rib1Geo = new THREE.BoxGeometry(1.3, 1.12, 0.18);
-      const rib1 = new THREE.Mesh(rib1Geo, goldRibbonMat);
+      const rib1 = new THREE.Mesh(rib1Geo, trimMat);
       rib1.position.y = 0.04;
       boxGroup.add(rib1);
 
       const rib2Geo = new THREE.BoxGeometry(0.18, 1.12, 1.3);
-      const rib2 = new THREE.Mesh(rib2Geo, goldRibbonMat);
+      const rib2 = new THREE.Mesh(rib2Geo, trimMat);
       rib2.position.y = 0.04;
       boxGroup.add(rib2);
 
       // Top Bow Loops
       const bowLoopGeo = new THREE.TorusGeometry(0.18, 0.04, 10, 20);
-      const loopLeft = new THREE.Mesh(bowLoopGeo, goldRibbonMat);
+      const loopLeft = new THREE.Mesh(bowLoopGeo, trimMat);
       loopLeft.position.set(-0.15, 0.72, 0);
       loopLeft.rotation.z = Math.PI / 4;
       boxGroup.add(loopLeft);
 
-      const loopRight = new THREE.Mesh(bowLoopGeo, goldRibbonMat);
+      const loopRight = new THREE.Mesh(bowLoopGeo, trimMat);
       loopRight.position.set(0.15, 0.72, 0);
       loopRight.rotation.z = -Math.PI / 4;
       boxGroup.add(loopRight);
@@ -164,34 +204,37 @@
     }
 
     /**
-     * Build a 3D Luxury Ring / Studio Torus
+     * Build a 3D Cyber Studio Torus Ring
      */
-    function createStudioRing(mat) {
+    function createStudioRing(mat, isRoseAccent) {
       const ringGroup = new THREE.Group();
+      const trimMat = isRoseAccent ? neonRoseTrimMat : ceruleanTrimMat;
+
       const torusGeo = new THREE.TorusGeometry(0.85, 0.16, 20, 48);
       const torus = new THREE.Mesh(torusGeo, mat);
       ringGroup.add(torus);
 
       const innerSphereGeo = new THREE.SphereGeometry(0.32, 24, 24);
-      const innerSphere = new THREE.Mesh(innerSphereGeo, goldRibbonMat);
+      const innerSphere = new THREE.Mesh(innerSphereGeo, trimMat);
       ringGroup.add(innerSphere);
       return ringGroup;
     }
 
-    // Populate 3D Showroom Objects around the viewport
+    // Populate 3D Cyber Objects around the viewport
     const floatingItems = [];
-    const totalObjects = 22;
+    const totalObjects = 24;
 
     for (let i = 0; i < totalObjects; i++) {
       const mat = bagMaterials[i % bagMaterials.length];
+      const isRose = i % 2 === 0;
       let mesh;
       const type = i % 3;
       if (type === 0) {
-        mesh = createShoppingBag(mat);
+        mesh = createShoppingBag(mat, isRose);
       } else if (type === 1) {
-        mesh = createGiftBox(mat);
+        mesh = createGiftBox(mat, !isRose);
       } else {
-        mesh = createStudioRing(mat);
+        mesh = createStudioRing(mat, isRose);
       }
 
       // Distribute mainly around the left/right edges and deep background
@@ -226,6 +269,43 @@
       });
     }
 
+    // ─── Floating Cyber Star & Ember Particles ──────────────────
+    const starCount = 260;
+    const starGeo = new THREE.BufferGeometry();
+    const starPositions = new Float32Array(starCount * 3);
+    const starColors = new Float32Array(starCount * 3);
+
+    const ceruleanCol = new THREE.Color(0x0ea5e9);
+    const neonRoseCol = new THREE.Color(0xff2a85);
+    const cyanCol = new THREE.Color(0x38bdf8);
+
+    for (let i = 0; i < starCount; i++) {
+      const i3 = i * 3;
+      starPositions[i3] = (Math.random() - 0.5) * 36;
+      starPositions[i3 + 1] = (Math.random() - 0.5) * 32;
+      starPositions[i3 + 2] = (Math.random() - 0.5) * 24;
+
+      const pick = Math.random();
+      const col = pick < 0.45 ? ceruleanCol : pick < 0.8 ? neonRoseCol : cyanCol;
+      starColors[i3] = col.r;
+      starColors[i3 + 1] = col.g;
+      starColors[i3 + 2] = col.b;
+    }
+
+    starGeo.setAttribute('position', new THREE.BufferAttribute(starPositions, 3));
+    starGeo.setAttribute('color', new THREE.BufferAttribute(starColors, 3));
+
+    const starMat = new THREE.PointsMaterial({
+      size: 0.18,
+      vertexColors: true,
+      transparent: true,
+      opacity: 0.85,
+      blending: THREE.AdditiveBlending
+    });
+
+    const starField = new THREE.Points(starGeo, starMat);
+    scene.add(starField);
+
     // Mouse & Scroll Tracking for 3D Camera Depth
     let targetMouseX = 0;
     let targetMouseY = 0;
@@ -257,10 +337,14 @@
       currentMouseX += (targetMouseX - currentMouseX) * 0.05;
       currentMouseY += (targetMouseY - currentMouseY) * 0.05;
 
-      // Camera responds to both mouse parallax and scroll depth
+      // Camera responds to mouse parallax and scroll depth
       camera.position.x = currentMouseX * 1.8;
       camera.position.y = currentMouseY * 1.2 - (scrollY * 0.004);
       camera.lookAt(0, -(scrollY * 0.004), 0);
+
+      // Rotate star particles slowly in 3D
+      starField.rotation.y = elapsed * 0.02;
+      starField.rotation.x = elapsed * 0.01;
 
       for (let i = 0; i < floatingItems.length; i++) {
         const item = floatingItems[i];

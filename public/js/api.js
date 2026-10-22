@@ -202,7 +202,7 @@ function truncate(str, max = 60) {
 // ─── Image Placeholder ─────────────────────────────────────
 function productImage(images, name = 'Product') {
   if (images && images.length > 0 && images[0]) return images[0];
-  return `https://via.placeholder.com/400x400/f7ede2/e04f33?text=${encodeURIComponent(name.slice(0, 12))}`;
+  return `https://via.placeholder.com/400x400/0b0e14/0ea5e9?text=${encodeURIComponent(name.slice(0, 12))}`;
 }
 
 // ─── Auto-Inject 3D Retail Background & 3D Tilt Engine ─────
@@ -258,10 +258,15 @@ function injectAdminNavLink() {
 
 // ─── Apply Live Storefront Config Across Every Page ────────
 const THEME_PALETTES = {
+  cerulean_rose: {
+    primary: '#0ea5e9',
+    secondary: '#ff2a85',
+    gradient: 'linear-gradient(135deg, #0ea5e9 0%, #0284c7 45%, #ff2a85 100%)',
+  },
   terracotta: {
-    primary: '#e04f33',
-    secondary: '#d97706',
-    gradient: 'linear-gradient(135deg, #ea5838 0%, #c83b1f 100%)',
+    primary: '#0ea5e9',
+    secondary: '#ff2a85',
+    gradient: 'linear-gradient(135deg, #0ea5e9 0%, #0284c7 45%, #ff2a85 100%)',
   },
   emerald: {
     primary: '#0d9488',
@@ -289,7 +294,7 @@ function applyConfigToDOM(cfg) {
   if (!cfg) return;
 
   // 1. Theme Palette
-  const pal = THEME_PALETTES[cfg.themePalette] || THEME_PALETTES.terracotta;
+  const pal = THEME_PALETTES[cfg.themePalette] || THEME_PALETTES.cerulean_rose;
   document.documentElement.style.setProperty('--accent-primary', pal.primary);
   document.documentElement.style.setProperty('--accent-secondary', pal.secondary);
   document.documentElement.style.setProperty('--accent-gradient', pal.gradient);
@@ -587,21 +592,22 @@ window.downloadOrderInvoice = function (order) {
       <meta charset="UTF-8">
       <title>QuickCart Tax Invoice #${orderId}</title>
       <style>
-        body { font-family: 'Segoe UI', Arial, sans-serif; background: #f6efe6; color: #1e1612; margin: 0; padding: 32px; }
-        .invoice-box { max-width: 760px; margin: 0 auto; background: #fffdf9; border: 1px solid #dfd1c2; border-top: 6px solid #e04f33; border-radius: 12px; padding: 36px; box-shadow: 0 12px 32px rgba(0,0,0,0.08); }
-        .header { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 1px solid #dfd1c2; padding-bottom: 20px; margin-bottom: 24px; }
-        .brand { font-size: 28px; font-weight: 800; letter-spacing: -0.03em; }
-        .brand span { color: #e04f33; }
-        .stamp { display: inline-block; padding: 6px 14px; border: 2px solid #0d9488; color: #0d9488; font-weight: 800; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; border-radius: 6px; }
-        .meta-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 24px; font-size: 14px; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: #07080b; color: #f8fafc; margin: 0; padding: 32px; }
+        .invoice-box { max-width: 760px; margin: 0 auto; background: #0f131c; border: 1px solid rgba(14,165,233,0.3); border-top: 6px solid #0ea5e9; border-radius: 12px; padding: 36px; box-shadow: 0 12px 32px rgba(0,0,0,0.5); }
+        .header { display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 1px solid rgba(14,165,233,0.25); padding-bottom: 20px; margin-bottom: 24px; }
+        .brand { font-size: 28px; font-weight: 800; letter-spacing: -0.03em; color: #f8fafc; }
+        .brand span { color: #0ea5e9; }
+        .stamp { display: inline-block; padding: 6px 14px; border: 2px solid #0ea5e9; color: #0ea5e9; font-weight: 800; font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase; border-radius: 6px; }
+        .meta-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 24px; font-size: 14px; color: #94a3b8; }
         table { width: 100%; border-collapse: collapse; font-size: 14px; margin-bottom: 24px; }
-        th { background: #1e1612; color: #fff; text-align: left; padding: 10px 12px; }
-        .totals { width: 280px; margin-left: auto; font-size: 14px; }
+        th { background: #07080b; color: #38bdf8; text-align: left; padding: 10px 12px; border-bottom: 2px solid rgba(14,165,233,0.4); }
+        td { color: #e2e8f0; border-bottom: 1px solid rgba(14,165,233,0.15) !important; }
+        .totals { width: 280px; margin-left: auto; font-size: 14px; color: #94a3b8; }
         .totals-row { display: flex; justify-content: space-between; padding: 6px 0; }
-        .totals-row.grand { border-top: 2px solid #1e1612; font-size: 18px; font-weight: 800; color: #e04f33; padding-top: 10px; margin-top: 6px; }
+        .totals-row.grand { border-top: 2px solid #0ea5e9; font-size: 18px; font-weight: 800; color: #0ea5e9; padding-top: 10px; margin-top: 6px; }
         .no-print { text-align: right; margin-bottom: 16px; max-width: 760px; margin-left: auto; margin-right: auto; }
-        .btn-print { background: #e04f33; color: #fff; border: none; padding: 10px 20px; font-weight: 700; border-radius: 6px; cursor: pointer; }
-        @media print { body { background: #fff; padding: 0; } .no-print { display: none; } .invoice-box { box-shadow: none; border: 1px solid #ccc; } }
+        .btn-print { background: linear-gradient(135deg, #0ea5e9, #ff2a85); color: #fff; border: none; padding: 10px 20px; font-weight: 700; border-radius: 6px; cursor: pointer; }
+        @media print { body { background: #fff; color: #000; padding: 0; } .invoice-box { background: #fff; color: #000; } .no-print { display: none; } }
       </style>
     </head>
     <body>

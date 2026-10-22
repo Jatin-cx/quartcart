@@ -51,8 +51,8 @@ const siteConfigSchema = new mongoose.Schema(
     },
     themePalette: {
       type: String,
-      enum: ['terracotta', 'emerald', 'gold', 'crimson', 'cobalt'],
-      default: 'terracotta',
+      enum: ['cerulean_rose', 'terracotta', 'emerald', 'gold', 'crimson', 'cobalt'],
+      default: 'cerulean_rose',
     },
     enable3DBackground: {
       type: Boolean,
