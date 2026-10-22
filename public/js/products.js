@@ -13,7 +13,7 @@ let currentPage     = 1;
 let currentSearch   = '';
 let currentCategory = '';
 let currentSort     = 'newest';
-const PAGE_SIZE     = 12;
+const PAGE_SIZE     = 24;
 let searchDebounce  = null;
 
 /**

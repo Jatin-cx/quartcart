@@ -10,7 +10,7 @@ const authMiddleware = require('../middleware/auth');
 // Must be defined BEFORE /:id to avoid 'featured' being interpreted as an ID
 router.get('/featured', async (req, res, next) => {
   try {
-    const products = await Product.find({ isFeatured: true }).sort({ createdAt: -1 }).limit(8);
+    const products = await Product.find({ isFeatured: true }).sort({ createdAt: -1 }).limit(12);
     res.json({ products });
   } catch (err) {
     next(err);
