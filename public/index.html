@@ -400,7 +400,7 @@
           return;
         }
 
-        grid.innerHTML = products.slice(0, 4).map((p) => {
+        grid.innerHTML = products.slice(0, 8).map((p) => {
           const images = (p.images && p.images.length) ? p.images : ['https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600'];
           const img1 = images[0];
           const img2 = images[1] || null;

@@ -347,47 +347,25 @@ router.delete('/products/:id', async (req, res, next) => {
   }
 });
 
-// ─── POST /api/admin/products/seed (1-Click Add Curated Luxury Products) ───
+// --- POST /api/admin/products/seed (1-Click Add Curated Luxury Products) ---
 router.post('/products/seed', async (req, res, next) => {
   try {
-    const sampleProducts = [
-      {
-        name: 'Studio Monitor Headphones Pro',
-        description: 'CNC-machined aluminum earcups with 45mm neodymium planar drivers and warm leather cushions.',
-        price: 24999,
-        category: 'Audio',
-        stock: 28,
-        images: ['https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800'],
-        isFeatured: true,
-      },
-      {
-        name: 'Chronograph Field Titanium Watch',
-        description: 'Grade 5 brushed titanium case with sapphire crystal glass and automatic mechanical movement.',
-        price: 34999,
-        category: 'Timepieces',
-        stock: 14,
-        images: ['https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800'],
-        isFeatured: true,
-      },
-      {
-        name: 'Full-Grain Saddle Weekender Bag',
-        description: 'Vegetable-tanned Italian calfskin travel duffle with solid brushed brass hardware.',
-        price: 16499,
-        category: 'Leather Goods',
-        stock: 19,
-        images: ['https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=800'],
-        isFeatured: true,
-      },
-      {
-        name: 'All-Weather Technical Storm Parka',
-        description: 'Three-layer breathable waterproof membrane with sealed seams and thermal lining.',
-        price: 18499,
-        category: 'Apparel',
-        stock: 32,
-        images: ['https://images.unsplash.com/photo-1544441893-675973e31985?w=800'],
-        isFeatured: true,
-      },
-    ];
+    let sampleProducts = [];
+    try {
+      sampleProducts = require('../config/seedProducts');
+    } catch {
+      sampleProducts = [
+        {
+          name: 'Studio Monitor Headphones Pro',
+          description: 'CNC-machined aluminum earcups with 45mm neodymium planar drivers and warm leather cushions.',
+          price: 24999,
+          category: 'Audio',
+          stock: 28,
+          images: ['https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800'],
+          isFeatured: true,
+        },
+      ];
+    }
 
     const created = [];
     for (const item of sampleProducts) {
